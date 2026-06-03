@@ -7,7 +7,6 @@ export default function Overview() {
   const { learnedCount, year, dayOfYear, daysInYear } = stats;
   const goalPct = Math.round(Math.min(learnedCount / YEARLY_GOAL, 1) * 100);
   const yearPct = Math.round((dayOfYear / daysInYear) * 100);
-  const remaining = Math.max(YEARLY_GOAL - learnedCount, 0);
 
   return (
     <div className="max-w-2xl space-y-8">
@@ -28,17 +27,11 @@ export default function Overview() {
           <span className="text-xs text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">View →</span>
         </div>
 
-        <div className="flex items-end gap-1 mb-3">
-          <span className="text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-          <span className="pb-1 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
-        </div>
-        <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden mb-1.5">
-          <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
-        </div>
-        <p className="text-xs text-zinc-500 mb-5">{remaining.toLocaleString()} to go</p>
-
-        <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-3">
-          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Yearly pace</p>
+        <div className="space-y-4">
+          <div className="flex items-end gap-1">
+            <span className="text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
+            <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
+          </div>
           <div className="space-y-1.5">
             <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
               <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%` }} />
