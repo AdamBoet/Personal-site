@@ -47,9 +47,22 @@ function dueSoon(card: HanziCard): string | null {
   return `Due in ${diffDays}d`;
 }
 
-export function Tooltip({ card }: { card: HanziCard }) {
-  const ease = card.factor != null ? Math.round(card.factor / 10) : null;
+export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: number }) {
   const due = dueSoon(card);
+
+  const diffPct = percentile != null ? Math.round(percentile * 100) : null;
+  const diffColor =
+    percentile == null ? "text-zinc-500"
+    : percentile < 0.25 ? "text-emerald-400"
+    : percentile < 0.5  ? "text-zinc-300"
+    : percentile < 0.75 ? "text-amber-400"
+    : "text-red-400";
+  const diffLabel =
+    percentile == null ? null
+    : percentile < 0.25 ? "Easy"
+    : percentile < 0.5  ? "Average"
+    : percentile < 0.75 ? "Hard"
+    : "Very hard";
 
   return (
     <div className="w-56 rounded-xl border border-zinc-700 bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm pointer-events-none">
@@ -61,7 +74,27 @@ export function Tooltip({ card }: { card: HanziCard }) {
         </div>
       </div>
 
-      {(card.interval != null || card.reps != null || card.lapses != null || ease != null) && (
+      {diffLabel && (
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-zinc-500">Difficulty</span>
+            <span className={`font-semibold ${diffColor}`}>{diffLabel} · {diffPct}%</span>
+          </div>
+          <div className="h-1 w-full rounded-full bg-zinc-800 overflow-hidden">
+            <div
+              className={`h-full rounded-full ${
+                percentile! < 0.25 ? "bg-emerald-500"
+                : percentile! < 0.5  ? "bg-zinc-400"
+                : percentile! < 0.75 ? "bg-amber-500"
+                : "bg-red-500"
+              }`}
+              style={{ width: `${diffPct}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {(card.interval != null || card.reps != null || card.lapses != null) && (
         <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
           {card.interval != null && (
             <>
@@ -79,20 +112,6 @@ export function Tooltip({ card }: { card: HanziCard }) {
             <>
               <span className="text-zinc-500">Lapses</span>
               <span className={card.lapses > 0 ? "text-red-400" : "text-zinc-200"}>{card.lapses}</span>
-            </>
-          )}
-          {ease != null && (
-            <>
-              <span className="text-zinc-500">Ease</span>
-              <span className={ease >= 250 ? "text-emerald-400" : ease >= 200 ? "text-zinc-200" : "text-amber-400"}>
-                {ease}%
-              </span>
-            </>
-          )}
-          {card.mod != null && (
-            <>
-              <span className="text-zinc-500">Last studied</span>
-              <span className="text-zinc-200">{relativeTime(card.mod)}</span>
             </>
           )}
           {due && (
@@ -174,7 +193,7 @@ export default function CharacterGrid({
               : {}),
           }}
         >
-          <Tooltip card={hovered} />
+          <Tooltip card={hovered} percentile={scoreMap?.get(hovered.note_id)} />
         </div>
       )}
 
@@ -190,7 +209,7 @@ export default function CharacterGrid({
               transform: "translate(-50%, calc(-100% - 8px))",
             }}
           >
-            <Tooltip card={pinned} />
+            <Tooltip card={pinned} percentile={scoreMap?.get(pinned.note_id)} />
           </div>
         </>
       )}

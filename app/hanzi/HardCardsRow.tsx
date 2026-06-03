@@ -60,7 +60,7 @@ export default function HardCardsRow({
               : {}),
           }}
         >
-          <Tooltip card={hovered} />
+          <Tooltip card={hovered} percentile={scoreMap.get(hovered.note_id)} />
         </div>
       )}
 
@@ -75,7 +75,7 @@ export default function HardCardsRow({
               transform: "translate(-50%, calc(-100% - 8px))",
             }}
           >
-            <Tooltip card={pinned} />
+            <Tooltip card={pinned} percentile={scoreMap.get(pinned.note_id)} />
           </div>
         </>
       )}
