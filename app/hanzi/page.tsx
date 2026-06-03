@@ -65,7 +65,7 @@ export default function HanziPage() {
 
   return (
     <div className="max-w-4xl space-y-8">
-      <div>
+      <div className="text-center">
         <h1 className="text-2xl font-bold tracking-tight">汉字 Hanzi</h1>
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
       </div>
@@ -74,8 +74,8 @@ export default function HanziPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
         {/* Words learned */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5">
-          <div className="flex items-end gap-3">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5 text-center">
+          <div className="flex items-end justify-center gap-3">
             <span className="text-5xl sm:text-6xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
             <span className="pb-2 text-zinc-400 text-sm">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
@@ -83,14 +83,12 @@ export default function HanziPage() {
             <div className="h-2.5 w-full rounded-full bg-zinc-800 overflow-hidden">
               <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
             </div>
-            <div className="flex justify-end text-xs text-zinc-500">
-              <span>{remaining.toLocaleString()} to go</span>
-            </div>
+            <p className="text-xs text-zinc-500 text-center">{remaining.toLocaleString()} to go</p>
           </div>
         </div>
 
         {/* Yearly pace: goal% vs year% */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3 text-center">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Yearly pace</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -108,7 +106,7 @@ export default function HanziPage() {
         </div>
 
         {/* Skip budget */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3 text-center">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Skip budget</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -124,16 +122,13 @@ export default function HanziPage() {
               <p className="text-xs text-zinc-500 mt-0.5">can still skip</p>
             </div>
           </div>
-          <p className="text-xs text-zinc-600">
-            {daysNeeded}d needed · {daysLeftInYear}d left in year
-          </p>
         </div>
 
       </div>
 
       {/* Hardest cards */}
       {hardCards.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-3 text-center">
           <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
           <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
         </div>
@@ -141,7 +136,7 @@ export default function HanziPage() {
 
       {/* Character grid */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-center flex-wrap gap-3">
           <h2 className="text-sm font-semibold text-zinc-400">All {learnedCount} characters</h2>
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
@@ -164,7 +159,7 @@ export default function HanziPage() {
         <CharacterGrid cards={cards} scoreMap={hasScores ? scoreMap : undefined} />
       </div>
 
-      <p className="text-xs text-zinc-600">Updated {updatedStr}</p>
+      <p className="text-xs text-zinc-600 text-center">Updated {updatedStr}</p>
     </div>
   );
 }
