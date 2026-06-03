@@ -14,7 +14,7 @@ export default function HanziPage() {
   const yearPct = Math.round((dayOfYear / daysInYear) * 100);
   const paceDelta = goalPct - yearPct;
 
-  const expectedByNow = Math.round(YEARLY_GOAL * (dayOfYear / daysInYear));
+  const expectedByNow = dayOfYear * CARDS_PER_DAY;
   const cardDelta = learnedCount - expectedByNow;
 
   const daysLeftInYear = daysInYear - dayOfYear;
