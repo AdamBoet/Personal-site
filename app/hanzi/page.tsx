@@ -77,9 +77,9 @@ export default function HanziPage() {
 
         {/* Words learned */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5 text-center">
-          <div className="flex items-end justify-center gap-2">
+          <div className="relative flex justify-center">
             <span className="text-5xl sm:text-6xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-            <span className="pb-2 text-zinc-500 text-sm">/ {YEARLY_GOAL.toLocaleString()}</span>
+            <span className="absolute right-0 bottom-1 text-zinc-500 text-sm">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
           <div className="space-y-1.5">
             <div className="h-2.5 w-full rounded-full bg-zinc-800 overflow-hidden">
