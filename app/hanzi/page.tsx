@@ -22,7 +22,10 @@ export default function HanziPage() {
   const daysLeftInYear = daysInYear - dayOfYear;
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
   const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
-  const daysToCatchup = cardDelta < 0 ? daysDelta : 0;
+  const daysToCatchup = Math.max(0, Math.ceil(
+    (YEARLY_GOAL * dayOfYear - daysInYear * learnedCount) /
+    (CARDS_PER_DAY * daysInYear - YEARLY_GOAL)
+  ));
 
 
   const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
