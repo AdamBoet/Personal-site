@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { useTheme } from "next-themes";
 
 export interface HanziCard {
   character: string;
@@ -25,15 +26,16 @@ export function tileClass(): string {
   return "flex flex-col items-center justify-center rounded-lg border cursor-default py-2.5 px-1 transition-transform hover:scale-125 hover:z-10";
 }
 
-export function tileStyle(percentile?: number): Record<string, string> {
+export function tileStyle(percentile?: number, isDark = true): Record<string, string> {
   if (percentile === undefined) {
-    return { backgroundColor: "hsl(0 0% 15% / 0.7)", borderColor: "hsl(0 0% 28% / 0.4)" };
+    return isDark
+      ? { backgroundColor: "hsl(0 0% 15%)", borderColor: "hsl(0 0% 28%)" }
+      : { backgroundColor: "hsl(0 0% 93%)", borderColor: "hsl(0 0% 78%)" };
   }
   const hue = Math.round(120 * (1 - percentile));
-  return {
-    backgroundColor: `hsl(${hue} 50% 13%)`,
-    borderColor: `hsl(${hue} 65% 38%)`,
-  };
+  return isDark
+    ? { backgroundColor: `hsl(${hue} 50% 13%)`, borderColor: `hsl(${hue} 65% 38%)` }
+    : { backgroundColor: `hsl(${hue} 55% 87%)`, borderColor: `hsl(${hue} 50% 55%)` };
 }
 
 function relativeTime(unixSeconds: number): string {
@@ -66,12 +68,12 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
     : "Very hard";
 
   return (
-    <div className="w-56 rounded-xl border border-zinc-700 bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm pointer-events-none">
+    <div className="w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm pointer-events-none text-zinc-900 dark:text-zinc-100">
       <div className="flex items-start gap-3">
         <span className="text-4xl leading-none">{card.character}</span>
         <div className="min-w-0">
-          <p className="text-xs text-zinc-400 leading-snug">{card.pronunciation}</p>
-          <p className="text-xs text-zinc-300 leading-snug mt-0.5 line-clamp-2">{card.front}</p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-snug">{card.pronunciation}</p>
+          <p className="text-xs text-zinc-600 dark:text-zinc-300 leading-snug mt-0.5 line-clamp-2">{card.front}</p>
         </div>
       </div>
 
@@ -81,7 +83,7 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
             <span className="text-zinc-500">Difficulty</span>
             <span className="font-semibold" style={{ color: `hsl(${hue} 80% 60%)` }}>{diffLabel} · {diffPct}%</span>
           </div>
-          <div className="h-1 w-full rounded-full bg-zinc-800 overflow-hidden">
+          <div className="h-1 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
             <div
               style={{ width: `${diffPct}%`, backgroundColor: `hsl(${hue} 70% 50%)` }}
               className="h-full rounded-full"
@@ -95,25 +97,25 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
           {card.interval != null && (
             <>
               <span className="text-zinc-500">Interval</span>
-              <span className="text-zinc-200">{card.interval} days</span>
+              <span className="text-zinc-700 dark:text-zinc-200">{card.interval} days</span>
             </>
           )}
           {card.reps != null && (
             <>
               <span className="text-zinc-500">Reviews</span>
-              <span className="text-zinc-200">{card.reps}×</span>
+              <span className="text-zinc-700 dark:text-zinc-200">{card.reps}×</span>
             </>
           )}
           {card.lapses != null && (
             <>
               <span className="text-zinc-500">Lapses</span>
-              <span className={card.lapses > 0 ? "text-red-400" : "text-zinc-200"}>{card.lapses}</span>
+              <span className={card.lapses > 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}>{card.lapses}</span>
             </>
           )}
           {due && (
             <>
               <span className="text-zinc-500">Next due</span>
-              <span className={due === "Overdue" || due === "Due today" ? "text-amber-400" : "text-zinc-200"}>
+              <span className={due === "Overdue" || due === "Due today" ? "text-amber-500" : "text-zinc-700 dark:text-zinc-200"}>
                 {due}
               </span>
             </>
@@ -133,6 +135,8 @@ export default function CharacterGrid({
   cards: HanziCard[];
   scoreMap?: Map<number, number>;
 }) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme !== "light";
   const [hovered, setHovered] = useState<HanziCard | null>(null);
   const [pinned, setPinned] = useState<HanziCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
@@ -167,13 +171,13 @@ export default function CharacterGrid({
           <div
             key={card.note_id}
             className={tileClass()}
-            style={tileStyle(scoreMap?.get(card.note_id))}
+            style={tileStyle(scoreMap?.get(card.note_id), isDark)}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
             onClick={(e) => handleTileClick(e, card)}
           >
             <span className="text-xl leading-none select-none">{card.character}</span>
-            <span className="text-[10px] text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
+            <span className="text-[10px] text-zinc-500 dark:text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
           </div>
         ))}
       </div>

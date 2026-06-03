@@ -33,12 +33,12 @@ export default function FormulaInfo() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-6 z-50 w-96 rounded-2xl border border-zinc-700 bg-zinc-900 shadow-2xl p-5 space-y-5">
+        <div className="absolute right-0 top-6 z-50 w-96 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xl p-5 space-y-5 text-zinc-900 dark:text-zinc-100">
 
-          <p className="text-base font-semibold text-zinc-100">Difficulty formula</p>
+          <p className="text-base font-semibold">Difficulty formula</p>
 
           {/* Main equation */}
-          <div className="rounded-xl bg-zinc-800 px-4 py-5 flex justify-center overflow-x-auto">
+          <div className="rounded-xl bg-zinc-100 dark:bg-zinc-800 px-4 py-5 flex justify-center overflow-x-auto">
             <Math display tex="\text{score} = r \times 0.45 \;+\; l \times 0.20 \;+\; d \times 0.35" />
           </div>
 
@@ -48,25 +48,25 @@ export default function FormulaInfo() {
               <div className="flex items-center gap-3">
                 <Math tex="r = \dfrac{\text{lapses}}{\text{reviews}}" />
               </div>
-              <p className="text-xs text-zinc-600">How often you forget, relative to total reviews. Normalises for how long you've had the card.</p>
+              <p className="text-xs text-zinc-500">How often you forget, relative to total reviews. Normalises for how long you've had the card.</p>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-3">
                 <Math tex="l = \dfrac{\text{lapses}}{\text{max lapses}}" />
               </div>
-              <p className="text-xs text-zinc-600">Absolute number of times forgotten, normalised so one very hard card doesn't skew the rest.</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-600">Absolute number of times forgotten, normalised so one very hard card doesn't skew the rest.</p>
             </div>
 
             <div className="space-y-1">
               <div className="flex items-center gap-3">
                 <Math tex="d = 1 - \dfrac{\min(\text{interval},\;90)}{90}" />
               </div>
-              <p className="text-xs text-zinc-600">Short interval means the card keeps coming back. Capped at 90 days — anything longer is considered fully mature.</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-600">Short interval means the card keeps coming back. Capped at 90 days — anything longer is considered fully mature.</p>
             </div>
           </div>
 
-          <p className="text-xs text-zinc-600 border-t border-zinc-800 pt-4">
+          <p className="text-xs text-zinc-500 dark:text-zinc-600 border-t border-zinc-200 dark:border-zinc-800 pt-4">
             Final score is percentile-ranked across all cards. Colours show the easiest 25% through to the hardest 25%.
           </p>
         </div>

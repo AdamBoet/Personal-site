@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"/Users/adam/Dokumenter/Documents/Claude projects/Personal site\" status)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --yes --skip-git)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --skip-git)",
+      "Bash(node scripts/sync-stats.mjs)",
+      "Bash(ssh -T git@github.com)",
+      "WebFetch(domain:hanzicraft.com)",
+      "Bash(curl -s http://localhost:8765 -X POST -H \"Content-Type: application/json\" -d '{\"action\":\"version\",\"version\":6}')",
+      "Bash(chmod +x \"/Users/adam/Dokumenter/Documents/Claude projects/Anki flashcards/Anki 汉字/sync_and_publish.sh\")",
+      "Bash(npm run *)"
+    ]
+  }
+}

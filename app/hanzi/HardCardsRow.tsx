@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTheme } from "next-themes";
 import { tileClass, tileStyle, Tooltip, type HanziCard } from "./CharacterGrid";
 
 export type ScoredCard = HanziCard & { score: number };
@@ -12,6 +13,8 @@ export default function HardCardsRow({
   cards: ScoredCard[];
   scoreMap: Map<number, number>;
 }) {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme !== "light";
   const [hovered, setHovered] = useState<ScoredCard | null>(null);
   const [pinned, setPinned] = useState<ScoredCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
@@ -41,7 +44,7 @@ export default function HardCardsRow({
           <div
             key={card.note_id}
             className={tileClass()}
-            style={tileStyle(scoreMap.get(card.note_id))}
+            style={tileStyle(scoreMap.get(card.note_id), isDark)}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
             onClick={(e) => handleTileClick(e, card)}

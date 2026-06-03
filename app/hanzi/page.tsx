@@ -66,7 +66,7 @@ export default function HanziPage() {
   const hasScores = scoreMap.size > 0;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">汉字 Hanzi</h1>
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
@@ -76,13 +76,13 @@ export default function HanziPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
         {/* Words learned */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5 text-center">
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 space-y-5 text-center">
           <div className="flex items-end justify-center gap-1">
             <span className="text-4xl sm:text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-            <span className="pb-0.5 text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
+            <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
           <div className="space-y-1.5">
-            <div className="h-2.5 w-full rounded-full bg-zinc-800 overflow-hidden">
+            <div className="h-2.5 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
               <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
             </div>
             <p className="text-xs text-zinc-500">{remaining.toLocaleString()} to go</p>
@@ -90,8 +90,19 @@ export default function HanziPage() {
         </div>
 
         {/* Yearly pace: goal% vs year% */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3 text-center">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Yearly pace</h2>
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 space-y-3 text-center">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Yearly pace</h2>
+          {/* Stacked bar */}
+          <div className="space-y-1">
+            <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+              <div className="absolute inset-y-0 left-0 bg-red-500/60 rounded-full" style={{ width: `${yearPct}%` }} />
+              <div className="absolute inset-y-0 left-0 bg-green-500 rounded-full" style={{ width: `${goalPct}%` }} />
+            </div>
+            <div className="flex justify-between text-[10px] text-zinc-400 dark:text-zinc-600">
+              <span className="text-green-600 dark:text-green-500">{goalPct}% goal</span>
+              <span className="text-red-600 dark:text-red-400">{yearPct}% year</span>
+            </div>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-2xl font-semibold tabular-nums">{goalPct}%</p>
@@ -105,21 +116,21 @@ export default function HanziPage() {
         </div>
 
         {/* Skip budget */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3 text-center">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Skip budget</h2>
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 space-y-3 text-center">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Skip budget</h2>
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <p className="text-2xl font-semibold tabular-nums text-zinc-100">{totalSkipBudget}</p>
+              <p className="text-2xl font-semibold tabular-nums">{totalSkipBudget}</p>
               <p className="text-xs text-zinc-500 mt-0.5">total</p>
             </div>
             <div>
-              <p className={`text-2xl font-semibold tabular-nums ${cardDelta < 0 ? "text-red-400" : "text-zinc-100"}`}>
+              <p className={`text-2xl font-semibold tabular-nums ${cardDelta < 0 ? "text-red-500" : ""}`}>
                 {daysDelta}
               </p>
               <p className="text-xs text-zinc-500 mt-0.5">skipped</p>
             </div>
             <div>
-              <p className={`text-2xl font-semibold tabular-nums ${daysCanSkip > 0 ? "text-zinc-100" : "text-red-400"}`}>
+              <p className={`text-2xl font-semibold tabular-nums ${daysCanSkip <= 0 ? "text-red-500" : ""}`}>
                 {daysCanSkip}
               </p>
               <p className="text-xs text-zinc-500 mt-0.5">remaining</p>
@@ -132,7 +143,7 @@ export default function HanziPage() {
       {/* Hardest cards */}
       {hardCards.length > 0 && (
         <div className="space-y-3">
-          <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
+          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Hardest to remember</h2>
           <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
         </div>
       )}
@@ -140,7 +151,7 @@ export default function HanziPage() {
       {/* Character grid */}
       <div className="space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
-          <h2 className="text-sm font-semibold text-zinc-400">All {learnedCount} characters</h2>
+          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">All {learnedCount} characters</h2>
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
               <span className="flex items-center gap-1.5">
@@ -162,7 +173,7 @@ export default function HanziPage() {
         <CharacterGrid cards={cards} scoreMap={hasScores ? scoreMap : undefined} />
       </div>
 
-      <p className="text-xs text-zinc-600 text-center">Updated {updatedStr}</p>
+      <p className="text-xs text-zinc-400 dark:text-zinc-600 text-center">Updated {updatedStr}</p>
     </div>
   );
 }

@@ -4,32 +4,63 @@ import Link from "next/link";
 const YEARLY_GOAL = 1500;
 
 export default function Overview() {
-  const { learnedCount, year } = stats;
-  const pct = Math.round(Math.min(learnedCount / YEARLY_GOAL, 1) * 100);
+  const { learnedCount, year, dayOfYear, daysInYear } = stats;
+  const goalPct = Math.round(Math.min(learnedCount / YEARLY_GOAL, 1) * 100);
+  const yearPct = Math.round((dayOfYear / daysInYear) * 100);
+  const remaining = Math.max(YEARLY_GOAL - learnedCount, 0);
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
+    <div className="max-w-2xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
         <p className="mt-1 text-sm text-zinc-500">{year}</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4">
-        <Link href="/hanzi" className="group block rounded-2xl border border-zinc-800 bg-zinc-900 p-5 hover:border-zinc-600 transition-colors">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">字</span>
-              <span className="text-sm font-medium text-zinc-300">汉字 Hanzi</span>
+      <Link
+        href="/hanzi"
+        className="group block rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
+      >
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">字</span>
+            <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">汉字 Hanzi</span>
+          </div>
+          <span className="text-xs text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">View →</span>
+        </div>
+
+        <div className="flex items-end gap-1 mb-3">
+          <span className="text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
+          <span className="pb-1 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
+        </div>
+        <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden mb-1.5">
+          <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
+        </div>
+        <p className="text-xs text-zinc-500 mb-5">{remaining.toLocaleString()} to go</p>
+
+        <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Yearly pace</p>
+          <div className="space-y-1">
+            <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+              <div className="absolute inset-y-0 left-0 bg-red-500/60 rounded-full" style={{ width: `${yearPct}%` }} />
+              <div className="absolute inset-y-0 left-0 bg-green-500 rounded-full" style={{ width: `${goalPct}%` }} />
             </div>
-            <span className="text-xs text-zinc-600 group-hover:text-zinc-400 transition-colors">View →</span>
+            <div className="flex justify-between text-[10px]">
+              <span className="text-green-600 dark:text-green-500">{goalPct}% goal</span>
+              <span className="text-red-600 dark:text-red-400">{yearPct}% year</span>
+            </div>
           </div>
-          <p className="text-4xl font-bold tabular-nums">{learnedCount.toLocaleString()}</p>
-          <p className="text-xs text-zinc-500 mt-1">of {YEARLY_GOAL.toLocaleString()} goal · {pct}%</p>
-          <div className="mt-3 h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-            <div className="h-full rounded-full bg-red-500" style={{ width: `${pct}%` }} />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-2xl font-semibold tabular-nums">{goalPct}%</p>
+              <p className="text-xs text-zinc-500 mt-0.5">goal reached</p>
+            </div>
+            <div>
+              <p className="text-2xl font-semibold tabular-nums">{yearPct}%</p>
+              <p className="text-xs text-zinc-500 mt-0.5">year passed</p>
+            </div>
           </div>
-        </Link>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }
