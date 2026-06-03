@@ -40,7 +40,7 @@ export function tileStyle(percentile?: number, isDark = true): Record<string, st
 
 export function LegendSwatches() {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme !== "light";
+  const isDark = resolvedTheme === "dark";
   const items: [string, number][] = [["Easy", 0], ["Harder", 0.5], ["Hardest", 1]];
   return (
     <>
@@ -155,7 +155,7 @@ export default function CharacterGrid({
   scoreMap?: Map<number, number>;
 }) {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme !== "light";
+  const isDark = resolvedTheme === "dark";
   const [hovered, setHovered] = useState<HanziCard | null>(null);
   const [pinned, setPinned] = useState<HanziCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });

@@ -14,7 +14,7 @@ export default function HardCardsRow({
   scoreMap: Map<number, number>;
 }) {
   const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme !== "light";
+  const isDark = resolvedTheme === "dark";
   const [hovered, setHovered] = useState<ScoredCard | null>(null);
   const [pinned, setPinned] = useState<ScoredCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
