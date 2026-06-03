@@ -83,8 +83,8 @@ export default function HanziPage() {
   return (
     <div className="max-w-4xl space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">汉字 Hanzi</h1>
-        <p className="mt-1 text-sm text-zinc-500">Character progress · {year} · Updated {updatedStr}</p>
+        <h1 className="text-2xl font-bold tracking-tight">Anki 汉字 Character Progress</h1>
+        <p className="mt-1 text-sm text-zinc-500">{year} · Updated {updatedStr}</p>
       </div>
 
       {/* Combined progress + skip budget */}
