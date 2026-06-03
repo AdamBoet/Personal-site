@@ -26,33 +26,41 @@ export default function FormulaInfo() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-6 z-50 w-72 rounded-xl border border-zinc-700 bg-zinc-900 shadow-2xl p-4 space-y-3 text-xs">
-          <p className="text-zinc-300 font-semibold text-sm">Difficulty formula</p>
+        <div className="absolute right-0 top-6 z-50 w-80 rounded-2xl border border-zinc-700 bg-zinc-900 shadow-2xl p-5 space-y-5">
 
-          <div className="rounded-lg bg-zinc-800 px-3 py-2 font-mono text-zinc-200 leading-relaxed">
+          <p className="text-base font-semibold text-zinc-100">Difficulty formula</p>
+
+          {/* Formula */}
+          <div className="rounded-xl bg-zinc-800 p-4 font-mono text-sm space-y-1 text-zinc-200">
             <p>score =</p>
-            <p className="pl-3">lapse_rate &times; <span className="text-amber-400">0.45</span></p>
-            <p className="pl-3">+ lapses &times; <span className="text-amber-400">0.20</span></p>
-            <p className="pl-3">+ interval_diff &times; <span className="text-amber-400">0.35</span></p>
+            <p className="pl-4">lapse_rate &nbsp;&times;&nbsp; <span className="text-amber-400">0.45</span></p>
+            <p className="pl-4">+ lapses &nbsp;&nbsp;&nbsp;&nbsp;&times;&nbsp; <span className="text-amber-400">0.20</span></p>
+            <p className="pl-4">+ interval &nbsp;&nbsp;&times;&nbsp; <span className="text-amber-400">0.35</span></p>
           </div>
 
-          <div className="space-y-2 text-zinc-400">
-            <div>
-              <span className="text-zinc-200">lapse_rate</span> = lapses ÷ reviews
-              <p className="text-zinc-600 mt-0.5">how often you forget, relative to total reviews</p>
+          {/* Explanations */}
+          <div className="space-y-4">
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-zinc-200">lapse_rate</p>
+              <p className="text-sm text-zinc-400">lapses ÷ reviews</p>
+              <p className="text-xs text-zinc-600">How often you forget, relative to total reviews. Normalises for how long you've had the card.</p>
             </div>
-            <div>
-              <span className="text-zinc-200">lapses</span> = your lapses ÷ hardest card&apos;s lapses
-              <p className="text-zinc-600 mt-0.5">absolute forgetting count, normalised 0–1</p>
+
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-zinc-200">lapses</p>
+              <p className="text-sm text-zinc-400">your lapses ÷ hardest card's lapses</p>
+              <p className="text-xs text-zinc-600">Absolute number of times you've forgotten. Normalised 0–1 so one card with many lapses doesn't skew the rest.</p>
             </div>
-            <div>
-              <span className="text-zinc-200">interval_diff</span> = 1 − min(interval, 90) ÷ 90
-              <p className="text-zinc-600 mt-0.5">short interval means card keeps coming back</p>
+
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-zinc-200">interval</p>
+              <p className="text-sm text-zinc-400">1 − min(interval, 90) ÷ 90</p>
+              <p className="text-xs text-zinc-600">Short interval means the card keeps coming back quickly. Capped at 90 days — anything longer is considered fully mature.</p>
             </div>
           </div>
 
-          <p className="text-zinc-600 border-t border-zinc-800 pt-2">
-            Score is percentile-ranked across all cards — colours show easiest 25% → hardest 25%.
+          <p className="text-xs text-zinc-600 border-t border-zinc-800 pt-4">
+            Final score is percentile-ranked across all cards. Colours show the easiest 25% through to the hardest 25%.
           </p>
         </div>
       )}
