@@ -19,6 +19,7 @@ export default function HanziPage() {
   const cardDelta = learnedCount - expectedByNow;
   const daysDelta = Math.round(Math.abs(cardDelta) / CARDS_PER_DAY);
 
+  const totalSkipBudget = daysInYear - Math.ceil(YEARLY_GOAL / CARDS_PER_DAY);
   const daysLeftInYear = daysInYear - dayOfYear;
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
   const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
@@ -99,25 +100,26 @@ export default function HanziPage() {
         {/* Skip budget */}
         <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 space-y-3 text-center">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Skip budget</h2>
-          <div className="grid grid-cols-3 gap-2">
-            <div>
-              <p className={`text-2xl font-semibold tabular-nums ${cardDelta < 0 ? "text-red-500" : ""}`}>
-                {daysDelta}
+          <div className="space-y-2 text-sm">
+            <p>
+              You skipped{" "}
+              <span className={`font-semibold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
+              {" "}out of{" "}
+              <span className="font-semibold">{totalSkipBudget} total</span>
+            </p>
+            {daysToCatchup > 0 ? (
+              <p className="text-zinc-500 dark:text-zinc-400">
+                Stay consistent for{" "}
+                <span className="font-semibold text-amber-500">{daysToCatchup} days</span>
+                {" "}to catch up with the lost progress
               </p>
-              <p className="text-xs text-zinc-500 mt-0.5">skipped</p>
-            </div>
-            <div>
-              <p className={`text-2xl font-semibold tabular-nums ${daysCanSkip <= 0 ? "text-red-500" : ""}`}>
-                {daysCanSkip}
-              </p>
-              <p className="text-xs text-zinc-500 mt-0.5">remaining</p>
-            </div>
-            <div>
-              <p className={`text-2xl font-semibold tabular-nums ${daysToCatchup > 0 ? "text-amber-500" : ""}`}>
-                {daysToCatchup}
-              </p>
-              <p className="text-xs text-zinc-500 mt-0.5">to catch up</p>
-            </div>
+            ) : (
+              <p className="text-zinc-500 dark:text-zinc-400">You&apos;re on pace — no catchup needed</p>
+            )}
+            <p className="text-zinc-500 dark:text-zinc-400">
+              <span className={`font-semibold ${daysCanSkip <= 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}`}>{daysCanSkip} days</span>
+              {" "}remaining in your budget
+            </p>
           </div>
         </div>
 
