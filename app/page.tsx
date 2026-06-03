@@ -40,12 +40,13 @@ export default function Overview() {
         <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Yearly pace</p>
           <div className="space-y-1.5">
-            <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
-              <div className="absolute inset-y-0 left-0 bg-red-500/60 rounded-full" style={{ width: `${yearPct}%` }} />
-              <div className="absolute inset-y-0 left-0 bg-green-500 rounded-full" style={{ width: `${goalPct}%` }} />
+            <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+              <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%` }} />
+              <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%` }} />
+              <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.12) 5px, rgba(255,255,255,0.12) 10px)" }} />
             </div>
             <div className="flex items-center gap-3 text-xs">
-              <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}% goal</span>
+              <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
               <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
             </div>
           </div>

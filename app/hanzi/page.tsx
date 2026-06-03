@@ -82,9 +82,10 @@ export default function HanziPage() {
             <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
           <div className="space-y-1.5">
-            <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
-              <div className="absolute inset-y-0 left-0 bg-red-500/60 rounded-full" style={{ width: `${yearPct}%` }} />
-              <div className="absolute inset-y-0 left-0 bg-green-500 rounded-full" style={{ width: `${goalPct}%` }} />
+            <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+              <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%` }} />
+              <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%` }} />
+              <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.12) 5px, rgba(255,255,255,0.12) 10px)" }} />
             </div>
             <div className="flex items-center justify-center gap-3 text-xs">
               <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
