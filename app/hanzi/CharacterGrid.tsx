@@ -68,7 +68,7 @@ function relativeTime(unixSeconds: number): string {
 function dueSoon(card: HanziCard): string | null {
   if (!card.mod || !card.interval) return null;
   const dueMs = (card.mod + card.interval * 86400) * 1000;
-  const diffDays = Math.ceil((dueMs - Date.now()) / 86400000);
+  const diffDays = Math.floor((dueMs - Date.now()) / 86400000);
   if (diffDays < 0) return "Overdue";
   if (diffDays === 0) return "Due today";
   return `Due in ${diffDays}d`;

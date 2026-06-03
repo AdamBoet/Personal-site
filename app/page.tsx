@@ -35,8 +35,8 @@ export default function Overview() {
     .reverse()
     .filter(c => {
       if (!c.mod || !c.interval) return false;
-      const diffDays = Math.ceil(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
-      return diffDays >= 0 && diffDays <= 3;
+      const diffDays = Math.floor(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
+      return diffDays === 0;
     })
     .slice(0, 5)
     .map(c => ({ ...c, score: c.raw }));
@@ -78,7 +78,7 @@ export default function Overview() {
 
         {waryCards.length > 0 && (
           <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Be wary of these in the coming days</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Be wary of these cards today</p>
             <HardCardsRow cards={waryCards} scoreMap={scoreMap} columns={5} />
           </div>
         )}

@@ -72,7 +72,7 @@ export default function HanziPage() {
     .reverse()
     .filter((c) => {
       if (!c.mod || !c.interval) return false;
-      const diffDays = Math.ceil(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
+      const diffDays = Math.floor(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
       return diffDays >= 0 && diffDays <= 3;
     })
     .slice(0, 15)
@@ -84,7 +84,7 @@ export default function HanziPage() {
     <div className="max-w-4xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">汉字 Hanzi</h1>
-        <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
+        <p className="mt-1 text-sm text-zinc-500">Character progress · {year} · Updated {updatedStr}</p>
       </div>
 
       {/* Row 1: Combined progress · Skip budget */}
