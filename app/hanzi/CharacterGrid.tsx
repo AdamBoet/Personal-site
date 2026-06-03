@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 
 export interface HanziCard {
@@ -87,7 +87,7 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
     : "Very hard";
 
   return (
-    <div className="w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm pointer-events-none text-zinc-900 dark:text-zinc-100">
+    <div className="w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm text-zinc-900 dark:text-zinc-100">
       <div className="flex items-start gap-3">
         <span className="text-4xl leading-none">{card.character}</span>
         <div className="min-w-0">
@@ -168,6 +168,18 @@ export default function CharacterGrid({
   const [pinned, setPinned] = useState<HanziCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const [pinnedPos, setPinnedPos] = useState({ x: 0, y: 0 });
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
+
+  const scheduleHide = useCallback(() => {
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => { setHovered(null); setPinned(null); }, 120);
+  }, []);
+
+  const cancelHide = useCallback(() => {
+    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null; }
+  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!pinned) setHoverPos({ x: e.clientX, y: e.clientY });
@@ -185,11 +197,7 @@ export default function CharacterGrid({
   const tooltipY = pinned ? pinnedPos.y : hoverPos.y;
 
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => { setHovered(null); setPinned(null); }}
-      onClick={() => setPinned(null)}
-    >
+    <div onMouseMove={handleMouseMove} onMouseLeave={scheduleHide} onClick={() => setPinned(null)}>
       <div
         className="grid gap-1.5"
         style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
@@ -199,8 +207,8 @@ export default function CharacterGrid({
             key={card.note_id}
             className={tileClass()}
             style={tileStyle(scoreMap?.get(card.note_id), isDark)}
-            onMouseEnter={() => { if (!pinned) setHovered(card); }}
-            onMouseLeave={() => { if (!pinned) setHovered(null); }}
+            onMouseEnter={() => { cancelHide(); if (!pinned) setHovered(card); }}
+            onMouseLeave={scheduleHide}
             onClick={(e) => handleTileClick(e, card)}
           >
             <span className="text-xl leading-none select-none">{card.character}</span>
@@ -211,7 +219,7 @@ export default function CharacterGrid({
 
       {activeCard && (
         <div
-          className="fixed z-50 pointer-events-none"
+          className="fixed z-50"
           style={{
             left: tooltipX + 18,
             top: tooltipY - 12,
@@ -219,6 +227,10 @@ export default function CharacterGrid({
               ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - tooltipX + 18 : 18 }
               : {}),
           }}
+          onMouseEnter={cancelHide}
+          onMouseLeave={scheduleHide}
+          onMouseMove={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
         >
           <Tooltip card={activeCard} percentile={scoreMap?.get(activeCard.note_id)} />
         </div>

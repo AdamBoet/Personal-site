@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { tileClass, tileStyle, Tooltip, type HanziCard } from "./CharacterGrid";
 
@@ -19,6 +19,18 @@ export default function HardCardsRow({
   const [pinned, setPinned] = useState<ScoredCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const [pinnedPos, setPinnedPos] = useState({ x: 0, y: 0 });
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => () => { if (hideTimer.current) clearTimeout(hideTimer.current); }, []);
+
+  const scheduleHide = useCallback(() => {
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => { setHovered(null); setPinned(null); }, 120);
+  }, []);
+
+  const cancelHide = useCallback(() => {
+    if (hideTimer.current) { clearTimeout(hideTimer.current); hideTimer.current = null; }
+  }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!pinned) setHoverPos({ x: e.clientX, y: e.clientY });
@@ -36,11 +48,7 @@ export default function HardCardsRow({
   const tooltipY = pinned ? pinnedPos.y : hoverPos.y;
 
   return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseLeave={() => { setHovered(null); setPinned(null); }}
-      onClick={() => setPinned(null)}
-    >
+    <div onMouseMove={handleMouseMove} onMouseLeave={scheduleHide} onClick={() => setPinned(null)}>
       <div
         className="grid gap-1.5"
         style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
@@ -50,8 +58,8 @@ export default function HardCardsRow({
             key={card.note_id}
             className={tileClass()}
             style={tileStyle(scoreMap.get(card.note_id), isDark)}
-            onMouseEnter={() => { if (!pinned) setHovered(card); }}
-            onMouseLeave={() => { if (!pinned) setHovered(null); }}
+            onMouseEnter={() => { cancelHide(); if (!pinned) setHovered(card); }}
+            onMouseLeave={scheduleHide}
             onClick={(e) => handleTileClick(e, card)}
           >
             <span className="text-xl leading-none select-none">{card.character}</span>
@@ -62,7 +70,7 @@ export default function HardCardsRow({
 
       {activeCard && (
         <div
-          className="fixed z-50 pointer-events-none"
+          className="fixed z-50"
           style={{
             left: tooltipX + 18,
             top: tooltipY - 12,
@@ -70,6 +78,10 @@ export default function HardCardsRow({
               ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - tooltipX + 18 : 18 }
               : {}),
           }}
+          onMouseEnter={cancelHide}
+          onMouseLeave={scheduleHide}
+          onMouseMove={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
         >
           <Tooltip card={activeCard} percentile={scoreMap.get(activeCard.note_id)} />
         </div>

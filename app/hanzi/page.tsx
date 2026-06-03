@@ -22,7 +22,7 @@ export default function HanziPage() {
   const daysLeftInYear = daysInYear - dayOfYear;
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
   const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
-  const totalSkipBudget = daysInYear - Math.ceil(YEARLY_GOAL / CARDS_PER_DAY);
+  const daysToCatchup = cardDelta < 0 ? daysDelta : 0;
 
 
   const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
@@ -83,9 +83,8 @@ export default function HanziPage() {
           </div>
           <div className="space-y-1.5">
             <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
-              <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%` }} />
-              <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%` }} />
-              <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.12) 5px, rgba(255,255,255,0.12) 10px)" }} />
+              <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+              <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
             </div>
             <div className="flex items-center justify-center gap-3 text-xs">
               <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
@@ -99,10 +98,6 @@ export default function HanziPage() {
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Skip budget</h2>
           <div className="grid grid-cols-3 gap-2">
             <div>
-              <p className="text-2xl font-semibold tabular-nums">{totalSkipBudget}</p>
-              <p className="text-xs text-zinc-500 mt-0.5">total</p>
-            </div>
-            <div>
               <p className={`text-2xl font-semibold tabular-nums ${cardDelta < 0 ? "text-red-500" : ""}`}>
                 {daysDelta}
               </p>
@@ -113,6 +108,12 @@ export default function HanziPage() {
                 {daysCanSkip}
               </p>
               <p className="text-xs text-zinc-500 mt-0.5">remaining</p>
+            </div>
+            <div>
+              <p className={`text-2xl font-semibold tabular-nums ${daysToCatchup > 0 ? "text-amber-500" : ""}`}>
+                {daysToCatchup}
+              </p>
+              <p className="text-xs text-zinc-500 mt-0.5">to catch up</p>
             </div>
           </div>
         </div>
