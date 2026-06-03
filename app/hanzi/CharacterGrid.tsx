@@ -19,26 +19,15 @@ export interface HanziCard {
   mod?: number | null;
 }
 
-function tileClass(card: HanziCard): string {
+// percentile 0 = easiest, 1 = hardest
+export function tileClass(percentile?: number): string {
   const base =
     "flex flex-col items-center justify-center rounded-lg border cursor-default py-2.5 px-1 transition-transform hover:scale-125 hover:z-10";
-  if (card.queue === undefined) return `${base} bg-zinc-800/70 border-zinc-700/40`;
-  if (card.queue === 0) return `${base} bg-zinc-800/50 border-zinc-700/30`;
-  if (card.queue === 1) return `${base} bg-blue-950/80 border-blue-700/50`;
-  const iv = card.interval ?? 0;
-  if (iv < 7)  return `${base} bg-amber-950/80 border-amber-700/50`;
-  if (iv < 21) return `${base} bg-amber-900/60 border-amber-600/50`;
-  if (iv < 90) return `${base} bg-emerald-950/80 border-emerald-700/50`;
-  return `${base} bg-emerald-900/70 border-emerald-500/60`;
-}
-
-function statusLabel(card: HanziCard): { label: string; color: string } {
-  if (card.queue === undefined) return { label: "No data", color: "text-zinc-500" };
-  if (card.queue === 0) return { label: "New", color: "text-zinc-400" };
-  if (card.queue === 1) return { label: "Learning", color: "text-blue-400" };
-  const iv = card.interval ?? 0;
-  if (iv < 21) return { label: "Young", color: "text-amber-400" };
-  return { label: "Mature", color: "text-emerald-400" };
+  if (percentile === undefined) return `${base} bg-zinc-800/70 border-zinc-700/40`;
+  if (percentile < 0.25) return `${base} bg-emerald-950/80 border-emerald-700/50`;
+  if (percentile < 0.5)  return `${base} bg-zinc-800/70 border-zinc-600/50`;
+  if (percentile < 0.75) return `${base} bg-amber-950/80 border-amber-700/50`;
+  return `${base} bg-red-950/80 border-red-700/60`;
 }
 
 function relativeTime(unixSeconds: number): string {
@@ -58,14 +47,12 @@ function dueSoon(card: HanziCard): string | null {
   return `Due in ${diffDays}d`;
 }
 
-function Tooltip({ card }: { card: HanziCard }) {
-  const { label, color } = statusLabel(card);
+export function Tooltip({ card }: { card: HanziCard }) {
   const ease = card.factor != null ? Math.round(card.factor / 10) : null;
   const due = dueSoon(card);
 
   return (
     <div className="w-56 rounded-xl border border-zinc-700 bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm pointer-events-none">
-      {/* Character header */}
       <div className="flex items-start gap-3">
         <span className="text-4xl leading-none">{card.character}</span>
         <div className="min-w-0">
@@ -74,9 +61,6 @@ function Tooltip({ card }: { card: HanziCard }) {
         </div>
       </div>
 
-      <div className={`text-xs font-semibold ${color}`}>{label}</div>
-
-      {/* Stats grid */}
       {(card.interval != null || card.reps != null || card.lapses != null || ease != null) && (
         <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
           {card.interval != null && (
@@ -94,24 +78,18 @@ function Tooltip({ card }: { card: HanziCard }) {
           {card.lapses != null && (
             <>
               <span className="text-zinc-500">Lapses</span>
-              <span className={card.lapses > 0 ? "text-red-400" : "text-zinc-200"}>
-                {card.lapses}
-              </span>
+              <span className={card.lapses > 0 ? "text-red-400" : "text-zinc-200"}>{card.lapses}</span>
             </>
           )}
           {ease != null && (
             <>
               <span className="text-zinc-500">Ease</span>
-              <span
-                className={
-                  ease >= 250 ? "text-emerald-400" : ease >= 200 ? "text-zinc-200" : "text-amber-400"
-                }
-              >
+              <span className={ease >= 250 ? "text-emerald-400" : ease >= 200 ? "text-zinc-200" : "text-amber-400"}>
                 {ease}%
               </span>
             </>
           )}
-          {card.mod && (
+          {card.mod != null && (
             <>
               <span className="text-zinc-500">Last studied</span>
               <span className="text-zinc-200">{relativeTime(card.mod)}</span>
@@ -120,13 +98,7 @@ function Tooltip({ card }: { card: HanziCard }) {
           {due && (
             <>
               <span className="text-zinc-500">Next due</span>
-              <span
-                className={
-                  due === "Overdue" || due === "Due today"
-                    ? "text-amber-400"
-                    : "text-zinc-200"
-                }
-              >
+              <span className={due === "Overdue" || due === "Due today" ? "text-amber-400" : "text-zinc-200"}>
                 {due}
               </span>
             </>
@@ -139,7 +111,13 @@ function Tooltip({ card }: { card: HanziCard }) {
   );
 }
 
-export default function CharacterGrid({ cards }: { cards: HanziCard[] }) {
+export default function CharacterGrid({
+  cards,
+  scoreMap,
+}: {
+  cards: HanziCard[];
+  scoreMap?: Map<number, number>;
+}) {
   const [hovered, setHovered] = useState<HanziCard | null>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -157,7 +135,7 @@ export default function CharacterGrid({ cards }: { cards: HanziCard[] }) {
         {cards.map((card) => (
           <div
             key={card.note_id}
-            className={tileClass(card)}
+            className={tileClass(scoreMap?.get(card.note_id))}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
           >
@@ -173,7 +151,7 @@ export default function CharacterGrid({ cards }: { cards: HanziCard[] }) {
           style={{
             left: pos.x + 18,
             top: pos.y - 12,
-            ...(pos.x > (typeof window !== "undefined" ? window.innerWidth : 0) - 240
+            ...(pos.x > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
               ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - pos.x + 18 : 18 }
               : {}),
           }}

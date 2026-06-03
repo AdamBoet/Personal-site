@@ -4,6 +4,7 @@ import CharacterGrid, { type HanziCard } from "./CharacterGrid";
 import HardCardsRow from "./HardCardsRow";
 
 const YEARLY_GOAL = 1500;
+const CARDS_PER_DAY = 5;
 
 export default function HanziPage() {
   const { learnedCount, updatedAt, year, dayOfYear, daysInYear } = stats;
@@ -17,6 +18,17 @@ export default function HanziPage() {
   const expectedByNow = Math.round(YEARLY_GOAL * yearProgress);
   const delta = learnedCount - expectedByNow;
 
+  const daysLeftInYear = daysInYear - dayOfYear;
+  const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
+  const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
+
+  // Days until goal at actual pace (cards learned ÷ days elapsed)
+  const actualPace = learnedCount / dayOfYear;
+  const daysUntilGoalActual = actualPace > 0 ? Math.ceil(remaining / actualPace) : null;
+  const goalDate = daysUntilGoalActual != null
+    ? new Date(Date.now() + daysUntilGoalActual * 86400000).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })
+    : null;
+
   const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
@@ -25,18 +37,23 @@ export default function HanziPage() {
 
   const cards = hanziCards as HanziCard[];
 
-  // Hardest cards: highest reviews ÷ ease (many reviews, low ease = struggled with most)
-  const hardCards = cards
-    .filter((c) => c.reps && c.reps > 0 && c.factor && c.factor > 0)
-    .map((c) => ({ ...c, score: c.reps! / (c.factor! / 1000) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 12);
+  // Difficulty score: reps ÷ (ease factor) — higher = reviewed many times but still hard
+  const scoredCards = cards
+    .filter((c) => (c.reps ?? 0) > 0 && (c.factor ?? 0) > 0)
+    .map((c) => ({ ...c, raw: c.reps! / (c.factor! / 1000) }))
+    .sort((a, b) => a.raw - b.raw);
 
-  // Legend counts
-  const mature = cards.filter((c) => c.queue === 2 && (c.interval ?? 0) >= 21).length;
-  const young = cards.filter((c) => c.queue === 2 && (c.interval ?? 0) < 21).length;
-  const learning = cards.filter((c) => c.queue === 1).length;
-  const noData = cards.filter((c) => c.queue === undefined).length;
+  const scoreMap = new Map<number, number>();
+  scoredCards.forEach((c, i) => {
+    scoreMap.set(c.note_id, scoredCards.length > 1 ? i / (scoredCards.length - 1) : 0.5);
+  });
+
+  const hardCards = [...scoredCards]
+    .reverse()
+    .slice(0, 10)
+    .map((c) => ({ ...c, score: c.raw }));
+
+  const hasScores = scoreMap.size > 0;
 
   return (
     <div className="max-w-4xl space-y-8">
@@ -46,7 +63,7 @@ export default function HanziPage() {
       </div>
 
       {/* Overview cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Main progress */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5">
           <div className="flex items-end gap-3">
@@ -55,10 +72,7 @@ export default function HanziPage() {
           </div>
           <div className="space-y-1.5">
             <div className="h-2.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-red-500"
-                style={{ width: `${pct}%` }}
-              />
+              <div className="h-full rounded-full bg-red-500" style={{ width: `${pct}%` }} />
             </div>
             <div className="flex justify-between text-xs text-zinc-500">
               <span>{pct}% of yearly goal</span>
@@ -76,18 +90,56 @@ export default function HanziPage() {
               <p className="text-xs text-zinc-500 mt-0.5">expected by today</p>
             </div>
             <div>
-              <p
-                className={`text-2xl font-semibold tabular-nums ${
-                  delta >= 0 ? "text-green-400" : "text-red-400"
-                }`}
-              >
-                {delta >= 0 ? "+" : ""}
-                {delta.toLocaleString()}
+              <p className={`text-2xl font-semibold tabular-nums ${delta >= 0 ? "text-green-400" : "text-red-400"}`}>
+                {delta >= 0 ? "+" : ""}{delta.toLocaleString()}
               </p>
               <p className="text-xs text-zinc-500 mt-0.5">
                 {onTrack ? "ahead of pace" : "behind pace"}
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Skip budget */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Skip budget</h2>
+          <div>
+            <p className={`text-4xl font-bold tabular-nums ${daysCanSkip > 0 ? "text-zinc-100" : "text-red-400"}`}>
+              {daysCanSkip}
+            </p>
+            <p className="text-xs text-zinc-500 mt-1">days you can still skip</p>
+          </div>
+          <p className="text-xs text-zinc-600">
+            {daysNeeded}d needed · {daysLeftInYear}d left in year
+          </p>
+        </div>
+
+        {/* Days until goal */}
+        {goalDate && (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Goal date</h2>
+            <div>
+              <p className="text-2xl font-bold tabular-nums">{goalDate}</p>
+              <p className="text-xs text-zinc-500 mt-1">at current pace</p>
+            </div>
+            <p className="text-xs text-zinc-600">
+              {daysUntilGoalActual}d · {actualPace.toFixed(1)} cards/day avg
+            </p>
+          </div>
+        )}
+
+        {/* Year progress */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Year {year}</h2>
+          <div>
+            <p className="text-4xl font-bold tabular-nums">{dayOfYear}</p>
+            <p className="text-xs text-zinc-500 mt-1">/ {daysInYear} days passed</p>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-zinc-500"
+              style={{ width: `${Math.round((dayOfYear / daysInYear) * 100)}%` }}
+            />
           </div>
         </div>
       </div>
@@ -97,35 +149,35 @@ export default function HanziPage() {
         <div className="space-y-3">
           <div>
             <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
-            <p className="text-xs text-zinc-600 mt-0.5">Most reviews relative to ease score</p>
+            <p className="text-xs text-zinc-600 mt-0.5">Highest reviews ÷ ease — the ones you keep forgetting</p>
           </div>
-          <HardCardsRow cards={hardCards} />
+          <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
         </div>
       )}
 
       {/* Character grid */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-sm font-semibold text-zinc-400">All {learnedCount} characters</h2>
-          {noData === 0 && (
+          {hasScores && (
             <div className="flex items-center gap-4 text-xs text-zinc-500">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-emerald-900 border border-emerald-500/60 inline-block" />
-                Mature ({mature})
+                <span className="w-2.5 h-2.5 rounded-sm bg-emerald-950 border border-emerald-700/50 inline-block" />
+                Easy
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-amber-900 border border-amber-600/50 inline-block" />
-                Young ({young})
+                <span className="w-2.5 h-2.5 rounded-sm bg-amber-950 border border-amber-700/50 inline-block" />
+                Harder
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-blue-950 border border-blue-700/50 inline-block" />
-                Learning ({learning})
+                <span className="w-2.5 h-2.5 rounded-sm bg-red-950 border border-red-700/60 inline-block" />
+                Hardest
               </span>
             </div>
           )}
         </div>
 
-        <CharacterGrid cards={cards} />
+        <CharacterGrid cards={cards} scoreMap={hasScores ? scoreMap : undefined} />
       </div>
 
       <p className="text-xs text-zinc-600">Updated {updatedStr}</p>
