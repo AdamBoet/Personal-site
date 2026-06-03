@@ -67,6 +67,17 @@ export default function HanziPage() {
     .slice(0, 15)
     .map((c) => ({ ...c, score: c.raw }));
 
+  const now = Date.now();
+  const comingDueCards = [...scoredCards]
+    .reverse()
+    .filter((c) => {
+      if (!c.mod || !c.interval) return false;
+      const diffDays = Math.ceil(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
+      return diffDays >= 0 && diffDays <= 3;
+    })
+    .slice(0, 15)
+    .map((c) => ({ ...c, score: c.raw }));
+
   const hasScores = scoreMap.size > 0;
 
   return (
@@ -124,6 +135,14 @@ export default function HanziPage() {
         <div className="space-y-3">
           <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Hardest to remember</h2>
           <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
+        </div>
+      )}
+
+      {/* Coming due hard cards */}
+      {comingDueCards.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Be wary of these in the coming days</h2>
+          <HardCardsRow cards={comingDueCards} scoreMap={scoreMap} />
         </div>
       )}
 
