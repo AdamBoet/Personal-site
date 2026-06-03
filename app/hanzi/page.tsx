@@ -87,48 +87,55 @@ export default function HanziPage() {
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year} · Updated {updatedStr}</p>
       </div>
 
-      {/* Row 1: Combined progress · Skip budget */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* Combined progress + skip budget */}
+      <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
 
-        {/* Words learned + Yearly pace combined */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 space-y-4 text-center">
-          <div className="flex items-end justify-center gap-1">
-            <span className="text-4xl sm:text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-            <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
-          </div>
-          <div className="space-y-1.5">
-            <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
-              <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
-              <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+          {/* Progress */}
+          <div className="flex-1 space-y-4 text-center">
+            <div className="flex items-end justify-center gap-1">
+              <span className="text-4xl sm:text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
+              <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
             </div>
-            <div className="flex items-center justify-center gap-3 text-xs">
-              <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
-              <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+            <div className="space-y-1.5">
+              <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+                <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+                <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+              </div>
+              <div className="flex items-center justify-center gap-3 text-xs">
+                <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
+                <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Skip budget */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-start justify-center gap-2 text-sm">
-          <p>
-            <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
-            {" skipped"}
-          </p>
-          <p className="text-zinc-500 dark:text-zinc-400">
-            {"skip no more than "}
-            <span className={`font-bold ${daysCanSkip <= 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}`}>{daysCanSkip} days</span>
-          </p>
-          <p className="text-zinc-500 dark:text-zinc-400">
-            {daysToCatchup > 0 ? (
-              <>
-                {"stay consistent for "}
-                <span className="font-bold text-amber-500">{daysToCatchup} days</span>
-                {" to catch up"}
-              </>
-            ) : (
-              <>you&apos;re on pace</>
-            )}
-          </p>
+          {/* Divider */}
+          <div className="hidden sm:block w-px self-stretch bg-zinc-100 dark:bg-zinc-800" />
+          <div className="block sm:hidden h-px w-full bg-zinc-100 dark:bg-zinc-800" />
+
+          {/* Skip budget */}
+          <div className="flex flex-col items-start justify-center gap-2 text-sm sm:min-w-52">
+            <p>
+              <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
+              {" skipped"}
+            </p>
+            <p className="text-zinc-500 dark:text-zinc-400">
+              {"skip no more than "}
+              <span className={`font-bold ${daysCanSkip <= 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}`}>{daysCanSkip} days</span>
+            </p>
+            <p className="text-zinc-500 dark:text-zinc-400">
+              {daysToCatchup > 0 ? (
+                <>
+                  {"stay consistent for "}
+                  <span className="font-bold text-amber-500">{daysToCatchup} days</span>
+                  {" to catch up"}
+                </>
+              ) : (
+                <>you&apos;re on pace</>
+              )}
+            </p>
+          </div>
+
         </div>
 
       </div>
