@@ -144,7 +144,12 @@ export default function HanziPage() {
       {hardCards.length > 0 && (
         <div className="space-y-3">
           <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Hardest to remember</h2>
-          <HardCardsRow cards={hardCards} scoreMap={scoreMap} mobileScroll />
+          <div className="sm:hidden">
+            <HardCardsRow cards={hardCards.slice(0, 5)} scoreMap={scoreMap} columns={5} />
+          </div>
+          <div className="hidden sm:block">
+            <HardCardsRow cards={hardCards} scoreMap={scoreMap} columns={15} />
+          </div>
         </div>
       )}
 
