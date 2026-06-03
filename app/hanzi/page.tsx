@@ -22,6 +22,7 @@ export default function HanziPage() {
   const daysLeftInYear = daysInYear - dayOfYear;
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
   const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
+  const totalSkipBudget = daysInYear - Math.ceil(YEARLY_GOAL / CARDS_PER_DAY);
 
 
   const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
@@ -106,18 +107,22 @@ export default function HanziPage() {
         {/* Skip budget */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3 text-center">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Skip budget</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-2">
+            <div>
+              <p className="text-2xl font-semibold tabular-nums text-zinc-100">{totalSkipBudget}</p>
+              <p className="text-xs text-zinc-500 mt-0.5">total</p>
+            </div>
             <div>
               <p className={`text-2xl font-semibold tabular-nums ${cardDelta < 0 ? "text-red-400" : "text-zinc-100"}`}>
                 {daysDelta}
               </p>
-              <p className="text-xs text-zinc-500 mt-0.5">days skipped</p>
+              <p className="text-xs text-zinc-500 mt-0.5">skipped</p>
             </div>
             <div>
               <p className={`text-2xl font-semibold tabular-nums ${daysCanSkip > 0 ? "text-zinc-100" : "text-red-400"}`}>
                 {daysCanSkip}
               </p>
-              <p className="text-xs text-zinc-500 mt-0.5">can still skip</p>
+              <p className="text-xs text-zinc-500 mt-0.5">remaining</p>
             </div>
           </div>
         </div>
