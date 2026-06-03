@@ -165,7 +165,7 @@ export default function CharacterGrid({
     <div ref={containerRef} onMouseMove={handleMouseMove} onClick={() => setPinned(null)}>
       <div
         className="grid gap-1.5"
-        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(48px, 1fr))" }}
+        style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
       >
         {cards.map((card) => (
           <div
