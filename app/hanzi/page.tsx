@@ -83,7 +83,7 @@ export default function HanziPage() {
   return (
     <div className="max-w-4xl space-y-8">
       <div>
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Anki 汉字 Character Progress</h1>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Anki 汉字 Progress</h1>
         <p className="mt-1 text-sm text-zinc-500">{year} · Updated {updatedStr}</p>
       </div>
 
@@ -144,7 +144,7 @@ export default function HanziPage() {
       {hardCards.length > 0 && (
         <div className="space-y-3">
           <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Hardest to remember</h2>
-          <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
+          <HardCardsRow cards={hardCards} scoreMap={scoreMap} mobileScroll />
         </div>
       )}
 

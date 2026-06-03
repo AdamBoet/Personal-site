@@ -10,10 +10,12 @@ export default function HardCardsRow({
   cards,
   scoreMap,
   columns = 15,
+  mobileScroll = false,
 }: {
   cards: ScoredCard[];
   scoreMap: Map<number, number>;
   columns?: number;
+  mobileScroll?: boolean;
 }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -51,9 +53,10 @@ export default function HardCardsRow({
 
   return (
     <div onMouseMove={handleMouseMove} onMouseLeave={scheduleHide} onClick={() => setPinned(null)}>
+      <div className={mobileScroll ? "overflow-x-auto sm:overflow-x-visible" : ""}>
       <div
-        className="grid gap-0.5 sm:gap-1.5"
-        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
+        className={`grid gap-0.5 sm:gap-1.5 ${mobileScroll ? "[grid-template-columns:repeat(15,2.5rem)] sm:[grid-template-columns:repeat(15,minmax(0,1fr))]" : ""}`}
+        style={mobileScroll ? undefined : { gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {cards.map((card) => (
           <div
@@ -68,6 +71,7 @@ export default function HardCardsRow({
             <span className="text-[9px] sm:text-[10px] text-zinc-500 mt-0.5 sm:mt-1 tabular-nums">{card.rank}</span>
           </div>
         ))}
+      </div>
       </div>
 
       {activeCard && (
