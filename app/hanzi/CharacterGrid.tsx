@@ -1,0 +1,186 @@
+"use client";
+
+import { useState, useCallback, useRef } from "react";
+
+export interface HanziCard {
+  character: string;
+  rank: number;
+  pronunciation: string;
+  front: string;
+  note_id: number;
+  card_id?: number;
+  interval?: number;
+  reps?: number;
+  lapses?: number;
+  factor?: number;
+  queue?: number;
+  due?: number;
+  type?: number;
+  mod?: number | null;
+}
+
+function tileClass(card: HanziCard): string {
+  const base =
+    "flex flex-col items-center justify-center rounded-lg border cursor-default py-2.5 px-1 transition-transform hover:scale-125 hover:z-10";
+  if (card.queue === undefined) return `${base} bg-zinc-800/70 border-zinc-700/40`;
+  if (card.queue === 0) return `${base} bg-zinc-800/50 border-zinc-700/30`;
+  if (card.queue === 1) return `${base} bg-blue-950/80 border-blue-700/50`;
+  const iv = card.interval ?? 0;
+  if (iv < 7)  return `${base} bg-amber-950/80 border-amber-700/50`;
+  if (iv < 21) return `${base} bg-amber-900/60 border-amber-600/50`;
+  if (iv < 90) return `${base} bg-emerald-950/80 border-emerald-700/50`;
+  return `${base} bg-emerald-900/70 border-emerald-500/60`;
+}
+
+function statusLabel(card: HanziCard): { label: string; color: string } {
+  if (card.queue === undefined) return { label: "No data", color: "text-zinc-500" };
+  if (card.queue === 0) return { label: "New", color: "text-zinc-400" };
+  if (card.queue === 1) return { label: "Learning", color: "text-blue-400" };
+  const iv = card.interval ?? 0;
+  if (iv < 21) return { label: "Young", color: "text-amber-400" };
+  return { label: "Mature", color: "text-emerald-400" };
+}
+
+function relativeTime(unixSeconds: number): string {
+  const diffS = Date.now() / 1000 - unixSeconds;
+  if (diffS < 3600) return "< 1 hr ago";
+  if (diffS < 86400) return `${Math.floor(diffS / 3600)}h ago`;
+  const d = Math.floor(diffS / 86400);
+  return d === 1 ? "yesterday" : `${d} days ago`;
+}
+
+function dueSoon(card: HanziCard): string | null {
+  if (!card.mod || !card.interval) return null;
+  const dueMs = (card.mod + card.interval * 86400) * 1000;
+  const diffDays = Math.ceil((dueMs - Date.now()) / 86400000);
+  if (diffDays < 0) return "Overdue";
+  if (diffDays === 0) return "Due today";
+  return `Due in ${diffDays}d`;
+}
+
+function Tooltip({ card }: { card: HanziCard }) {
+  const { label, color } = statusLabel(card);
+  const ease = card.factor != null ? Math.round(card.factor / 10) : null;
+  const due = dueSoon(card);
+
+  return (
+    <div className="w-56 rounded-xl border border-zinc-700 bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm pointer-events-none">
+      {/* Character header */}
+      <div className="flex items-start gap-3">
+        <span className="text-4xl leading-none">{card.character}</span>
+        <div className="min-w-0">
+          <p className="text-xs text-zinc-400 leading-snug">{card.pronunciation}</p>
+          <p className="text-xs text-zinc-300 leading-snug mt-0.5 line-clamp-2">{card.front}</p>
+        </div>
+      </div>
+
+      <div className={`text-xs font-semibold ${color}`}>{label}</div>
+
+      {/* Stats grid */}
+      {(card.interval != null || card.reps != null || card.lapses != null || ease != null) && (
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs">
+          {card.interval != null && (
+            <>
+              <span className="text-zinc-500">Interval</span>
+              <span className="text-zinc-200">{card.interval} days</span>
+            </>
+          )}
+          {card.reps != null && (
+            <>
+              <span className="text-zinc-500">Reviews</span>
+              <span className="text-zinc-200">{card.reps}×</span>
+            </>
+          )}
+          {card.lapses != null && (
+            <>
+              <span className="text-zinc-500">Lapses</span>
+              <span className={card.lapses > 0 ? "text-red-400" : "text-zinc-200"}>
+                {card.lapses}
+              </span>
+            </>
+          )}
+          {ease != null && (
+            <>
+              <span className="text-zinc-500">Ease</span>
+              <span
+                className={
+                  ease >= 250 ? "text-emerald-400" : ease >= 200 ? "text-zinc-200" : "text-amber-400"
+                }
+              >
+                {ease}%
+              </span>
+            </>
+          )}
+          {card.mod && (
+            <>
+              <span className="text-zinc-500">Last studied</span>
+              <span className="text-zinc-200">{relativeTime(card.mod)}</span>
+            </>
+          )}
+          {due && (
+            <>
+              <span className="text-zinc-500">Next due</span>
+              <span
+                className={
+                  due === "Overdue" || due === "Due today"
+                    ? "text-amber-400"
+                    : "text-zinc-200"
+                }
+              >
+                {due}
+              </span>
+            </>
+          )}
+        </div>
+      )}
+
+      <p className="text-[10px] text-zinc-600">#{card.rank} by frequency</p>
+    </div>
+  );
+}
+
+export default function CharacterGrid({ cards }: { cards: HanziCard[] }) {
+  const [hovered, setHovered] = useState<HanziCard | null>(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    setPos({ x: e.clientX, y: e.clientY });
+  }, []);
+
+  return (
+    <div ref={containerRef} onMouseMove={handleMouseMove}>
+      <div
+        className="grid gap-1.5"
+        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(52px, 1fr))" }}
+      >
+        {cards.map((card) => (
+          <div
+            key={card.note_id}
+            className={tileClass(card)}
+            onMouseEnter={() => setHovered(card)}
+            onMouseLeave={() => setHovered(null)}
+          >
+            <span className="text-xl leading-none select-none">{card.character}</span>
+            <span className="text-[10px] text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
+          </div>
+        ))}
+      </div>
+
+      {hovered && (
+        <div
+          className="fixed z-50"
+          style={{
+            left: pos.x + 18,
+            top: pos.y - 12,
+            ...(pos.x > (typeof window !== "undefined" ? window.innerWidth : 0) - 240
+              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - pos.x + 18 : 18 }
+              : {}),
+          }}
+        >
+          <Tooltip card={hovered} />
+        </div>
+      )}
+    </div>
+  );
+}
