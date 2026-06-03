@@ -134,10 +134,7 @@ export default function HanziPage() {
       {/* Hardest cards */}
       {hardCards.length > 0 && (
         <div className="space-y-3">
-          <div>
-            <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
-            <p className="text-xs text-zinc-600 mt-0.5">High lapse rate + short interval — the ones you keep forgetting</p>
-          </div>
+          <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
           <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
         </div>
       )}

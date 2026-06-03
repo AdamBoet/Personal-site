@@ -33,12 +33,14 @@ export default function HardCardsRow({
 
   return (
     <div onMouseMove={handleMouseMove} onClick={() => setPinned(null)}>
-      <div className="flex gap-1.5 flex-wrap">
+      <div
+        className="grid gap-1.5"
+        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(48px, 1fr))" }}
+      >
         {cards.map((card) => (
           <div
             key={card.note_id}
             className={tileClass(scoreMap.get(card.note_id))}
-            style={{ width: 48 }}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
             onClick={(e) => handleTileClick(e, card)}
