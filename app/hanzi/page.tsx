@@ -72,34 +72,22 @@ export default function HanziPage() {
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
       </div>
 
-      {/* Row 1: Words learned · Yearly pace · Skip budget */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Row 1: Combined progress · Skip budget */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-        {/* Words learned */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 space-y-5 text-center">
+        {/* Words learned + Yearly pace combined */}
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 space-y-4 text-center">
           <div className="flex items-end justify-center gap-1">
             <span className="text-4xl sm:text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
             <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
-          <div className="space-y-1.5">
-            <div className="h-2.5 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden">
-              <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
-            </div>
-            <p className="text-xs text-zinc-500">{remaining.toLocaleString()} to go</p>
-          </div>
-        </div>
-
-        {/* Yearly pace: goal% vs year% */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 space-y-3 text-center">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Yearly pace</h2>
-          {/* Stacked bar */}
           <div className="space-y-1.5">
             <div className="h-2 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
               <div className="absolute inset-y-0 left-0 bg-red-500/60 rounded-full" style={{ width: `${yearPct}%` }} />
               <div className="absolute inset-y-0 left-0 bg-green-500 rounded-full" style={{ width: `${goalPct}%` }} />
             </div>
             <div className="flex items-center justify-center gap-3 text-xs">
-              <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}% goal</span>
+              <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
               <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
             </div>
           </div>
@@ -145,15 +133,15 @@ export default function HanziPage() {
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(120 50% 13%)", borderWidth: 1, borderColor: "hsl(120 65% 38%)" }} />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(120 60% 20%)", borderWidth: 1, borderColor: "hsl(120 65% 42%)" }} />
                 Easy
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(60 50% 13%)", borderWidth: 1, borderColor: "hsl(60 65% 38%)" }} />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(60 60% 20%)", borderWidth: 1, borderColor: "hsl(60 65% 42%)" }} />
                 Harder
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(0 50% 13%)", borderWidth: 1, borderColor: "hsl(0 65% 38%)" }} />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(0 60% 20%)", borderWidth: 1, borderColor: "hsl(0 65% 42%)" }} />
                 Hardest
               </span>
               <FormulaInfo />
