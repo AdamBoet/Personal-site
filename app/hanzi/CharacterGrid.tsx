@@ -31,8 +31,8 @@ export function tileStyle(percentile?: number): Record<string, string> {
   }
   const hue = Math.round(120 * (1 - percentile));
   return {
-    backgroundColor: `hsl(${hue} 60% 14%)`,
-    borderColor: `hsl(${hue} 55% 30%)`,
+    backgroundColor: `hsl(${hue} 35% 12%)`,
+    borderColor: `hsl(${hue} 30% 22%)`,
   };
 }
 
