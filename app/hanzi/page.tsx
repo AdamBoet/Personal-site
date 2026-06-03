@@ -69,7 +69,7 @@ export default function HanziPage() {
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
       </div>
 
-      {/* Row 1: Words learned · Year · Yearly pace */}
+      {/* Row 1: Words learned · Yearly pace · Skip budget */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
         {/* Words learned */}
@@ -80,26 +80,11 @@ export default function HanziPage() {
           </div>
           <div className="space-y-1.5">
             <div className="h-2.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-              <div className="h-full rounded-full bg-red-500" style={{ width: `${goalPct}%` }} />
+              <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
             </div>
-            <div className="flex justify-between text-xs text-zinc-500">
-              <span>{goalPct}% of yearly goal</span>
+            <div className="flex justify-end text-xs text-zinc-500">
               <span>{remaining.toLocaleString()} to go</span>
             </div>
-          </div>
-        </div>
-
-        {/* Year */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Year {year}</h2>
-          <div>
-            <p className="text-2xl font-semibold tabular-nums">
-              {dayOfYear} <span className="text-zinc-500 text-base font-normal">/ {daysInYear}</span>
-            </p>
-            <p className="text-xs text-zinc-500 mt-1">{yearPct}% of year passed</p>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-            <div className="h-full rounded-full bg-zinc-500" style={{ width: `${yearPct}%` }} />
           </div>
         </div>
 
@@ -121,38 +106,22 @@ export default function HanziPage() {
           </p>
         </div>
 
-      </div>
-
-      {/* Row 2: Pace · Skip budget */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-        {/* Pace — card count */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Pace</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-2xl font-semibold tabular-nums">{expectedByNow.toLocaleString()}</p>
-              <p className="text-xs text-zinc-500 mt-0.5">expected by today</p>
-            </div>
-            <div>
-              <p className={`text-2xl font-semibold tabular-nums ${cardDelta >= 0 ? "text-green-400" : "text-red-400"}`}>
-                {daysDelta}
-              </p>
-              <p className="text-xs text-zinc-500 mt-0.5">
-                {cardDelta >= 0 ? "days ahead" : "days skipped"}
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Skip budget */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
           <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Skip budget</h2>
-          <div>
-            <p className={`text-4xl font-bold tabular-nums ${daysCanSkip > 0 ? "text-zinc-100" : "text-red-400"}`}>
-              {daysCanSkip}
-            </p>
-            <p className="text-xs text-zinc-500 mt-1">days you can still skip</p>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className={`text-2xl font-semibold tabular-nums ${cardDelta < 0 ? "text-red-400" : "text-zinc-100"}`}>
+                {daysDelta}
+              </p>
+              <p className="text-xs text-zinc-500 mt-0.5">days skipped</p>
+            </div>
+            <div>
+              <p className={`text-2xl font-semibold tabular-nums ${daysCanSkip > 0 ? "text-zinc-100" : "text-red-400"}`}>
+                {daysCanSkip}
+              </p>
+              <p className="text-xs text-zinc-500 mt-0.5">can still skip</p>
+            </div>
           </div>
           <p className="text-xs text-zinc-600">
             {daysNeeded}d needed · {daysLeftInYear}d left in year
