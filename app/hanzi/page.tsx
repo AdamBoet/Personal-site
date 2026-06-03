@@ -16,6 +16,7 @@ export default function HanziPage() {
 
   const expectedByNow = dayOfYear * CARDS_PER_DAY;
   const cardDelta = learnedCount - expectedByNow;
+  const daysDelta = Math.round(Math.abs(cardDelta) / CARDS_PER_DAY);
 
   const daysLeftInYear = daysInYear - dayOfYear;
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
@@ -135,10 +136,10 @@ export default function HanziPage() {
             </div>
             <div>
               <p className={`text-2xl font-semibold tabular-nums ${cardDelta >= 0 ? "text-green-400" : "text-red-400"}`}>
-                {cardDelta >= 0 ? "+" : ""}{cardDelta.toLocaleString()}
+                {daysDelta}
               </p>
               <p className="text-xs text-zinc-500 mt-0.5">
-                {cardDelta >= 0 ? "ahead of pace" : "behind pace"}
+                {cardDelta >= 0 ? "days ahead" : "days skipped"}
               </p>
             </div>
           </div>
