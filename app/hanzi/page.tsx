@@ -67,7 +67,7 @@ export default function HanziPage() {
 
   return (
     <div className="max-w-4xl space-y-8">
-      <div className="text-center">
+      <div>
         <h1 className="text-2xl font-bold tracking-tight">汉字 Hanzi</h1>
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
       </div>
@@ -131,7 +131,7 @@ export default function HanziPage() {
 
       {/* Hardest cards */}
       {hardCards.length > 0 && (
-        <div className="space-y-3 text-center">
+        <div className="space-y-3">
           <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
           <HardCardsRow cards={hardCards} scoreMap={scoreMap} />
         </div>
