@@ -12,7 +12,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-52 shrink-0 border-r border-zinc-800 min-h-screen p-4 flex flex-col gap-1">
+    <aside className="hidden md:flex w-52 shrink-0 border-r border-zinc-800 min-h-screen p-4 flex-col gap-1">
       <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest px-3 mb-3">
         Adam
       </p>

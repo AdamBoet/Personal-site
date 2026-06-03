@@ -13,22 +13,35 @@ export default function HardCardsRow({
   scoreMap: Map<number, number>;
 }) {
   const [hovered, setHovered] = useState<ScoredCard | null>(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [pinned, setPinned] = useState<ScoredCard | null>(null);
+  const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
+  const [pinnedPos, setPinnedPos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setPos({ x: e.clientX, y: e.clientY });
+    setHoverPos({ x: e.clientX, y: e.clientY });
   }, []);
 
+  const handleTileClick = useCallback((e: React.MouseEvent<HTMLDivElement>, card: ScoredCard) => {
+    e.stopPropagation();
+    if (pinned?.note_id === card.note_id) { setPinned(null); return; }
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPinnedPos({ x: rect.left + rect.width / 2, y: rect.top });
+    setPinned(card);
+  }, [pinned]);
+
+  const showPinnedOverlay = !hovered && !!pinned;
+
   return (
-    <div onMouseMove={handleMouseMove}>
+    <div onMouseMove={handleMouseMove} onClick={() => setPinned(null)}>
       <div className="flex gap-1.5 flex-wrap">
         {cards.map((card) => (
           <div
             key={card.note_id}
             className={tileClass(scoreMap.get(card.note_id))}
-            style={{ width: 52 }}
+            style={{ width: 48 }}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
+            onClick={(e) => handleTileClick(e, card)}
           >
             <span className="text-xl leading-none select-none">{card.character}</span>
             <span className="text-[10px] text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
@@ -38,17 +51,33 @@ export default function HardCardsRow({
 
       {hovered && (
         <div
-          className="fixed z-50"
+          className="fixed z-50 pointer-events-none"
           style={{
-            left: pos.x + 18,
-            top: pos.y - 12,
-            ...(pos.x > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
-              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - pos.x + 18 : 18 }
+            left: hoverPos.x + 18,
+            top: hoverPos.y - 12,
+            ...(hoverPos.x > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
+              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - hoverPos.x + 18 : 18 }
               : {}),
           }}
         >
           <Tooltip card={hovered} />
         </div>
+      )}
+
+      {showPinnedOverlay && pinned && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setPinned(null)} />
+          <div
+            className="fixed z-50"
+            style={{
+              left: pinnedPos.x,
+              top: pinnedPos.y,
+              transform: "translate(-50%, calc(-100% - 8px))",
+            }}
+          >
+            <Tooltip card={pinned} />
+          </div>
+        </>
       )}
     </div>
   );

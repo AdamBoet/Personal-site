@@ -1,0 +1,33 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const nav = [
+  { href: "/", label: "Overview", icon: "⊞" },
+  { href: "/hanzi", label: "汉字 Hanzi", icon: "字" },
+];
+
+export default function BottomNav() {
+  const pathname = usePathname();
+
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 md:hidden z-30 border-t border-zinc-800 bg-zinc-950/95 backdrop-blur-sm flex">
+      {nav.map(({ href, label, icon }) => {
+        const active = pathname === href;
+        return (
+          <Link
+            key={href}
+            href={href}
+            className={`flex-1 flex flex-col items-center justify-center gap-1 py-3 text-xs transition-colors ${
+              active ? "text-zinc-100" : "text-zinc-500"
+            }`}
+          >
+            <span className="text-xl leading-none">{icon}</span>
+            <span>{label}</span>
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}

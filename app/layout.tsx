@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
+import BottomNav from "./components/BottomNav";
 
 export const metadata: Metadata = {
   title: "Adam's Dashboard",
@@ -16,7 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-zinc-950 text-zinc-100 min-h-screen antialiased flex">
         <Sidebar />
-        <main className="flex-1 p-10">{children}</main>
+        <main className="flex-1 p-4 sm:p-8 pb-24 md:pb-8">{children}</main>
+        <BottomNav />
       </body>
     </html>
   );

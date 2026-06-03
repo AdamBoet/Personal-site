@@ -68,13 +68,13 @@ export default function HanziPage() {
         <p className="mt-1 text-sm text-zinc-500">Character progress · {year}</p>
       </div>
 
-      {/* Overview cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Row 1: Words learned · Year · Yearly pace */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
-        {/* Main progress */}
+        {/* Words learned */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5">
           <div className="flex items-end gap-3">
-            <span className="text-6xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
+            <span className="text-5xl sm:text-6xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
             <span className="pb-2 text-zinc-400 text-sm">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
           <div className="space-y-1.5">
@@ -87,6 +87,43 @@ export default function HanziPage() {
             </div>
           </div>
         </div>
+
+        {/* Year */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Year {year}</h2>
+          <div>
+            <p className="text-2xl font-semibold tabular-nums">
+              {dayOfYear} <span className="text-zinc-500 text-base font-normal">/ {daysInYear}</span>
+            </p>
+            <p className="text-xs text-zinc-500 mt-1">{yearPct}% of year passed</p>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
+            <div className="h-full rounded-full bg-zinc-500" style={{ width: `${yearPct}%` }} />
+          </div>
+        </div>
+
+        {/* Yearly pace: goal% vs year% */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
+          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Yearly pace</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-2xl font-semibold tabular-nums">{goalPct}%</p>
+              <p className="text-xs text-zinc-500 mt-0.5">goal reached</p>
+            </div>
+            <div>
+              <p className="text-2xl font-semibold tabular-nums">{yearPct}%</p>
+              <p className="text-xs text-zinc-500 mt-0.5">year passed</p>
+            </div>
+          </div>
+          <p className={`text-xs font-semibold ${paceDelta >= 0 ? "text-green-400" : "text-red-400"}`}>
+            {paceDelta >= 0 ? "+" : ""}{paceDelta}% vs year passed
+          </p>
+        </div>
+
+      </div>
+
+      {/* Row 2: Pace · Skip budget */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
         {/* Pace — card count */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
@@ -118,38 +155,6 @@ export default function HanziPage() {
           </div>
           <p className="text-xs text-zinc-600">
             {daysNeeded}d needed · {daysLeftInYear}d left in year
-          </p>
-        </div>
-
-        {/* Year progress */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Year {year}</h2>
-          <div>
-            <p className="text-2xl font-semibold tabular-nums">
-              {dayOfYear} <span className="text-zinc-500 text-base font-normal">/ {daysInYear}</span>
-            </p>
-            <p className="text-xs text-zinc-500 mt-1">{yearPct}% of year passed</p>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-zinc-800 overflow-hidden">
-            <div className="h-full rounded-full bg-zinc-500" style={{ width: `${yearPct}%` }} />
-          </div>
-        </div>
-
-        {/* Goal % vs year % */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 space-y-3">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">Yearly pace</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-2xl font-semibold tabular-nums">{goalPct}%</p>
-              <p className="text-xs text-zinc-500 mt-0.5">goal reached</p>
-            </div>
-            <div>
-              <p className="text-2xl font-semibold tabular-nums">{yearPct}%</p>
-              <p className="text-xs text-zinc-500 mt-0.5">year elapsed</p>
-            </div>
-          </div>
-          <p className={`text-xs font-semibold ${paceDelta >= 0 ? "text-green-400" : "text-red-400"}`}>
-            {paceDelta >= 0 ? "+" : ""}{paceDelta}% vs year elapsed
           </p>
         </div>
 

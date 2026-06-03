@@ -119,18 +119,34 @@ export default function CharacterGrid({
   scoreMap?: Map<number, number>;
 }) {
   const [hovered, setHovered] = useState<HanziCard | null>(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const [pinned, setPinned] = useState<HanziCard | null>(null);
+  const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
+  const [pinnedPos, setPinnedPos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setPos({ x: e.clientX, y: e.clientY });
+    setHoverPos({ x: e.clientX, y: e.clientY });
   }, []);
 
+  const handleTileClick = useCallback((e: React.MouseEvent<HTMLDivElement>, card: HanziCard) => {
+    e.stopPropagation();
+    if (pinned?.note_id === card.note_id) {
+      setPinned(null);
+      return;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPinnedPos({ x: rect.left + rect.width / 2, y: rect.top });
+    setPinned(card);
+  }, [pinned]);
+
+  const activeCard = hovered ?? pinned;
+  const showPinnedOverlay = !hovered && !!pinned;
+
   return (
-    <div ref={containerRef} onMouseMove={handleMouseMove}>
+    <div ref={containerRef} onMouseMove={handleMouseMove} onClick={() => setPinned(null)}>
       <div
         className="grid gap-1.5"
-        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(52px, 1fr))" }}
+        style={{ gridTemplateColumns: "repeat(auto-fill, minmax(48px, 1fr))" }}
       >
         {cards.map((card) => (
           <div
@@ -138,6 +154,7 @@ export default function CharacterGrid({
             className={tileClass(scoreMap?.get(card.note_id))}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
+            onClick={(e) => handleTileClick(e, card)}
           >
             <span className="text-xl leading-none select-none">{card.character}</span>
             <span className="text-[10px] text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
@@ -145,19 +162,37 @@ export default function CharacterGrid({
         ))}
       </div>
 
+      {/* Hover tooltip (desktop) */}
       {hovered && (
         <div
-          className="fixed z-50"
+          className="fixed z-50 pointer-events-none"
           style={{
-            left: pos.x + 18,
-            top: pos.y - 12,
-            ...(pos.x > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
-              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - pos.x + 18 : 18 }
+            left: hoverPos.x + 18,
+            top: hoverPos.y - 12,
+            ...(hoverPos.x > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
+              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - hoverPos.x + 18 : 18 }
               : {}),
           }}
         >
           <Tooltip card={hovered} />
         </div>
+      )}
+
+      {/* Tap tooltip (mobile) */}
+      {showPinnedOverlay && pinned && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setPinned(null)} />
+          <div
+            className="fixed z-50"
+            style={{
+              left: pinnedPos.x,
+              top: pinnedPos.y,
+              transform: "translate(-50%, calc(-100% - 8px))",
+            }}
+          >
+            <Tooltip card={pinned} />
+          </div>
+        </>
       )}
     </div>
   );
