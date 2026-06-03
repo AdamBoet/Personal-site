@@ -38,6 +38,25 @@ export function tileStyle(percentile?: number, isDark = true): Record<string, st
     : { backgroundColor: `hsl(${hue} 65% 78%)`, borderColor: `hsl(${hue} 55% 48%)` };
 }
 
+export function LegendSwatches() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme !== "light";
+  const items: [string, number][] = [["Easy", 0], ["Harder", 0.5], ["Hardest", 1]];
+  return (
+    <>
+      {items.map(([label, p]) => (
+        <span key={label} className="flex items-center gap-1.5">
+          <span
+            className="w-2.5 h-2.5 rounded-sm inline-block"
+            style={{ ...tileStyle(p, isDark), borderWidth: 1 }}
+          />
+          {label}
+        </span>
+      ))}
+    </>
+  );
+}
+
 function relativeTime(unixSeconds: number): string {
   const diffS = Date.now() / 1000 - unixSeconds;
   if (diffS < 3600) return "< 1 hr ago";

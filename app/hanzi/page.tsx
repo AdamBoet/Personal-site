@@ -1,6 +1,6 @@
 import stats from "@/data/anki-stats.json";
 import hanziCards from "@/data/hanzi-cards.json";
-import CharacterGrid, { type HanziCard } from "./CharacterGrid";
+import CharacterGrid, { LegendSwatches, type HanziCard } from "./CharacterGrid";
 import HardCardsRow from "./HardCardsRow";
 import FormulaInfo from "./FormulaInfo";
 
@@ -132,18 +132,7 @@ export default function HanziPage() {
           <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">All {learnedCount} characters</h2>
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(120 60% 20%)", borderWidth: 1, borderColor: "hsl(120 65% 42%)" }} />
-                Easy
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(60 60% 20%)", borderWidth: 1, borderColor: "hsl(60 65% 42%)" }} />
-                Harder
-              </span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(0 60% 20%)", borderWidth: 1, borderColor: "hsl(0 65% 42%)" }} />
-                Hardest
-              </span>
+              <LegendSwatches />
               <FormulaInfo />
             </div>
           )}
