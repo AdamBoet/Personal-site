@@ -142,7 +142,15 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
         </div>
       )}
 
-      <p className="text-[10px] text-zinc-600">#{card.rank} by frequency</p>
+      <a
+        href={`https://hanzicraft.com/character/${encodeURIComponent(card.character)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="pointer-events-auto block text-center text-[10px] text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors border-t border-zinc-100 dark:border-zinc-800 pt-2 mt-1"
+        onClick={(e) => e.stopPropagation()}
+      >
+        View on HanziCraft →
+      </a>
     </div>
   );
 }
@@ -160,28 +168,28 @@ export default function CharacterGrid({
   const [pinned, setPinned] = useState<HanziCard | null>(null);
   const [hoverPos, setHoverPos] = useState({ x: 0, y: 0 });
   const [pinnedPos, setPinnedPos] = useState({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setHoverPos({ x: e.clientX, y: e.clientY });
-  }, []);
+    if (!pinned) setHoverPos({ x: e.clientX, y: e.clientY });
+  }, [pinned]);
 
   const handleTileClick = useCallback((e: React.MouseEvent<HTMLDivElement>, card: HanziCard) => {
     e.stopPropagation();
-    if (pinned?.note_id === card.note_id) {
-      setPinned(null);
-      return;
-    }
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPinnedPos({ x: rect.left + rect.width / 2, y: rect.top });
+    if (pinned?.note_id === card.note_id) { setPinned(null); return; }
+    setPinnedPos({ x: e.clientX, y: e.clientY });
     setPinned(card);
   }, [pinned]);
 
-  const activeCard = hovered ?? pinned;
-  const showPinnedOverlay = !hovered && !!pinned;
+  const activeCard = pinned ?? hovered;
+  const tooltipX = pinned ? pinnedPos.x : hoverPos.x;
+  const tooltipY = pinned ? pinnedPos.y : hoverPos.y;
 
   return (
-    <div ref={containerRef} onMouseMove={handleMouseMove} onClick={() => setPinned(null)}>
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { setHovered(null); setPinned(null); }}
+      onClick={() => setPinned(null)}
+    >
       <div
         className="grid gap-1.5"
         style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
@@ -191,8 +199,8 @@ export default function CharacterGrid({
             key={card.note_id}
             className={tileClass()}
             style={tileStyle(scoreMap?.get(card.note_id), isDark)}
-            onMouseEnter={() => setHovered(card)}
-            onMouseLeave={() => setHovered(null)}
+            onMouseEnter={() => { if (!pinned) setHovered(card); }}
+            onMouseLeave={() => { if (!pinned) setHovered(null); }}
             onClick={(e) => handleTileClick(e, card)}
           >
             <span className="text-xl leading-none select-none">{card.character}</span>
@@ -201,37 +209,19 @@ export default function CharacterGrid({
         ))}
       </div>
 
-      {/* Hover tooltip (desktop) */}
-      {hovered && (
+      {activeCard && (
         <div
           className="fixed z-50 pointer-events-none"
           style={{
-            left: hoverPos.x + 18,
-            top: hoverPos.y - 12,
-            ...(hoverPos.x > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
-              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - hoverPos.x + 18 : 18 }
+            left: tooltipX + 18,
+            top: tooltipY - 12,
+            ...(tooltipX > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
+              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - tooltipX + 18 : 18 }
               : {}),
           }}
         >
-          <Tooltip card={hovered} percentile={scoreMap?.get(hovered.note_id)} />
+          <Tooltip card={activeCard} percentile={scoreMap?.get(activeCard.note_id)} />
         </div>
-      )}
-
-      {/* Tap tooltip (mobile) */}
-      {showPinnedOverlay && pinned && (
-        <>
-          <div className="fixed inset-0 z-40" onClick={() => setPinned(null)} />
-          <div
-            className="fixed z-50"
-            style={{
-              left: pinnedPos.x,
-              top: pinnedPos.y,
-              transform: "translate(-50%, calc(-100% - 8px))",
-            }}
-          >
-            <Tooltip card={pinned} percentile={scoreMap?.get(pinned.note_id)} />
-          </div>
-        </>
       )}
     </div>
   );
