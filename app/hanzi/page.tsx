@@ -144,15 +144,15 @@ export default function HanziPage() {
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(120 55% 9%)", borderWidth: 1, borderColor: "hsl(120 50% 22%)" }} />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(120 50% 13%)", borderWidth: 1, borderColor: "hsl(120 65% 38%)" }} />
                 Easy
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(60 55% 9%)", borderWidth: 1, borderColor: "hsl(60 50% 22%)" }} />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(60 50% 13%)", borderWidth: 1, borderColor: "hsl(60 65% 38%)" }} />
                 Harder
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(0 55% 9%)", borderWidth: 1, borderColor: "hsl(0 50% 22%)" }} />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(0 50% 13%)", borderWidth: 1, borderColor: "hsl(0 65% 38%)" }} />
                 Hardest
               </span>
               <FormulaInfo />
