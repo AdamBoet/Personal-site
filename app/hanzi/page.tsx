@@ -23,12 +23,6 @@ export default function HanziPage() {
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
   const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
 
-  const statusMsg =
-    cardDelta >= 30 * CARDS_PER_DAY ? "Well ahead of pace — great momentum."
-    : cardDelta >= 0                ? "On track — keep it up."
-    : daysCanSkip > 30              ? `${daysDelta} days behind, still ${daysCanSkip} days of buffer left.`
-    : daysCanSkip > 0               ? `${daysDelta} days behind — ${daysCanSkip} buffer days left, push a little.`
-    : "Behind pace with no buffer — time to catch up.";
 
   const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
     day: "numeric",
@@ -65,7 +59,7 @@ export default function HanziPage() {
 
   const hardCards = [...scoredCards]
     .reverse()
-    .slice(0, 10)
+    .slice(0, 15)
     .map((c) => ({ ...c, score: c.raw }));
 
   const hasScores = scoreMap.size > 0;
@@ -92,7 +86,6 @@ export default function HanziPage() {
             </div>
             <p className="text-xs text-zinc-500">{remaining.toLocaleString()} to go</p>
           </div>
-          <p className="text-xs text-zinc-400">{statusMsg}</p>
         </div>
 
         {/* Yearly pace: goal% vs year% */}
@@ -146,15 +139,15 @@ export default function HanziPage() {
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-emerald-950 border border-emerald-700/50 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(120 55% 9%)", borderWidth: 1, borderColor: "hsl(120 50% 22%)" }} />
                 Easy
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-amber-950 border border-amber-700/50 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(60 55% 9%)", borderWidth: 1, borderColor: "hsl(60 50% 22%)" }} />
                 Harder
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-red-950 border border-red-700/60 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-sm inline-block" style={{ backgroundColor: "hsl(0 55% 9%)", borderWidth: 1, borderColor: "hsl(0 50% 22%)" }} />
                 Hardest
               </span>
               <FormulaInfo />

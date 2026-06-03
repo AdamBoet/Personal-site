@@ -19,15 +19,21 @@ export interface HanziCard {
   mod?: number | null;
 }
 
-// percentile 0 = easiest, 1 = hardest
-export function tileClass(percentile?: number): string {
-  const base =
-    "flex flex-col items-center justify-center rounded-lg border cursor-default py-2.5 px-1 transition-transform hover:scale-125 hover:z-10";
-  if (percentile === undefined) return `${base} bg-zinc-800/70 border-zinc-700/40`;
-  if (percentile < 0.25) return `${base} bg-emerald-950/80 border-emerald-700/50`;
-  if (percentile < 0.5)  return `${base} bg-zinc-800/70 border-zinc-600/50`;
-  if (percentile < 0.75) return `${base} bg-amber-950/80 border-amber-700/50`;
-  return `${base} bg-red-950/80 border-red-700/60`;
+// percentile 0 = easiest (green), 0.5 = yellow, 1 = hardest (red)
+// hue: 120 (green) → 60 (yellow) → 0 (red)
+export function tileClass(): string {
+  return "flex flex-col items-center justify-center rounded-lg border cursor-default py-2.5 px-1 transition-transform hover:scale-125 hover:z-10";
+}
+
+export function tileStyle(percentile?: number): Record<string, string> {
+  if (percentile === undefined) {
+    return { backgroundColor: "hsl(0 0% 15% / 0.7)", borderColor: "hsl(0 0% 28% / 0.4)" };
+  }
+  const hue = Math.round(120 * (1 - percentile));
+  return {
+    backgroundColor: `hsl(${hue} 55% 9%)`,
+    borderColor: `hsl(${hue} 50% 22%)`,
+  };
 }
 
 function relativeTime(unixSeconds: number): string {
@@ -51,12 +57,7 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
   const due = dueSoon(card);
 
   const diffPct = percentile != null ? Math.round(percentile * 100) : null;
-  const diffColor =
-    percentile == null ? "text-zinc-500"
-    : percentile < 0.25 ? "text-emerald-400"
-    : percentile < 0.5  ? "text-zinc-300"
-    : percentile < 0.75 ? "text-amber-400"
-    : "text-red-400";
+  const hue = percentile != null ? Math.round(120 * (1 - percentile)) : null;
   const diffLabel =
     percentile == null ? null
     : percentile < 0.25 ? "Easy"
@@ -74,21 +75,16 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
         </div>
       </div>
 
-      {diffLabel && (
+      {diffLabel && hue != null && (
         <div className="space-y-1">
           <div className="flex items-center justify-between text-xs">
             <span className="text-zinc-500">Difficulty</span>
-            <span className={`font-semibold ${diffColor}`}>{diffLabel} · {diffPct}%</span>
+            <span className="font-semibold" style={{ color: `hsl(${hue} 80% 60%)` }}>{diffLabel} · {diffPct}%</span>
           </div>
           <div className="h-1 w-full rounded-full bg-zinc-800 overflow-hidden">
             <div
-              className={`h-full rounded-full ${
-                percentile! < 0.25 ? "bg-emerald-500"
-                : percentile! < 0.5  ? "bg-zinc-400"
-                : percentile! < 0.75 ? "bg-amber-500"
-                : "bg-red-500"
-              }`}
-              style={{ width: `${diffPct}%` }}
+              style={{ width: `${diffPct}%`, backgroundColor: `hsl(${hue} 70% 50%)` }}
+              className="h-full rounded-full"
             />
           </div>
         </div>
@@ -170,7 +166,8 @@ export default function CharacterGrid({
         {cards.map((card) => (
           <div
             key={card.note_id}
-            className={tileClass(scoreMap?.get(card.note_id))}
+            className={tileClass()}
+            style={tileStyle(scoreMap?.get(card.note_id))}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
             onClick={(e) => handleTileClick(e, card)}

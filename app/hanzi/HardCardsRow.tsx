@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { tileClass, Tooltip, type HanziCard } from "./CharacterGrid";
+import { tileClass, tileStyle, Tooltip, type HanziCard } from "./CharacterGrid";
 
 export type ScoredCard = HanziCard & { score: number };
 
@@ -40,7 +40,8 @@ export default function HardCardsRow({
         {cards.map((card) => (
           <div
             key={card.note_id}
-            className={tileClass(scoreMap.get(card.note_id))}
+            className={tileClass()}
+            style={tileStyle(scoreMap.get(card.note_id))}
             onMouseEnter={() => setHovered(card)}
             onMouseLeave={() => setHovered(null)}
             onClick={(e) => handleTileClick(e, card)}
