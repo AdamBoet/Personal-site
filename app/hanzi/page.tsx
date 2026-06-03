@@ -1,8 +1,9 @@
 import stats from "@/data/anki-stats.json";
 import hanziCards from "@/data/hanzi-cards.json";
 import CharacterGrid, { type HanziCard } from "./CharacterGrid";
+import HardCardsRow from "./HardCardsRow";
 
-const YEARLY_GOAL = 1000;
+const YEARLY_GOAL = 1500;
 
 export default function HanziPage() {
   const { learnedCount, updatedAt, year, dayOfYear, daysInYear } = stats;
@@ -23,6 +24,13 @@ export default function HanziPage() {
   });
 
   const cards = hanziCards as HanziCard[];
+
+  // Hardest cards: highest reviews ÷ ease (many reviews, low ease = struggled with most)
+  const hardCards = cards
+    .filter((c) => c.reps && c.reps > 0 && c.factor && c.factor > 0)
+    .map((c) => ({ ...c, score: c.reps! / (c.factor! / 1000) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 12);
 
   // Legend counts
   const mature = cards.filter((c) => c.queue === 2 && (c.interval ?? 0) >= 21).length;
@@ -83,6 +91,17 @@ export default function HanziPage() {
           </div>
         </div>
       </div>
+
+      {/* Hardest cards */}
+      {hardCards.length > 0 && (
+        <div className="space-y-3">
+          <div>
+            <h2 className="text-sm font-semibold text-zinc-400">Hardest to remember</h2>
+            <p className="text-xs text-zinc-600 mt-0.5">Most reviews relative to ease score</p>
+          </div>
+          <HardCardsRow cards={hardCards} />
+        </div>
+      )}
 
       {/* Character grid */}
       <div className="space-y-4">

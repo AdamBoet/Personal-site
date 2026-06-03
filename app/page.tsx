@@ -1,7 +1,7 @@
 import stats from "@/data/anki-stats.json";
 import Link from "next/link";
 
-const YEARLY_GOAL = 1000;
+const YEARLY_GOAL = 1500;
 
 export default function Overview() {
   const { learnedCount, year } = stats;
