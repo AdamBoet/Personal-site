@@ -109,21 +109,24 @@ export default function HanziPage() {
         </div>
 
         {/* Skip budget */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 space-y-2 text-center text-sm">
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-center justify-center gap-2 text-center text-sm">
           <p>
-            <span className={`font-semibold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
-            {" skipped, skip no more than "}
-            <span className={`font-semibold ${daysCanSkip <= 0 ? "text-red-500" : ""}`}>{daysCanSkip}</span>
+            <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
+            {" skipped"}
+          </p>
+          <p className="text-zinc-500 dark:text-zinc-400">
+            {"skip no more than "}
+            <span className={`font-bold ${daysCanSkip <= 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}`}>{daysCanSkip} days</span>
           </p>
           <p className="text-zinc-500 dark:text-zinc-400">
             {daysToCatchup > 0 ? (
               <>
-                Stay consistent for{" "}
-                <span className="font-semibold text-amber-500">{daysToCatchup} days</span>
-                {" "}to catch up
+                {"stay consistent for "}
+                <span className="font-bold text-amber-500">{daysToCatchup} days</span>
+                {" to catch up"}
               </>
             ) : (
-              <>You&apos;re on pace</>
+              <>you&apos;re on pace</>
             )}
           </p>
         </div>
