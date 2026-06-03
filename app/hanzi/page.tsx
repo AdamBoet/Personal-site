@@ -109,7 +109,7 @@ export default function HanziPage() {
         </div>
 
         {/* Skip budget */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-center justify-center gap-2 text-center text-sm">
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-start justify-center gap-2 text-sm">
           <p>
             <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
             {" skipped"}
@@ -141,13 +141,6 @@ export default function HanziPage() {
         </div>
       )}
 
-      {/* Coming due hard cards */}
-      {comingDueCards.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">Be wary of these in the coming days</h2>
-          <HardCardsRow cards={comingDueCards} scoreMap={scoreMap} />
-        </div>
-      )}
 
       {/* Character grid */}
       <div className="space-y-4">

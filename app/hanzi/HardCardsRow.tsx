@@ -9,9 +9,11 @@ export type ScoredCard = HanziCard & { score: number };
 export default function HardCardsRow({
   cards,
   scoreMap,
+  columns = 15,
 }: {
   cards: ScoredCard[];
   scoreMap: Map<number, number>;
+  columns?: number;
 }) {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
@@ -51,7 +53,7 @@ export default function HardCardsRow({
     <div onMouseMove={handleMouseMove} onMouseLeave={scheduleHide} onClick={() => setPinned(null)}>
       <div
         className="grid gap-1.5"
-        style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
+        style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {cards.map((card) => (
           <div

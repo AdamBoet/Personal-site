@@ -10,7 +10,10 @@
       "WebFetch(domain:hanzicraft.com)",
       "Bash(curl -s http://localhost:8765 -X POST -H \"Content-Type: application/json\" -d '{\"action\":\"version\",\"version\":6}')",
       "Bash(chmod +x \"/Users/adam/Dokumenter/Documents/Claude projects/Anki flashcards/Anki 汉字/sync_and_publish.sh\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(ls -la .vercel)",
+      "Bash(cat .vercel/project.json)",
+      "Bash(vercel ls *)"
     ]
   }
 }

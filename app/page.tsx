@@ -1,12 +1,45 @@
 import stats from "@/data/anki-stats.json";
+import hanziCards from "@/data/hanzi-cards.json";
 import Link from "next/link";
+import HardCardsRow from "./hanzi/HardCardsRow";
+import { type HanziCard } from "./hanzi/CharacterGrid";
 
 const YEARLY_GOAL = 1500;
+const CARDS_PER_DAY = 5;
 
 export default function Overview() {
   const { learnedCount, year, dayOfYear, daysInYear } = stats;
   const goalPct = Math.round(Math.min(learnedCount / YEARLY_GOAL, 1) * 100);
   const yearPct = Math.round((dayOfYear / daysInYear) * 100);
+
+  const cards = hanziCards as HanziCard[];
+  const maxLapses = Math.max(...cards.filter(c => c.lapses != null).map(c => c.lapses!), 1);
+  const scoredCards = cards
+    .filter(c => (c.reps ?? 0) > 0 && c.interval != null && c.lapses != null)
+    .map(c => {
+      const lapseRate = c.lapses! / Math.max(c.reps!, 1);
+      const lapseAbsolute = c.lapses! / maxLapses;
+      const intervalDiff = 1 - Math.min(c.interval!, 90) / 90;
+      const raw = lapseRate * 0.45 + lapseAbsolute * 0.20 + intervalDiff * 0.35;
+      return { ...c, raw };
+    })
+    .sort((a, b) => a.raw - b.raw);
+
+  const scoreMap = new Map<number, number>();
+  scoredCards.forEach((c, i) => {
+    scoreMap.set(c.note_id, scoredCards.length > 1 ? i / (scoredCards.length - 1) : 0.5);
+  });
+
+  const now = Date.now();
+  const waryCards = [...scoredCards]
+    .reverse()
+    .filter(c => {
+      if (!c.mod || !c.interval) return false;
+      const diffDays = Math.ceil(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
+      return diffDays >= 0 && diffDays <= 3;
+    })
+    .slice(0, 5)
+    .map(c => ({ ...c, score: c.raw }));
 
   return (
     <div className="max-w-2xl space-y-8">
@@ -15,35 +48,41 @@ export default function Overview() {
         <p className="mt-1 text-sm text-zinc-500">{year}</p>
       </div>
 
-      <Link
-        href="/hanzi"
-        className="group block rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
-      >
-        <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-2">
-            <span className="text-lg">字</span>
-            <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">汉字 Hanzi</span>
+      <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6 space-y-4">
+        <Link href="/hanzi" className="group block">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">字</span>
+              <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">汉字 Hanzi</span>
+            </div>
+            <span className="text-xs text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">View →</span>
           </div>
-          <span className="text-xs text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">View →</span>
-        </div>
 
-        <div className="space-y-4">
-          <div className="flex items-end gap-1">
-            <span className="text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-            <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
-          </div>
-          <div className="space-y-1.5">
-            <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
-              <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
-              <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+          <div className="space-y-4">
+            <div className="flex items-end gap-1">
+              <span className="text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
+              <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
             </div>
-            <div className="flex items-center gap-3 text-xs">
-              <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
-              <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+            <div className="space-y-1.5">
+              <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+                <div className="absolute inset-y-0 left-0 bg-red-500/60" style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+                <div className="absolute inset-y-0 left-0 bg-green-500" style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }} />
+              </div>
+              <div className="flex items-center gap-3 text-xs">
+                <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
+                <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+              </div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+
+        {waryCards.length > 0 && (
+          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Be wary of these in the coming days</p>
+            <HardCardsRow cards={waryCards} scoreMap={scoreMap} columns={5} />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
