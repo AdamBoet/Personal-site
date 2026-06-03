@@ -23,6 +23,13 @@ export default function HanziPage() {
   const daysNeeded = Math.ceil(remaining / CARDS_PER_DAY);
   const daysCanSkip = Math.max(0, daysLeftInYear - daysNeeded);
 
+  const statusMsg =
+    cardDelta >= 30 * CARDS_PER_DAY ? "Well ahead of pace — great momentum."
+    : cardDelta >= 0                ? "On track — keep it up."
+    : daysCanSkip > 30              ? `${daysDelta} days behind, still ${daysCanSkip} days of buffer left.`
+    : daysCanSkip > 0               ? `${daysDelta} days behind — ${daysCanSkip} buffer days left, push a little.`
+    : "Behind pace with no buffer — time to catch up.";
+
   const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "short",
@@ -75,16 +82,17 @@ export default function HanziPage() {
 
         {/* Words learned */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 space-y-5 text-center">
-          <div className="flex items-end justify-center gap-3">
+          <div className="flex items-end justify-center gap-2">
             <span className="text-5xl sm:text-6xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-            <span className="pb-2 text-zinc-400 text-sm">/ {YEARLY_GOAL.toLocaleString()}</span>
+            <span className="pb-2 text-zinc-500 text-sm">/ {YEARLY_GOAL.toLocaleString()}</span>
           </div>
           <div className="space-y-1.5">
             <div className="h-2.5 w-full rounded-full bg-zinc-800 overflow-hidden">
               <div className="h-full rounded-full bg-green-500" style={{ width: `${goalPct}%` }} />
             </div>
-            <p className="text-xs text-zinc-500 text-center">{remaining.toLocaleString()} to go</p>
+            <p className="text-xs text-zinc-500">{remaining.toLocaleString()} to go</p>
           </div>
+          <p className="text-xs text-zinc-400">{statusMsg}</p>
         </div>
 
         {/* Yearly pace: goal% vs year% */}
@@ -100,9 +108,6 @@ export default function HanziPage() {
               <p className="text-xs text-zinc-500 mt-0.5">year passed</p>
             </div>
           </div>
-          <p className={`text-xs font-semibold ${paceDelta >= 0 ? "text-green-400" : "text-red-400"}`}>
-            {paceDelta >= 0 ? "+" : ""}{paceDelta}% vs year passed
-          </p>
         </div>
 
         {/* Skip budget */}
@@ -136,7 +141,7 @@ export default function HanziPage() {
 
       {/* Character grid */}
       <div className="space-y-4">
-        <div className="flex items-center justify-center flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-sm font-semibold text-zinc-400">All {learnedCount} characters</h2>
           {hasScores && (
             <div className="flex items-center gap-3 text-xs text-zinc-500">
