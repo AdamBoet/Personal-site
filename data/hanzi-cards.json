@@ -9134,5 +9134,75 @@
     "due": 497,
     "type": 2,
     "mod": 1780432688
+  },
+  {
+    "character": "项",
+    "rank": 571,
+    "pronunciation": "xiàng, xiang4",
+    "front": "xiang (item; project)",
+    "note_id": 1780506121818
+  },
+  {
+    "character": "故",
+    "rank": 572,
+    "pronunciation": "gù, gu4",
+    "front": "gu (reason; cause / former)",
+    "note_id": 1780506123705
+  },
+  {
+    "character": "按",
+    "rank": 573,
+    "pronunciation": "àn, an4",
+    "front": "an (to press / according to)",
+    "note_id": 1780506125652
+  },
+  {
+    "character": "河",
+    "rank": 574,
+    "pronunciation": "hé, he2",
+    "front": "he (river)",
+    "note_id": 1780506127478
+  },
+  {
+    "character": "米",
+    "rank": 575,
+    "pronunciation": "mǐ, mi3",
+    "front": "mi (rice / meter)",
+    "note_id": 1780506129277
+  },
+  {
+    "character": "围",
+    "rank": 576,
+    "pronunciation": "wéi, wei2",
+    "front": "wei (to surround)",
+    "note_id": 1780506132028
+  },
+  {
+    "character": "江",
+    "rank": 577,
+    "pronunciation": "jiāng, jiang1",
+    "front": "jiang (river)",
+    "note_id": 1780506133817
+  },
+  {
+    "character": "织",
+    "rank": 578,
+    "pronunciation": "zhī, zhi1",
+    "front": "zhi (to weave)",
+    "note_id": 1780506135671
+  },
+  {
+    "character": "害",
+    "rank": 579,
+    "pronunciation": "hài, hai4",
+    "front": "hai (harm)",
+    "note_id": 1780506137577
+  },
+  {
+    "character": "斗",
+    "rank": 580,
+    "pronunciation": "dǒu, dou3 / dòu, dou4",
+    "front": "dou (Big Dipper / to fight)",
+    "note_id": 1780506139345
   }
 ]
