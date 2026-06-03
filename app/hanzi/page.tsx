@@ -2,6 +2,7 @@ import stats from "@/data/anki-stats.json";
 import hanziCards from "@/data/hanzi-cards.json";
 import CharacterGrid, { type HanziCard } from "./CharacterGrid";
 import HardCardsRow from "./HardCardsRow";
+import FormulaInfo from "./FormulaInfo";
 
 const YEARLY_GOAL = 1500;
 const CARDS_PER_DAY = 5;
@@ -146,7 +147,7 @@ export default function HanziPage() {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <h2 className="text-sm font-semibold text-zinc-400">All {learnedCount} characters</h2>
           {hasScores && (
-            <div className="flex items-center gap-4 text-xs text-zinc-500">
+            <div className="flex items-center gap-3 text-xs text-zinc-500">
               <span className="flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-sm bg-emerald-950 border border-emerald-700/50 inline-block" />
                 Easy
@@ -159,6 +160,7 @@ export default function HanziPage() {
                 <span className="w-2.5 h-2.5 rounded-sm bg-red-950 border border-red-700/60 inline-block" />
                 Hardest
               </span>
+              <FormulaInfo />
             </div>
           )}
         </div>
