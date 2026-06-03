@@ -83,7 +83,7 @@ export default function HanziPage() {
   return (
     <div className="max-w-4xl space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Anki 汉字 Character Progress</h1>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Anki 汉字 Character Progress</h1>
         <p className="mt-1 text-sm text-zinc-500">{year} · Updated {updatedStr}</p>
       </div>
 
@@ -114,7 +114,7 @@ export default function HanziPage() {
           <div className="block sm:hidden h-px w-full bg-zinc-100 dark:bg-zinc-800" />
 
           {/* Skip budget */}
-          <div className="flex flex-col items-start justify-center gap-2 text-sm sm:min-w-52">
+          <div className="flex flex-col items-center sm:items-start justify-center gap-2 text-sm sm:min-w-52 text-center sm:text-left">
             <p>
               <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
               {" skipped"}

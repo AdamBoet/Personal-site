@@ -23,7 +23,7 @@ export interface HanziCard {
 // percentile 0 = easiest (green), 0.5 = yellow, 1 = hardest (red)
 // hue: 120 (green) → 60 (yellow) → 0 (red)
 export function tileClass(): string {
-  return "flex flex-col items-center justify-center rounded-lg border cursor-default py-2.5 px-1 transition-transform hover:scale-125 hover:z-10";
+  return "flex flex-col items-center justify-center rounded-md sm:rounded-lg border cursor-default py-1 px-0.5 sm:py-2.5 sm:px-1 transition-transform hover:scale-125 hover:z-10";
 }
 
 export function tileStyle(percentile?: number, isDark = true): Record<string, string> {
@@ -199,7 +199,7 @@ export default function CharacterGrid({
   return (
     <div onMouseMove={handleMouseMove} onMouseLeave={scheduleHide} onClick={() => setPinned(null)}>
       <div
-        className="grid gap-1.5"
+        className="grid gap-0.5 sm:gap-1.5"
         style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr))" }}
       >
         {cards.map((card) => (
@@ -211,8 +211,8 @@ export default function CharacterGrid({
             onMouseLeave={scheduleHide}
             onClick={(e) => handleTileClick(e, card)}
           >
-            <span className="text-xl leading-none select-none">{card.character}</span>
-            <span className="text-[10px] text-zinc-500 dark:text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
+            <span className="text-sm sm:text-xl leading-none select-none">{card.character}</span>
+            <span className="text-[9px] sm:text-[10px] text-zinc-500 dark:text-zinc-500 mt-0.5 sm:mt-1 tabular-nums">{card.rank}</span>
           </div>
         ))}
       </div>

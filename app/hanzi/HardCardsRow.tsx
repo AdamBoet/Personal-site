@@ -52,7 +52,7 @@ export default function HardCardsRow({
   return (
     <div onMouseMove={handleMouseMove} onMouseLeave={scheduleHide} onClick={() => setPinned(null)}>
       <div
-        className="grid gap-1.5"
+        className="grid gap-0.5 sm:gap-1.5"
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >
         {cards.map((card) => (
@@ -64,8 +64,8 @@ export default function HardCardsRow({
             onMouseLeave={scheduleHide}
             onClick={(e) => handleTileClick(e, card)}
           >
-            <span className="text-xl leading-none select-none">{card.character}</span>
-            <span className="text-[10px] text-zinc-500 mt-1 tabular-nums">{card.rank}</span>
+            <span className="text-sm sm:text-xl leading-none select-none">{card.character}</span>
+            <span className="text-[9px] sm:text-[10px] text-zinc-500 mt-0.5 sm:mt-1 tabular-nums">{card.rank}</span>
           </div>
         ))}
       </div>
