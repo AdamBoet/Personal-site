@@ -8,7 +8,7 @@ export default function Overview() {
   const pct = Math.round(Math.min(learnedCount / YEARLY_GOAL, 1) * 100);
 
   return (
-    <div className="max-w-2xl space-y-8">
+    <div className="max-w-2xl mx-auto space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Overview</h1>
         <p className="mt-1 text-sm text-zinc-500">{year}</p>
