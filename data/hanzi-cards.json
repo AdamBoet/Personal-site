@@ -598,14 +598,14 @@
     "front": "na (that / then)",
     "note_id": 1767048477973,
     "card_id": 1767048477973,
-    "interval": 2,
-    "reps": 31,
+    "interval": 4,
+    "reps": 32,
     "lapses": 8,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780334950
+    "mod": 1780507088
   },
   {
     "character": "得",
@@ -663,13 +663,13 @@
     "note_id": 1780156250148,
     "card_id": 1780156250149,
     "interval": 1,
-    "reps": 7,
+    "reps": 8,
     "lapses": 2,
     "factor": 2100,
-    "queue": 1,
-    "due": 1780506934,
-    "type": 3,
-    "mod": 1780506223
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780506995
   },
   {
     "character": "下",
@@ -774,14 +774,14 @@
     "front": "hou (behind; after / empress)",
     "note_id": 1767270786834,
     "card_id": 1767270786835,
-    "interval": 10,
-    "reps": 34,
-    "lapses": 7,
+    "interval": 2,
+    "reps": 36,
+    "lapses": 8,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1779646271
+    "mod": 1780509958
   },
   {
     "character": "作",
@@ -1750,14 +1750,14 @@
     "front": "chang (long) / zhang (to grow; chief)",
     "note_id": 1770711565604,
     "card_id": 1770711565604,
-    "interval": 33,
-    "reps": 14,
+    "interval": 53,
+    "reps": 15,
     "lapses": 2,
     "factor": 1650,
     "queue": 2,
-    "due": 497,
+    "due": 550,
     "type": 2,
-    "mod": 1777655934
+    "mod": 1780508590
   },
   {
     "character": "把",
@@ -1814,14 +1814,14 @@
     "front": "min (people; citizen)",
     "note_id": 1770835202441,
     "card_id": 1770835202441,
-    "interval": 16,
-    "reps": 26,
-    "lapses": 5,
+    "interval": 2,
+    "reps": 28,
+    "lapses": 6,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1779122447
+    "mod": 1780509143
   },
   {
     "character": "第",
@@ -1910,14 +1910,14 @@
     "front": "shi (use, make, cause)",
     "note_id": 1770916427615,
     "card_id": 1770916427615,
-    "interval": 9,
-    "reps": 41,
-    "lapses": 10,
+    "interval": 2,
+    "reps": 43,
+    "lapses": 11,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1779726368
+    "mod": 1780509153
   },
   {
     "character": "情",
@@ -1926,14 +1926,14 @@
     "front": "qing (feeling; situation)",
     "note_id": 1770916482950,
     "card_id": 1770916482950,
-    "interval": 18,
-    "reps": 26,
+    "interval": 26,
+    "reps": 27,
     "lapses": 5,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 523,
     "type": 2,
-    "mod": 1778924414
+    "mod": 1780507838
   },
   {
     "character": "明",
@@ -2038,14 +2038,14 @@
     "front": "guan (to close; to shut / to concern; to relate to)",
     "note_id": 1771073277603,
     "card_id": 1771073277603,
-    "interval": 21,
-    "reps": 24,
+    "interval": 32,
+    "reps": 25,
     "lapses": 5,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 529,
     "type": 2,
-    "mod": 1778691928
+    "mod": 1780507160
   },
   {
     "character": "点",
@@ -2182,14 +2182,14 @@
     "front": "you (by; due to / to follow; to let)",
     "note_id": 1771431196630,
     "card_id": 1771431196631,
-    "interval": 12,
-    "reps": 20,
+    "interval": 16,
+    "reps": 21,
     "lapses": 2,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 513,
     "type": 2,
-    "mod": 1779483081
+    "mod": 1780507372
   },
   {
     "character": "问",
@@ -2630,14 +2630,14 @@
     "front": "shen (body; oneself / pregnant)",
     "note_id": 1771917950550,
     "card_id": 1771917950550,
-    "interval": 1,
-    "reps": 19,
+    "interval": 2,
+    "reps": 20,
     "lapses": 4,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1780429408
+    "mod": 1780509741
   },
   {
     "character": "果",
@@ -2662,14 +2662,14 @@
     "front": "jia (to add; to increase / to join)",
     "note_id": 1772056670605,
     "card_id": 1772056670610,
-    "interval": 2,
-    "reps": 24,
+    "interval": 6,
+    "reps": 25,
     "lapses": 5,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780346663
+    "mod": 1780508452
   },
   {
     "character": "西",
@@ -2758,14 +2758,14 @@
     "front": "hui (to return; to go back / measure word for times)",
     "note_id": 1772091467535,
     "card_id": 1772091467535,
-    "interval": 3,
-    "reps": 22,
+    "interval": 4,
+    "reps": 23,
     "lapses": 4,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780218104
+    "mod": 1780508126
   },
   {
     "character": "特",
@@ -2774,14 +2774,14 @@
     "front": "te (special / especially)",
     "note_id": 1772091536804,
     "card_id": 1772091536804,
-    "interval": 19,
-    "reps": 27,
+    "interval": 22,
+    "reps": 28,
     "lapses": 5,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 519,
     "type": 2,
-    "mod": 1778871119
+    "mod": 1780506592
   },
   {
     "character": "代",
@@ -2822,14 +2822,14 @@
     "front": "xin (letter; message / to believe; trust)",
     "note_id": 1772212046030,
     "card_id": 1772212046030,
-    "interval": 11,
-    "reps": 33,
+    "interval": 13,
+    "reps": 34,
     "lapses": 8,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 510,
     "type": 2,
-    "mod": 1779562707
+    "mod": 1780507236
   },
   {
     "character": "表",
@@ -2998,14 +2998,14 @@
     "front": "chang (often; frequent / ordinary; normal)",
     "note_id": 1772359170147,
     "card_id": 1772359170147,
-    "interval": 2,
-    "reps": 40,
+    "interval": 6,
+    "reps": 41,
     "lapses": 11,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780346649
+    "mod": 1780508373
   },
   {
     "character": "先",
@@ -3462,14 +3462,14 @@
     "front": "xi (system; to connect) / ji (to tie)",
     "note_id": 1772724443005,
     "card_id": 1772724443006,
-    "interval": 1,
-    "reps": 28,
+    "interval": 3,
+    "reps": 29,
     "lapses": 7,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780429619
+    "mod": 1780509785
   },
   {
     "character": "气",
@@ -3766,14 +3766,14 @@
     "front": "cai (talent; just now)",
     "note_id": 1773337417758,
     "card_id": 1773337417758,
-    "interval": 17,
-    "reps": 17,
+    "interval": 23,
+    "reps": 18,
     "lapses": 2,
-    "factor": 1500,
+    "factor": 1350,
     "queue": 2,
-    "due": 497,
+    "due": 520,
     "type": 2,
-    "mod": 1779004663
+    "mod": 1780507583
   },
   {
     "character": "结",
@@ -3798,14 +3798,14 @@
     "front": "fan (to oppose; reverse)",
     "note_id": 1773337419351,
     "card_id": 1773337419351,
-    "interval": 27,
-    "reps": 13,
-    "lapses": 1,
-    "factor": 1700,
+    "interval": 1,
+    "reps": 15,
+    "lapses": 2,
+    "factor": 1500,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1778182319
+    "mod": 1780510025
   },
   {
     "character": "受",
@@ -3814,14 +3814,14 @@
     "front": "shou (to receive [passively]; to be subject to)",
     "note_id": 1773337420129,
     "card_id": 1773337420129,
-    "interval": 17,
-    "reps": 19,
+    "interval": 26,
+    "reps": 20,
     "lapses": 3,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 523,
     "type": 2,
-    "mod": 1779007488
+    "mod": 1780507463
   },
   {
     "character": "目",
@@ -3846,14 +3846,14 @@
     "front": "tai (too; extremely)",
     "note_id": 1773337421357,
     "card_id": 1773337421357,
-    "interval": 37,
-    "reps": 11,
+    "interval": 49,
+    "reps": 12,
     "lapses": 1,
-    "factor": 2300,
+    "factor": 2150,
     "queue": 2,
-    "due": 497,
+    "due": 546,
     "type": 2,
-    "mod": 1777317391
+    "mod": 1780507109
   },
   {
     "character": "量",
@@ -3926,14 +3926,14 @@
     "front": "wu (affair; task)",
     "note_id": 1773337424552,
     "card_id": 1773337424552,
-    "interval": 3,
-    "reps": 23,
+    "interval": 5,
+    "reps": 24,
     "lapses": 4,
     "factor": 1550,
     "queue": 2,
-    "due": 497,
+    "due": 502,
     "type": 2,
-    "mod": 1780218551
+    "mod": 1780507174
   },
   {
     "character": "做",
@@ -3958,14 +3958,14 @@
     "front": "jie (to connect; to receive)",
     "note_id": 1773337425802,
     "card_id": 1773337425803,
-    "interval": 2,
-    "reps": 24,
-    "lapses": 5,
+    "interval": 1,
+    "reps": 26,
+    "lapses": 6,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1780346542
+    "mod": 1780509255
   },
   {
     "character": "必",
@@ -3990,14 +3990,14 @@
     "front": "chang (venue; field)",
     "note_id": 1773337427031,
     "card_id": 1773337427031,
-    "interval": 9,
-    "reps": 30,
-    "lapses": 7,
+    "interval": 1,
+    "reps": 32,
+    "lapses": 8,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1779727806
+    "mod": 1780507593
   },
   {
     "character": "件",
@@ -4086,14 +4086,14 @@
     "front": "zhi (straight; frank)",
     "note_id": 1773400993857,
     "card_id": 1773400993857,
-    "interval": 8,
-    "reps": 37,
+    "interval": 9,
+    "reps": 38,
     "lapses": 10,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 506,
     "type": 2,
-    "mod": 1779816466
+    "mod": 1780509609
   },
   {
     "character": "德",
@@ -4742,14 +4742,14 @@
     "front": "qie (moreover; for the time being)",
     "note_id": 1774079423551,
     "card_id": 1774079423551,
-    "interval": 20,
-    "reps": 20,
-    "lapses": 5,
-    "factor": 1350,
+    "interval": 2,
+    "reps": 22,
+    "lapses": 6,
+    "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1778774404
+    "mod": 1780509951
   },
   {
     "character": "权",
@@ -4839,13 +4839,13 @@
     "note_id": 1774971663764,
     "card_id": 1774971663765,
     "interval": 1,
-    "reps": 18,
+    "reps": 19,
     "lapses": 4,
     "factor": 1300,
-    "queue": 1,
-    "due": 1780506728,
-    "type": 3,
-    "mod": 1780506028
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780506759
   },
   {
     "character": "式",
@@ -4950,14 +4950,14 @@
     "front": "zhu (to live; to stay; to reside)",
     "note_id": 1774971677108,
     "card_id": 1774971677108,
-    "interval": 18,
-    "reps": 15,
+    "interval": 34,
+    "reps": 16,
     "lapses": 3,
     "factor": 1750,
     "queue": 2,
-    "due": 497,
+    "due": 531,
     "type": 2,
-    "mod": 1778924357
+    "mod": 1780507192
   },
   {
     "character": "告",
@@ -5254,14 +5254,14 @@
     "front": "shu (technique; method)",
     "note_id": 1774971711531,
     "card_id": 1774971711531,
-    "interval": 4,
-    "reps": 19,
+    "interval": 7,
+    "reps": 20,
     "lapses": 4,
     "factor": 1850,
     "queue": 2,
-    "due": 497,
+    "due": 504,
     "type": 2,
-    "mod": 1780143727
+    "mod": 1780507858
   },
   {
     "character": "领",
@@ -5350,14 +5350,14 @@
     "front": "guan (to observe; to watch)",
     "note_id": 1774971722508,
     "card_id": 1774971722508,
-    "interval": 1,
-    "reps": 19,
+    "interval": 4,
+    "reps": 20,
     "lapses": 5,
-    "factor": 1350,
+    "factor": 1500,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780428619
+    "mod": 1780508354
   },
   {
     "character": "清",
@@ -5446,14 +5446,14 @@
     "front": "shi (to know; knowledge) / zhi (to record)",
     "note_id": 1774971733434,
     "card_id": 1774971733434,
-    "interval": 2,
-    "reps": 19,
+    "interval": 6,
+    "reps": 20,
     "lapses": 3,
     "factor": 1450,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780346584
+    "mod": 1780507343
   },
   {
     "character": "候",
@@ -5462,14 +5462,14 @@
     "front": "hou (to wait; season; climate)",
     "note_id": 1774971735403,
     "card_id": 1774971735403,
-    "interval": 3,
-    "reps": 16,
+    "interval": 4,
+    "reps": 17,
     "lapses": 3,
-    "factor": 1600,
+    "factor": 1450,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780219132
+    "mod": 1780507329
   },
   {
     "character": "带",
@@ -5494,14 +5494,14 @@
     "front": "dao (to guide; to lead; to transmit)",
     "note_id": 1774971739059,
     "card_id": 1774971739059,
-    "interval": 1,
-    "reps": 17,
+    "interval": 2,
+    "reps": 18,
     "lapses": 4,
-    "factor": 1400,
+    "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1780428609
+    "mod": 1780509874
   },
   {
     "character": "争",
@@ -5542,14 +5542,14 @@
     "front": "xiao (to laugh; to smile)",
     "note_id": 1774971744459,
     "card_id": 1774971744459,
-    "interval": 10,
-    "reps": 12,
+    "interval": 18,
+    "reps": 13,
     "lapses": 2,
     "factor": 1950,
     "queue": 2,
-    "due": 497,
+    "due": 515,
     "type": 2,
-    "mod": 1779646438
+    "mod": 1780508502
   },
   {
     "character": "飞",
@@ -5974,14 +5974,14 @@
     "front": "zheng (certificate; to prove)",
     "note_id": 1776359713383,
     "card_id": 1776359713383,
-    "interval": 15,
-    "reps": 10,
+    "interval": 24,
+    "reps": 11,
     "lapses": 2,
     "factor": 1800,
     "queue": 2,
-    "due": 497,
+    "due": 521,
     "type": 2,
-    "mod": 1779216785
+    "mod": 1780507069
   },
   {
     "character": "近",
@@ -6278,14 +6278,14 @@
     "front": "luo (net; to gather)",
     "note_id": 1776359747707,
     "card_id": 1776359747708,
-    "interval": 2,
-    "reps": 11,
+    "interval": 4,
+    "reps": 12,
     "lapses": 2,
     "factor": 1950,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780335061
+    "mod": 1780509714
   },
   {
     "character": "字",
@@ -6390,14 +6390,14 @@
     "front": "lian (to connect; continuously)",
     "note_id": 1776359761000,
     "card_id": 1776359761000,
-    "interval": 1,
-    "reps": 18,
+    "interval": 3,
+    "reps": 19,
     "lapses": 4,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780432440
+    "mod": 1780509415
   },
   {
     "character": "调",
@@ -6566,14 +6566,14 @@
     "front": "hua (flower; to spend)",
     "note_id": 1776550444775,
     "card_id": 1776550444777,
-    "interval": 4,
-    "reps": 16,
+    "interval": 6,
+    "reps": 17,
     "lapses": 4,
-    "factor": 1400,
+    "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780147580
+    "mod": 1780508224
   },
   {
     "character": "党",
@@ -6662,14 +6662,14 @@
     "front": "zheng (whole; to tidy)",
     "note_id": 1777216293090,
     "card_id": 1777216293090,
-    "interval": 8,
-    "reps": 19,
-    "lapses": 4,
-    "factor": 1400,
+    "interval": 2,
+    "reps": 21,
+    "lapses": 5,
+    "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1779821725
+    "mod": 1780510041
   },
   {
     "character": "府",
@@ -6806,14 +6806,14 @@
     "front": "shi (to show; to reveal)",
     "note_id": 1777216311892,
     "card_id": 1777216311892,
-    "interval": 4,
-    "reps": 17,
+    "interval": 6,
+    "reps": 18,
     "lapses": 3,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780146833
+    "mod": 1780508362
   },
   {
     "character": "复",
@@ -6870,14 +6870,14 @@
     "front": "jiu (to investigate; after all)",
     "note_id": 1777216319342,
     "card_id": 1777216319342,
-    "interval": 3,
-    "reps": 18,
+    "interval": 4,
+    "reps": 19,
     "lapses": 4,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780220395
+    "mod": 1780507057
   },
   {
     "character": "线",
@@ -7030,14 +7030,14 @@
     "front": "xiao (to disappear; to eliminate)",
     "note_id": 1777216338562,
     "card_id": 1777216338562,
-    "interval": 10,
-    "reps": 14,
-    "lapses": 3,
-    "factor": 1600,
+    "interval": 1,
+    "reps": 16,
+    "lapses": 4,
+    "factor": 1400,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1779645843
+    "mod": 1780509479
   },
   {
     "character": "越",
@@ -7046,14 +7046,14 @@
     "front": "yue (to exceed; the more...the more)",
     "note_id": 1777216340388,
     "card_id": 1777216340388,
-    "interval": 3,
-    "reps": 19,
+    "interval": 5,
+    "reps": 20,
     "lapses": 5,
     "factor": 1350,
     "queue": 2,
-    "due": 497,
+    "due": 502,
     "type": 2,
-    "mod": 1780219146
+    "mod": 1780508747
   },
   {
     "character": "器",
@@ -7078,14 +7078,14 @@
     "front": "rong (to contain; appearance)",
     "note_id": 1777216344056,
     "card_id": 1777216344056,
-    "interval": 6,
-    "reps": 16,
+    "interval": 12,
+    "reps": 17,
     "lapses": 4,
     "factor": 1550,
     "queue": 2,
-    "due": 497,
+    "due": 509,
     "type": 2,
-    "mod": 1779989880
+    "mod": 1780508442
   },
   {
     "character": "照",
@@ -7094,14 +7094,14 @@
     "front": "zhao (to shine; to photograph)",
     "note_id": 1777216345962,
     "card_id": 1777216345962,
-    "interval": 2,
-    "reps": 18,
+    "interval": 3,
+    "reps": 19,
     "lapses": 5,
-    "factor": 1350,
+    "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780334581
+    "mod": 1780509548
   },
   {
     "character": "须",
@@ -7158,14 +7158,14 @@
     "front": "yan (to research; to study)",
     "note_id": 1778093178222,
     "card_id": 1778093178222,
-    "interval": 7,
-    "reps": 20,
+    "interval": 9,
+    "reps": 21,
     "lapses": 4,
     "factor": 1550,
     "queue": 2,
-    "due": 497,
+    "due": 506,
     "type": 2,
-    "mod": 1779899267
+    "mod": 1780509851
   },
   {
     "character": "写",
@@ -7270,14 +7270,14 @@
     "front": "bao (to wrap; bag; to include)",
     "note_id": 1778093191711,
     "card_id": 1778093191712,
-    "interval": 12,
-    "reps": 10,
+    "interval": 15,
+    "reps": 11,
     "lapses": 2,
-    "factor": 1950,
+    "factor": 1800,
     "queue": 2,
-    "due": 497,
+    "due": 512,
     "type": 2,
-    "mod": 1779483059
+    "mod": 1780509727
   },
   {
     "character": "片",
@@ -7494,14 +7494,14 @@
     "front": "guang (wide; numerous)",
     "note_id": 1778093217861,
     "card_id": 1778093217861,
-    "interval": 2,
-    "reps": 8,
+    "interval": 4,
+    "reps": 9,
     "lapses": 1,
     "factor": 2000,
     "queue": 2,
-    "due": 497,
+    "due": 501,
     "type": 2,
-    "mod": 1780347361
+    "mod": 1780507601
   },
   {
     "character": "显",
@@ -7574,14 +7574,14 @@
     "front": "biao (sign; mark; standard)",
     "note_id": 1778093227270,
     "card_id": 1778093227270,
-    "interval": 1,
-    "reps": 19,
+    "interval": 2,
+    "reps": 20,
     "lapses": 6,
     "factor": 1300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1780432675
+    "mod": 1780509516
   },
   {
     "character": "谈",
@@ -7638,14 +7638,14 @@
     "front": "nian (to read; to miss; thought)",
     "note_id": 1778093234643,
     "card_id": 1778093234644,
-    "interval": 9,
-    "reps": 9,
+    "interval": 10,
+    "reps": 10,
     "lapses": 1,
-    "factor": 2000,
+    "factor": 1850,
     "queue": 2,
-    "due": 497,
+    "due": 507,
     "type": 2,
-    "mod": 1779727600
+    "mod": 1780507453
   },
   {
     "character": "六",
@@ -7766,14 +7766,14 @@
     "front": "zhuan (specialized; expert)",
     "note_id": 1778093249168,
     "card_id": 1778093249168,
-    "interval": 10,
-    "reps": 7,
+    "interval": 11,
+    "reps": 8,
     "lapses": 1,
-    "factor": 2300,
+    "factor": 2150,
     "queue": 2,
-    "due": 497,
+    "due": 508,
     "type": 2,
-    "mod": 1779644634
+    "mod": 1780509886
   },
   {
     "character": "费",
@@ -7782,14 +7782,14 @@
     "front": "fei (cost; fee; to waste)",
     "note_id": 1778093251120,
     "card_id": 1778093251120,
-    "interval": 8,
-    "reps": 9,
+    "interval": 11,
+    "reps": 10,
     "lapses": 1,
-    "factor": 2300,
+    "factor": 2150,
     "queue": 2,
-    "due": 497,
+    "due": 508,
     "type": 2,
-    "mod": 1779815842
+    "mod": 1780509902
   },
   {
     "character": "号",
@@ -7862,14 +7862,14 @@
     "front": "jiao (comparatively; to compare)",
     "note_id": 1778093260093,
     "card_id": 1778093260094,
-    "interval": 7,
-    "reps": 10,
-    "lapses": 2,
-    "factor": 1800,
+    "interval": 1,
+    "reps": 12,
+    "lapses": 3,
+    "factor": 1600,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1779898106
+    "mod": 1780509403
   },
   {
     "character": "注",
@@ -7990,14 +7990,14 @@
     "front": "xuan (to choose; to elect)",
     "note_id": 1778093274666,
     "card_id": 1778093274666,
-    "interval": 8,
-    "reps": 9,
+    "interval": 11,
+    "reps": 10,
     "lapses": 2,
-    "factor": 1950,
+    "factor": 1800,
     "queue": 2,
-    "due": 497,
+    "due": 508,
     "type": 2,
-    "mod": 1779822084
+    "mod": 1780509621
   },
   {
     "character": "列",
@@ -8166,14 +8166,14 @@
     "front": "zhong (numerous; the masses)",
     "note_id": 1778928077222,
     "card_id": 1778928077222,
-    "interval": 9,
-    "reps": 6,
+    "interval": 21,
+    "reps": 7,
     "lapses": 1,
     "factor": 2300,
     "queue": 2,
-    "due": 497,
+    "due": 518,
     "type": 2,
-    "mod": 1779727619
+    "mod": 1780508100
   },
   {
     "character": "构",
@@ -8278,14 +8278,14 @@
     "front": "mou (a certain; some)",
     "note_id": 1778928836793,
     "card_id": 1778928836794,
-    "interval": 2,
-    "reps": 12,
-    "lapses": 4,
-    "factor": 1850,
+    "interval": 1,
+    "reps": 14,
+    "lapses": 5,
+    "factor": 1650,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1780346694
+    "mod": 1780509911
   },
   {
     "character": "案",
@@ -8294,14 +8294,14 @@
     "front": "an (case; plan)",
     "note_id": 1778929302761,
     "card_id": 1778929302762,
-    "interval": 7,
-    "reps": 4,
-    "lapses": 0,
-    "factor": 2500,
+    "interval": 1,
+    "reps": 6,
+    "lapses": 1,
+    "factor": 2300,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1779899990
+    "mod": 1780510017
   },
   {
     "character": "黑",
@@ -8320,8 +8320,24 @@
     "mod": 1780146653
   },
   {
-    "character": "革",
+    "character": "维",
     "rank": 520,
+    "pronunciation": "wéi, wei2",
+    "front": "wei (to maintain; to hold together)",
+    "note_id": 1780508291216,
+    "card_id": 1780508291217,
+    "interval": 0,
+    "reps": 0,
+    "lapses": 0,
+    "factor": 0,
+    "queue": 0,
+    "due": 6281,
+    "type": 0,
+    "mod": 1780508291
+  },
+  {
+    "character": "革",
+    "rank": 521,
     "pronunciation": "gé, ge2",
     "front": "ge (leather; to reform)",
     "note_id": 1778929306612,
@@ -8337,7 +8353,7 @@
   },
   {
     "character": "划",
-    "rank": 521,
+    "rank": 522,
     "pronunciation": "huá, hua2 / huà, hua4",
     "front": "hua (to row; profitable) / hua (to delimit; to draw)",
     "note_id": 1778929134263,
@@ -8353,7 +8369,7 @@
   },
   {
     "character": "敌",
-    "rank": 522,
+    "rank": 523,
     "pronunciation": "dí, di2",
     "front": "di (enemy; to resist)",
     "note_id": 1778929136788,
@@ -8369,7 +8385,7 @@
   },
   {
     "character": "致",
-    "rank": 523,
+    "rank": 524,
     "pronunciation": "zhì, zhi4",
     "front": "zhi (to cause; fine; delicate)",
     "note_id": 1778929235163,
@@ -8385,35 +8401,19 @@
   },
   {
     "character": "陈",
-    "rank": 524,
+    "rank": 525,
     "pronunciation": "chén, chen2",
     "front": "chen (to display; old; stale)",
     "note_id": 1778929237071,
     "card_id": 1778929237071,
-    "interval": 2,
-    "reps": 15,
+    "interval": 6,
+    "reps": 16,
     "lapses": 5,
     "factor": 1500,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780334435
-  },
-  {
-    "character": "故",
-    "rank": 525,
-    "pronunciation": "gù, gu4",
-    "front": "gu (reason; old; former)",
-    "note_id": 1778929240367,
-    "card_id": 1778929240367,
-    "interval": 4,
-    "reps": 7,
-    "lapses": 1,
-    "factor": 1850,
-    "queue": 2,
-    "due": 497,
-    "type": 2,
-    "mod": 1780134551
+    "mod": 1780509805
   },
   {
     "character": "律",
@@ -8566,14 +8566,14 @@
     "front": "ze (duty; to blame)",
     "note_id": 1779038392458,
     "card_id": 1779038392458,
-    "interval": 1,
-    "reps": 11,
+    "interval": 2,
+    "reps": 12,
     "lapses": 4,
     "factor": 1700,
-    "queue": 1,
-    "due": 1780506690,
-    "type": 3,
-    "mod": 1780506071
+    "queue": 2,
+    "due": 499,
+    "type": 2,
+    "mod": 1780506717
   },
   {
     "character": "营",
@@ -8694,14 +8694,14 @@
     "front": "di (bottom; base)",
     "note_id": 1779039387544,
     "card_id": 1779039387544,
-    "interval": 2,
-    "reps": 9,
+    "interval": 6,
+    "reps": 10,
     "lapses": 2,
     "factor": 1800,
     "queue": 2,
-    "due": 497,
+    "due": 503,
     "type": 2,
-    "mod": 1780333972
+    "mod": 1780509580
   },
   {
     "character": "站",
@@ -8742,14 +8742,14 @@
     "front": "ba (to cling; to hope for)",
     "note_id": 1779987211224,
     "card_id": 1779987211224,
-    "interval": 1,
-    "reps": 5,
+    "interval": 3,
+    "reps": 6,
     "lapses": 1,
     "factor": 2300,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780432654
+    "mod": 1780509832
   },
   {
     "character": "例",
@@ -8774,14 +8774,14 @@
     "front": "fang (to defend; to guard against)",
     "note_id": 1779987215136,
     "card_id": 1779987215137,
-    "interval": 2,
-    "reps": 9,
+    "interval": 3,
+    "reps": 10,
     "lapses": 2,
-    "factor": 1950,
+    "factor": 1800,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780347277
+    "mod": 1780506831
   },
   {
     "character": "族",
@@ -8790,14 +8790,14 @@
     "front": "zu (ethnicity; clan)",
     "note_id": 1779987216961,
     "card_id": 1779987216962,
-    "interval": 1,
-    "reps": 9,
+    "interval": 3,
+    "reps": 10,
     "lapses": 3,
     "factor": 1900,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780432595
+    "mod": 1780508401
   },
   {
     "character": "供",
@@ -8870,14 +8870,14 @@
     "front": "liu (to stay; to keep)",
     "note_id": 1779987226230,
     "card_id": 1779987226231,
-    "interval": 1,
-    "reps": 7,
+    "interval": 3,
+    "reps": 8,
     "lapses": 1,
     "factor": 2150,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780429350
+    "mod": 1780508309
   },
   {
     "character": "讲",
@@ -8902,14 +8902,14 @@
     "front": "xing (model; type)",
     "note_id": 1779987229861,
     "card_id": 1779987229861,
-    "interval": 1,
-    "reps": 8,
+    "interval": 3,
+    "reps": 9,
     "lapses": 2,
     "factor": 2100,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780430038
+    "mod": 1780507635
   },
   {
     "character": "料",
@@ -8919,13 +8919,13 @@
     "note_id": 1779987231685,
     "card_id": 1779987231686,
     "interval": 2,
-    "reps": 4,
-    "lapses": 1,
-    "factor": 2300,
+    "reps": 6,
+    "lapses": 2,
+    "factor": 2100,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1780347452
+    "mod": 1780509943
   },
   {
     "character": "终",
@@ -8934,14 +8934,14 @@
     "front": "zhong (end; final)",
     "note_id": 1779987233510,
     "card_id": 1779987233511,
-    "interval": 2,
-    "reps": 3,
-    "lapses": 0,
-    "factor": 2350,
+    "interval": 1,
+    "reps": 6,
+    "lapses": 1,
+    "factor": 2150,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1780334170
+    "mod": 1780510059
   },
   {
     "character": "答",
@@ -8995,17 +8995,17 @@
     "character": "绝",
     "rank": 562,
     "pronunciation": "jué, jue2",
-    "front": "jue (to cut off / absolutely)",
+    "front": "jue (absolutely; extremely)",
     "note_id": 1780333929685,
     "card_id": 1780333929685,
     "interval": 1,
-    "reps": 7,
-    "lapses": 1,
-    "factor": 2300,
+    "reps": 11,
+    "lapses": 2,
+    "factor": 2100,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1780430671
+    "mod": 1780510005
   },
   {
     "character": "奇",
@@ -9030,14 +9030,14 @@
     "front": "cha (to observe; to examine)",
     "note_id": 1780333933480,
     "card_id": 1780333933480,
-    "interval": 1,
-    "reps": 5,
-    "lapses": 1,
-    "factor": 2300,
+    "interval": 2,
+    "reps": 7,
+    "lapses": 2,
+    "factor": 2100,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1780428636
+    "mod": 1780507264
   },
   {
     "character": "母",
@@ -9062,14 +9062,14 @@
     "front": "jing (capital city)",
     "note_id": 1780421580882,
     "card_id": 1780421580884,
-    "interval": 1,
-    "reps": 2,
+    "interval": 3,
+    "reps": 3,
     "lapses": 0,
     "factor": 2500,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780428800
+    "mod": 1780506741
   },
   {
     "character": "段",
@@ -9078,14 +9078,14 @@
     "front": "duan (section; stage)",
     "note_id": 1780421582773,
     "card_id": 1780421582773,
-    "interval": 1,
-    "reps": 4,
-    "lapses": 0,
-    "factor": 2500,
+    "interval": 2,
+    "reps": 6,
+    "lapses": 1,
+    "factor": 2300,
     "queue": 2,
-    "due": 497,
+    "due": 499,
     "type": 2,
-    "mod": 1780431292
+    "mod": 1780507403
   },
   {
     "character": "依",
@@ -9095,13 +9095,13 @@
     "note_id": 1780421584722,
     "card_id": 1780421584722,
     "interval": 1,
-    "reps": 6,
+    "reps": 8,
     "lapses": 1,
     "factor": 2300,
-    "queue": 1,
-    "due": 1780506800,
-    "type": 3,
-    "mod": 1780506193
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780508069
   },
   {
     "character": "批",
@@ -9110,14 +9110,14 @@
     "front": "pi (to criticize / batch)",
     "note_id": 1780421586598,
     "card_id": 1780421586598,
-    "interval": 1,
-    "reps": 2,
+    "interval": 3,
+    "reps": 3,
     "lapses": 0,
     "factor": 2500,
     "queue": 2,
-    "due": 497,
+    "due": 500,
     "type": 2,
-    "mod": 1780432207
+    "mod": 1780509820
   },
   {
     "character": "群",
@@ -9127,13 +9127,13 @@
     "note_id": 1780421588700,
     "card_id": 1780421588701,
     "interval": 1,
-    "reps": 3,
-    "lapses": 0,
-    "factor": 2500,
+    "reps": 5,
+    "lapses": 1,
+    "factor": 2300,
     "queue": 2,
-    "due": 497,
+    "due": 498,
     "type": 2,
-    "mod": 1780432688
+    "mod": 1780509239
   },
   {
     "character": "项",
@@ -9142,14 +9142,14 @@
     "front": "xiang (item; project)",
     "note_id": 1780506121818,
     "card_id": 1780506121819,
-    "interval": 0,
-    "reps": 0,
+    "interval": 1,
+    "reps": 2,
     "lapses": 0,
-    "factor": 0,
-    "queue": 0,
-    "due": 6271,
-    "type": 0,
-    "mod": 1780506121
+    "factor": 2500,
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780507819
   },
   {
     "character": "故",
@@ -9158,14 +9158,14 @@
     "front": "gu (reason; cause / former)",
     "note_id": 1780506123705,
     "card_id": 1780506123705,
-    "interval": 0,
-    "reps": 0,
+    "interval": 1,
+    "reps": 2,
     "lapses": 0,
-    "factor": 0,
-    "queue": 0,
-    "due": 6272,
-    "type": 0,
-    "mod": 1780506123
+    "factor": 2500,
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780508545
   },
   {
     "character": "按",
@@ -9174,14 +9174,14 @@
     "front": "an (to press / according to)",
     "note_id": 1780506125652,
     "card_id": 1780506125652,
-    "interval": 0,
-    "reps": 0,
+    "interval": 1,
+    "reps": 2,
     "lapses": 0,
-    "factor": 0,
-    "queue": 0,
-    "due": 6273,
-    "type": 0,
-    "mod": 1780506125
+    "factor": 2500,
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780509270
   },
   {
     "character": "河",
@@ -9190,14 +9190,14 @@
     "front": "he (river)",
     "note_id": 1780506127478,
     "card_id": 1780506127478,
-    "interval": 0,
-    "reps": 0,
+    "interval": 1,
+    "reps": 2,
     "lapses": 0,
-    "factor": 0,
-    "queue": 0,
-    "due": 6274,
-    "type": 0,
-    "mod": 1780506127
+    "factor": 2500,
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780509990
   },
   {
     "character": "米",
@@ -9206,14 +9206,14 @@
     "front": "mi (rice / meter)",
     "note_id": 1780506129277,
     "card_id": 1780506129277,
-    "interval": 0,
-    "reps": 0,
+    "interval": 1,
+    "reps": 2,
     "lapses": 0,
-    "factor": 0,
-    "queue": 0,
-    "due": 6275,
-    "type": 0,
-    "mod": 1780506129
+    "factor": 2500,
+    "queue": 2,
+    "due": 498,
+    "type": 2,
+    "mod": 1780510032
   },
   {
     "character": "围",
