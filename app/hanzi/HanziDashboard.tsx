@@ -145,6 +145,7 @@ export default function HanziDashboard({
       }
 
       setSynced(true);
+      setTimeout(() => setSynced(false), 3000);
     } catch (e) {
       setError(
         e instanceof Error
