@@ -134,11 +134,15 @@ export default function HanziDashboard({
       setCards(updatedCards);
       setStats(newStats);
 
-      await fetch("/api/anki-sync", {
+      const saveRes = await fetch("/api/anki-sync", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ stats: newStats, cards: updatedCards }),
       });
+      if (!saveRes.ok) {
+        const { error } = await saveRes.json();
+        throw new Error(`Saved locally but failed to sync to database: ${error}`);
+      }
 
       setSynced(true);
     } catch (e) {
