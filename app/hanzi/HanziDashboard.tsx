@@ -38,10 +38,12 @@ export default function HanziDashboard({
   const [stats, setStats] = useState(initialStats);
   const [cards, setCards] = useState(initialCards);
   const [loading, setLoading] = useState(false);
+  const [synced, setSynced] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function refreshFromAnki() {
     setLoading(true);
+    setSynced(false);
     setError(null);
     try {
       const noteIds = initialCards.map((c) => c.note_id).filter(Boolean);
@@ -100,6 +102,7 @@ export default function HanziDashboard({
 
       setCards(updatedCards);
       setStats({ learnedCount, updatedAt: now.toISOString(), year: now.getFullYear(), dayOfYear, daysInYear });
+      setSynced(true);
     } catch (e) {
       setError(
         e instanceof Error
@@ -187,7 +190,7 @@ export default function HanziDashboard({
             disabled={loading}
             className="shrink-0 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? "Fetching…" : "Refresh from Anki"}
+            {loading ? "Fetching…" : synced ? "You're up to date" : "Refresh from Anki"}
           </button>
           {error && <p className="text-xs text-red-500 max-w-48 text-right">{error}</p>}
         </div>
