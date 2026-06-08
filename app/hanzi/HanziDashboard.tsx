@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import CharacterGrid, { LegendSwatches, type HanziCard } from "./CharacterGrid";
 import HardCardsRow from "./HardCardsRow";
 import FormulaInfo from "./FormulaInfo";
@@ -8,11 +8,18 @@ import FormulaInfo from "./FormulaInfo";
 const YEARLY_GOAL = 1500;
 const CARDS_PER_DAY = 5;
 
-async function ankiConnect(action: string, params: Record<string, unknown> = {}) {
-  const res = await fetch("http://localhost:8765", {
+async function ankiConnect(
+  action: string,
+  params: Record<string, unknown> = {},
+  url = "http://localhost:8765",
+  apiKey = ""
+) {
+  const body: Record<string, unknown> = { action, version: 6, params };
+  if (apiKey) body.key = apiKey;
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ action, version: 6, params }),
+    body: JSON.stringify(body),
     signal: AbortSignal.timeout(8000),
   });
   const data = await res.json();
@@ -40,6 +47,34 @@ export default function HanziDashboard({
   const [loading, setLoading] = useState(false);
   const [synced, setSynced] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const [ankiUrl, setAnkiUrl] = useState("http://localhost:8765");
+  const [apiKey, setApiKey] = useState("");
+  const settingsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const url = localStorage.getItem("ankiUrl");
+    const key = localStorage.getItem("ankiApiKey");
+    if (url) setAnkiUrl(url);
+    if (key) setApiKey(key);
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setShowSettings(false);
+      }
+    }
+    if (showSettings) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showSettings]);
+
+  function saveSettings(url: string, key: string) {
+    localStorage.setItem("ankiUrl", url);
+    localStorage.setItem("ankiApiKey", key);
+    setAnkiUrl(url);
+    setApiKey(key);
+  }
 
   async function refreshFromAnki() {
     setLoading(true);
@@ -50,7 +85,7 @@ export default function HanziDashboard({
 
       const allNotes: { noteId: number; cards?: number[] }[] = [];
       for (let i = 0; i < noteIds.length; i += 50) {
-        const batch = await ankiConnect("notesInfo", { notes: noteIds.slice(i, i + 50) });
+        const batch = await ankiConnect("notesInfo", { notes: noteIds.slice(i, i + 50) }, ankiUrl, apiKey);
         allNotes.push(...batch);
       }
 
@@ -67,7 +102,7 @@ export default function HanziDashboard({
         mod?: number;
       }[] = [];
       for (let i = 0; i < allCardIds.length; i += 50) {
-        const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) });
+        const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) }, ankiUrl, apiKey);
         allCardInfo.push(...batch);
       }
 
@@ -185,13 +220,51 @@ export default function HanziDashboard({
           <p className="mt-1 text-sm text-zinc-500">{year} · Updated {updatedStr}</p>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <button
-            onClick={refreshFromAnki}
-            disabled={loading}
-            className="shrink-0 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {loading ? "Fetching…" : synced ? "You're up to date" : "Refresh from Anki"}
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={refreshFromAnki}
+              disabled={loading}
+              className="shrink-0 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {loading ? "Fetching…" : synced ? "You're up to date" : "Refresh from Anki"}
+            </button>
+            <div className="relative" ref={settingsRef}>
+              <button
+                onClick={() => setShowSettings((v) => !v)}
+                className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 p-1.5 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                aria-label="AnkiConnect settings"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                </svg>
+              </button>
+              {showSettings && (
+                <div className="absolute right-0 top-full mt-1.5 z-20 w-72 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-lg p-4 space-y-3">
+                  <p className="text-xs font-semibold text-zinc-600 dark:text-zinc-300">AnkiConnect settings</p>
+                  <label className="block space-y-1">
+                    <span className="text-xs text-zinc-500">URL</span>
+                    <input
+                      type="text"
+                      value={ankiUrl}
+                      onChange={(e) => saveSettings(e.target.value, apiKey)}
+                      className="w-full rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400"
+                      placeholder="http://localhost:8765"
+                    />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-xs text-zinc-500">API key <span className="text-zinc-400">(optional)</span></span>
+                    <input
+                      type="password"
+                      value={apiKey}
+                      onChange={(e) => saveSettings(ankiUrl, e.target.value)}
+                      className="w-full rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400"
+                      placeholder="Leave blank if not set"
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
+          </div>
           {error && <p className="text-xs text-red-500 max-w-48 text-right">{error}</p>}
         </div>
       </div>
