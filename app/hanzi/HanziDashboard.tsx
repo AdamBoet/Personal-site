@@ -130,8 +130,16 @@ export default function HanziDashboard({
       const dayOfYear = Math.floor((now.getTime() - yearStart.getTime()) / 86400000) + 1;
       const daysInYear = Math.floor((yearEnd.getTime() - yearStart.getTime()) / 86400000);
 
+      const newStats = { learnedCount, updatedAt: now.toISOString(), year: now.getFullYear(), dayOfYear, daysInYear };
       setCards(updatedCards);
-      setStats({ learnedCount, updatedAt: now.toISOString(), year: now.getFullYear(), dayOfYear, daysInYear });
+      setStats(newStats);
+
+      await fetch("/api/anki-sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stats: newStats, cards: updatedCards }),
+      });
+
       setSynced(true);
     } catch (e) {
       setError(
