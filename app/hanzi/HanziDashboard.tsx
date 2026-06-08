@@ -49,14 +49,11 @@ export default function HanziDashboard({
   const [error, setError] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [ankiUrl, setAnkiUrl] = useState("http://localhost:8765");
-  const [apiKey, setApiKey] = useState("");
   const settingsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const url = localStorage.getItem("ankiUrl");
-    const key = localStorage.getItem("ankiApiKey");
     if (url) setAnkiUrl(url);
-    if (key) setApiKey(key);
   }, []);
 
   useEffect(() => {
@@ -69,11 +66,9 @@ export default function HanziDashboard({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showSettings]);
 
-  function saveSettings(url: string, key: string) {
+  function saveSettings(url: string) {
     localStorage.setItem("ankiUrl", url);
-    localStorage.setItem("ankiApiKey", key);
     setAnkiUrl(url);
-    setApiKey(key);
   }
 
   async function refreshFromAnki() {
@@ -85,7 +80,7 @@ export default function HanziDashboard({
 
       const allNotes: { noteId: number; cards?: number[] }[] = [];
       for (let i = 0; i < noteIds.length; i += 50) {
-        const batch = await ankiConnect("notesInfo", { notes: noteIds.slice(i, i + 50) }, ankiUrl, apiKey);
+        const batch = await ankiConnect("notesInfo", { notes: noteIds.slice(i, i + 50) }, ankiUrl);
         allNotes.push(...batch);
       }
 
@@ -102,7 +97,7 @@ export default function HanziDashboard({
         mod?: number;
       }[] = [];
       for (let i = 0; i < allCardIds.length; i += 50) {
-        const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) }, ankiUrl, apiKey);
+        const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) }, ankiUrl);
         allCardInfo.push(...batch);
       }
 
@@ -246,19 +241,9 @@ export default function HanziDashboard({
                     <input
                       type="text"
                       value={ankiUrl}
-                      onChange={(e) => saveSettings(e.target.value, apiKey)}
+                      onChange={(e) => saveSettings(e.target.value)}
                       className="w-full rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400"
                       placeholder="http://localhost:8765"
-                    />
-                  </label>
-                  <label className="block space-y-1">
-                    <span className="text-xs text-zinc-500">API key <span className="text-zinc-400">(optional)</span></span>
-                    <input
-                      type="password"
-                      value={apiKey}
-                      onChange={(e) => saveSettings(ankiUrl, e.target.value)}
-                      className="w-full rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400"
-                      placeholder="Leave blank if not set"
                     />
                   </label>
                 </div>
