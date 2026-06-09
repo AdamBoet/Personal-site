@@ -53,11 +53,12 @@ export default function HanziDashboard({
   const settingsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const url = localStorage.getItem("ankiUrl");
-    if (url) setAnkiUrl(url);
-    const deck = localStorage.getItem("ankiDeck");
-    if (deck) setDeckName(deck);
-  }, []);
+    const url = localStorage.getItem("ankiUrl") ?? "http://localhost:8765";
+    const deck = localStorage.getItem("ankiDeck") ?? "Mandarin::汉字 writing";
+    setAnkiUrl(url);
+    setDeckName(deck);
+    refreshFromAnki(url, deck, true);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -79,7 +80,9 @@ export default function HanziDashboard({
     setDeckName(deck);
   }
 
-  async function refreshFromAnki() {
+  async function refreshFromAnki(urlOverride?: string, deckOverride?: string, auto = false) {
+    const effectiveUrl = urlOverride ?? ankiUrl;
+    const effectiveDeck = deckOverride ?? deckName;
     setLoading(true);
     setSynced(false);
     setError(null);
@@ -94,16 +97,16 @@ export default function HanziDashboard({
       // Discover all note IDs in the deck
       const allNoteIds: number[] = await ankiConnect(
         "findNotes",
-        { query: `deck:"${deckName}"` },
-        ankiUrl
+        { query: `deck:"${effectiveDeck}"` },
+        effectiveUrl
       );
       if (allNoteIds.length === 0)
-        throw new Error(`No notes found in deck "${deckName}". Check the deck name in settings.`);
+        throw new Error(`No notes found in deck "${effectiveDeck}". Check the deck name in settings.`);
 
       // Get full note info (fields + tags + card IDs)
       const allNotes: NoteInfo[] = [];
       for (let i = 0; i < allNoteIds.length; i += 50) {
-        const batch = await ankiConnect("notesInfo", { notes: allNoteIds.slice(i, i + 50) }, ankiUrl);
+        const batch = await ankiConnect("notesInfo", { notes: allNoteIds.slice(i, i + 50) }, effectiveUrl);
         allNotes.push(...(Array.isArray(batch) ? batch.filter(Boolean) : []));
       }
 
@@ -114,7 +117,7 @@ export default function HanziDashboard({
         factor: number; queue: number; due: number; type: number; mod?: number;
       }[] = [];
       for (let i = 0; i < allCardIds.length; i += 50) {
-        const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) }, ankiUrl);
+        const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) }, effectiveUrl);
         allCardInfo.push(...batch);
       }
 
@@ -179,13 +182,15 @@ export default function HanziDashboard({
       setSynced(true);
       setTimeout(() => setSynced(false), 3000);
     } catch (e) {
-      setError(
-        e instanceof Error
-          ? e.message.includes("fetch")
-            ? "Could not reach Anki — make sure Anki is open with the AnkiConnect add-on."
-            : e.message
-          : "Unknown error"
-      );
+      if (!auto) {
+        setError(
+          e instanceof Error
+            ? e.message.includes("fetch")
+              ? "Could not reach Anki — make sure Anki is open with the AnkiConnect add-on."
+              : e.message
+            : "Unknown error"
+        );
+      }
     } finally {
       setLoading(false);
     }
