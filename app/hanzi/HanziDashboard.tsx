@@ -360,12 +360,12 @@ export default function HanziDashboard({
                     style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 10px)" }}
                   />
                   <div
-                    className="absolute inset-y-0 left-0 bg-emerald-500"
+                    className="absolute inset-y-0 left-0 bg-emerald-700"
                     style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 10px)" }}
                   />
                 </div>
                 <div className="flex items-center justify-center gap-3 text-xs">
-                  <span className="text-emerald-600 dark:text-emerald-500 font-medium">{goalPct}%</span>
+                  <span className="text-emerald-700 dark:text-emerald-600 font-medium">{goalPct}%</span>
                   <span className="text-zinc-400 dark:text-zinc-500 font-medium">{yearPct}% year</span>
                 </div>
               </div>
