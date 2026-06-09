@@ -269,7 +269,7 @@ export default function HanziDashboard({
         <div className="flex flex-col items-end gap-1">
           <div className="flex items-center gap-1.5">
             <button
-              onClick={refreshFromAnki}
+              onClick={() => refreshFromAnki()}
               disabled={loading}
               className="shrink-0 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-1.5 text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
