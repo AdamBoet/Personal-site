@@ -52,6 +52,8 @@ export default function HanziDashboard({
   const [ankiUrl, setAnkiUrl] = useState("http://localhost:8765");
   const [deckName, setDeckName] = useState("Mandarin::汉字 writing");
   const settingsRef = useRef<HTMLDivElement>(null);
+  const masteryInfoRef = useRef<HTMLDivElement>(null);
+  const [masteryInfoOpen, setMasteryInfoOpen] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
@@ -78,6 +80,16 @@ export default function HanziDashboard({
     if (showSettings) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showSettings]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (masteryInfoRef.current && !masteryInfoRef.current.contains(e.target as Node)) {
+        setMasteryInfoOpen(false);
+      }
+    }
+    if (masteryInfoOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [masteryInfoOpen]);
 
   function saveSettings(url: string) {
     localStorage.setItem("ankiUrl", url);
@@ -344,12 +356,12 @@ export default function HanziDashboard({
               <div className="space-y-1.5">
                 <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
                   <div
-                    className="absolute inset-y-0 left-0 bg-red-500/60"
-                    style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
+                    className="absolute inset-y-0 left-0 bg-red-400"
+                    style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 10px)" }}
                   />
                   <div
                     className="absolute inset-y-0 left-0 bg-emerald-500"
-                    style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
+                    style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.3) 5px, rgba(255,255,255,0.3) 10px)" }}
                   />
                 </div>
                 <div className="flex items-center justify-center gap-3 text-xs">
@@ -398,15 +410,21 @@ export default function HanziDashboard({
           <span className="text-2xl font-bold tabular-nums">{masteryScore}%</span>
           <div className="flex items-center gap-1">
             <span className="text-xs text-zinc-500">Mastery</span>
-            <div className="group relative">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-zinc-400 cursor-default" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-              </svg>
-              <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 shadow-lg p-3 text-xs text-zinc-600 dark:text-zinc-300 opacity-0 group-hover:opacity-100 transition-opacity z-20 space-y-1.5">
-                <p className="font-semibold text-zinc-800 dark:text-zinc-100">How mastery is calculated</p>
-                <p>1 − average difficulty score across all reviewed cards.</p>
-                <p className="text-zinc-400 dark:text-zinc-500">Uses the same formula as the card colours: forget rate, lapse count, and interval length.</p>
-              </div>
+            <div className="relative" ref={masteryInfoRef}>
+              <button
+                onClick={() => setMasteryInfoOpen((v) => !v)}
+                className="text-zinc-600 hover:text-zinc-400 transition-colors text-sm leading-none"
+                aria-label="Show mastery info"
+              >
+                ⓘ
+              </button>
+              {masteryInfoOpen && (
+                <div className="absolute bottom-full right-0 mb-2 w-52 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xl p-3 text-xs text-zinc-600 dark:text-zinc-300 z-20 space-y-1.5">
+                  <p className="font-semibold text-zinc-800 dark:text-zinc-100">How mastery is calculated</p>
+                  <p>1 − average difficulty score across all reviewed cards.</p>
+                  <p className="text-zinc-400 dark:text-zinc-500">Uses the same formula as the card colours: forget rate, lapse count, and interval length.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

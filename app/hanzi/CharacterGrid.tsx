@@ -87,7 +87,7 @@ export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: nu
     : "Very hard";
 
   return (
-    <div className="w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 shadow-2xl p-3.5 space-y-3 backdrop-blur-sm text-sm text-zinc-900 dark:text-zinc-100">
+    <div className="w-56 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-2xl p-3.5 space-y-3 text-sm text-zinc-900 dark:text-zinc-100">
       <div className="flex items-start gap-3">
         <span className="text-4xl leading-none">{card.character}</span>
         <div className="min-w-0">
