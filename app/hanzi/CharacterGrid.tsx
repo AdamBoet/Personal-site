@@ -29,13 +29,13 @@ export function tileClass(): string {
 export function tileStyle(percentile?: number, isDark = true): Record<string, string> {
   if (percentile === undefined) {
     return isDark
-      ? { backgroundColor: "hsl(0 0% 15%)", borderColor: "hsl(0 0% 22%)" }
+      ? { backgroundColor: "hsl(0 0% 15%)", borderColor: "hsl(0 0% 28%)" }
       : { backgroundColor: "hsl(0 0% 93%)", borderColor: "hsl(0 0% 78%)" };
   }
   const hue = Math.round(120 * (1 - percentile));
   return isDark
-    ? { backgroundColor: `hsl(${hue} 22% 13%)`, borderColor: `hsl(${hue} 20% 21%)` }
-    : { backgroundColor: `hsl(${hue} 35% 84%)`, borderColor: `hsl(${hue} 28% 60%)` };
+    ? { backgroundColor: `hsl(${hue} 60% 20%)`, borderColor: `hsl(${hue} 65% 42%)` }
+    : { backgroundColor: `hsl(${hue} 65% 78%)`, borderColor: `hsl(${hue} 55% 48%)` };
 }
 
 export function LegendSwatches() {
