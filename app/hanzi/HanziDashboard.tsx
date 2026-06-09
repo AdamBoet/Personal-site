@@ -218,10 +218,12 @@ export default function HanziDashboard({
     )
   );
 
-  const updatedStr = new Date(updatedAt).toLocaleDateString("en-GB", {
+  const updatedStr = new Date(updatedAt).toLocaleString("en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 
   const maxLapses = Math.max(...cards.filter((c) => c.lapses != null).map((c) => c.lapses!), 1);
@@ -262,7 +264,7 @@ export default function HanziDashboard({
       <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold tracking-tight">Anki 汉字 Progress</h1>
-          <p className="mt-1 text-sm text-zinc-500">{year} · Updated {updatedStr}</p>
+          <p className="mt-1 text-sm text-zinc-500">Updated {updatedStr}</p>
         </div>
         <div className="flex flex-col items-end gap-1">
           <div className="flex items-center gap-1.5">
