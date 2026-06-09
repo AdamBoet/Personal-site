@@ -268,15 +268,9 @@ export default function HanziDashboard({
 
   const hasScores = scoreMap.size > 0;
 
-  const reviewedCards = cards.filter((c) => (c.reps ?? 0) > 0);
-  const masteryScore = reviewedCards.length === 0 ? 0 : Math.round(
-    reviewedCards.reduce((sum, c) => {
-      const retention = 1 - (c.lapses ?? 0) / c.reps!;
-      const stability = Math.min((c.interval ?? 0) / 90, 1);
-      return sum + retention * stability;
-    }, 0) / reviewedCards.length * 100
+  const masteryScore = scoredCards.length === 0 ? 0 : Math.round(
+    (1 - scoredCards.reduce((sum, c) => sum + c.raw, 0) / scoredCards.length) * 100
   );
-  const masteryHue = Math.round(masteryScore * 1.2);
 
   return (
     <div className="max-w-4xl space-y-8">
@@ -410,8 +404,8 @@ export default function HanziDashboard({
               </svg>
               <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-900/95 shadow-lg p-3 text-xs text-zinc-600 dark:text-zinc-300 opacity-0 group-hover:opacity-100 transition-opacity z-20 space-y-1.5">
                 <p className="font-semibold text-zinc-800 dark:text-zinc-100">How mastery is calculated</p>
-                <p>Average of <span className="font-medium">retention × stability</span> across all reviewed cards.</p>
-                <p className="text-zinc-400 dark:text-zinc-500">Retention = 1 − lapses/reviews · Stability = min(interval, 90d) / 90</p>
+                <p>1 − average difficulty score across all reviewed cards.</p>
+                <p className="text-zinc-400 dark:text-zinc-500">Uses the same formula as the card colours: forget rate, lapse count, and interval length.</p>
               </div>
             </div>
           </div>
