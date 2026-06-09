@@ -195,7 +195,7 @@ export default function HanziDashboard({
         setError(
           e instanceof Error
             ? e.message.includes("fetch")
-              ? "Could not reach Anki — make sure Anki is open with the AnkiConnect add-on."
+              ? "Could not reach Anki"
               : e.message
             : "Unknown error"
         );
