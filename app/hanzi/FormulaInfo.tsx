@@ -41,6 +41,7 @@ export default function FormulaInfo() {
           <div className="rounded-xl bg-zinc-100 dark:bg-zinc-800 px-4 py-5 flex justify-center overflow-x-auto">
             <Math display tex="\text{score} = r \times 0.45 \;+\; l \times 0.20 \;+\; d \times 0.35" />
           </div>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">The constants are weights — they control how much each factor contributes. Forget rate matters most (45%), then interval length (35%), then raw lapse count (20%).</p>
 
           {/* Variable definitions */}
           <div className="space-y-4">
@@ -66,9 +67,6 @@ export default function FormulaInfo() {
             </div>
           </div>
 
-          <p className="text-xs text-zinc-500 dark:text-zinc-600 border-t border-zinc-200 dark:border-zinc-800 pt-4">
-            Final score is percentile-ranked across all cards. Colours show the easiest 25% through to the hardest 25%.
-          </p>
         </div>
       )}
     </div>
