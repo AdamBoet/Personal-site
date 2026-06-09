@@ -344,12 +344,12 @@ export default function HanziDashboard({
               <div className="space-y-1.5">
                 <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
                   <div
-                    className="absolute inset-y-0 left-0 bg-emerald-500"
-                    style={{ width: `${goalPct}%` }}
+                    className="absolute inset-y-0 left-0 bg-red-500/60"
+                    style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
                   />
                   <div
-                    className="absolute inset-y-0 w-0.5 bg-white/70 dark:bg-zinc-950/70"
-                    style={{ left: `calc(${yearPct}% - 1px)` }}
+                    className="absolute inset-y-0 left-0 bg-emerald-500"
+                    style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
                   />
                 </div>
                 <div className="flex items-center justify-center gap-3 text-xs">
