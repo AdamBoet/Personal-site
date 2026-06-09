@@ -332,7 +332,7 @@ export default function HanziDashboard({
       {/* Combined progress + skip budget + mastery */}
       <div className="flex gap-4 items-stretch">
 
-        <div className="flex-1 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+        <div className="flex-1 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none p-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
 
             {/* Progress */}
@@ -344,17 +344,17 @@ export default function HanziDashboard({
               <div className="space-y-1.5">
                 <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
                   <div
-                    className="absolute inset-y-0 left-0 bg-red-500/60"
-                    style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
+                    className="absolute inset-y-0 left-0 bg-emerald-500"
+                    style={{ width: `${goalPct}%` }}
                   />
                   <div
-                    className="absolute inset-y-0 left-0 bg-green-500"
-                    style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
+                    className="absolute inset-y-0 w-0.5 bg-white/70 dark:bg-zinc-950/70"
+                    style={{ left: `calc(${yearPct}% - 1px)` }}
                   />
                 </div>
                 <div className="flex items-center justify-center gap-3 text-xs">
-                  <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
-                  <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+                  <span className="text-emerald-600 dark:text-emerald-500 font-medium">{goalPct}%</span>
+                  <span className="text-zinc-400 dark:text-zinc-500 font-medium">{yearPct}% year</span>
                 </div>
               </div>
             </div>
@@ -390,7 +390,7 @@ export default function HanziDashboard({
         </div>
 
         {/* Mastery widget */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-center justify-center gap-2 min-w-[130px]">
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none p-5 flex flex-col items-center justify-center gap-2 min-w-[130px]">
           <div
             className="w-10 h-10 rounded-lg border"
             style={tileStyle(1 - masteryScore / 100, isDark)}
