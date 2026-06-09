@@ -78,11 +78,17 @@ export default function HanziDashboard({
     try {
       const noteIds = initialCards.map((c) => c.note_id).filter(Boolean);
 
+      if (noteIds.length === 0)
+        throw new Error("No note IDs found in card data — check that cards are loaded from Anki.");
+
       const allNotes: { noteId: number; cards?: number[] }[] = [];
       for (let i = 0; i < noteIds.length; i += 50) {
         const batch = await ankiConnect("notesInfo", { notes: noteIds.slice(i, i + 50) }, ankiUrl);
-        allNotes.push(...batch);
+        allNotes.push(...(Array.isArray(batch) ? batch.filter(Boolean) : []));
       }
+
+      if (allNotes.length === 0)
+        throw new Error("AnkiConnect returned no matching notes — are these note IDs in your current Anki collection?");
 
       const allCardIds = allNotes.flatMap((n) => n.cards ?? []);
       const allCardInfo: {

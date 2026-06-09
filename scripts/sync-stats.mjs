@@ -96,24 +96,12 @@ async function fetchAnkiStats(noteIds) {
 
 async function main() {
   const cards = readCardFiles();
-  const learnedCount = cards.length;
 
-  // Always update summary stats
   const now = new Date();
   const yearStart = new Date(now.getFullYear(), 0, 1);
   const yearEnd = new Date(now.getFullYear() + 1, 0, 1);
   const dayOfYear = Math.floor((now - yearStart) / 86400000) + 1;
   const daysInYear = Math.floor((yearEnd - yearStart) / 86400000);
-
-  writeFileSync(
-    STATS_FILE,
-    JSON.stringify(
-      { learnedCount, updatedAt: now.toISOString(), year: now.getFullYear(), dayOfYear, daysInYear },
-      null,
-      2
-    )
-  );
-  console.log(`✓ ${learnedCount} cards · wrote ${STATS_FILE}`);
 
   // Try to get per-card review stats from Anki
   let reviewStats = {};
@@ -139,6 +127,19 @@ async function main() {
       }
     }
   }
+
+  // Only count cards that have been reviewed at least once
+  const learnedCount = cards.filter((c) => (reviewStats[c.note_id]?.reps ?? 0) > 0).length;
+
+  writeFileSync(
+    STATS_FILE,
+    JSON.stringify(
+      { learnedCount, updatedAt: now.toISOString(), year: now.getFullYear(), dayOfYear, daysInYear },
+      null,
+      2
+    )
+  );
+  console.log(`✓ ${learnedCount} cards · wrote ${STATS_FILE}`);
 
   const merged = cards.map((c) => ({ ...c, ...(reviewStats[c.note_id] ?? {}) }));
   writeFileSync(CARDS_FILE, JSON.stringify(merged, null, 2));
