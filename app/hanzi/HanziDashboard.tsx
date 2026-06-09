@@ -390,7 +390,7 @@ export default function HanziDashboard({
         </div>
 
         {/* Mastery widget */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-center justify-center gap-2 min-w-[130px]">
+        <div className="p-5 flex flex-col items-center justify-center gap-2 min-w-[130px]">
           <div
             className="w-10 h-10 rounded-lg border"
             style={tileStyle(1 - masteryScore / 100, isDark)}
