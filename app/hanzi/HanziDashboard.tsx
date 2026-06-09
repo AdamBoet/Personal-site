@@ -49,11 +49,14 @@ export default function HanziDashboard({
   const [error, setError] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [ankiUrl, setAnkiUrl] = useState("http://localhost:8765");
+  const [deckName, setDeckName] = useState("Mandarin::汉字 writing");
   const settingsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const url = localStorage.getItem("ankiUrl");
     if (url) setAnkiUrl(url);
+    const deck = localStorage.getItem("ankiDeck");
+    if (deck) setDeckName(deck);
   }, []);
 
   useEffect(() => {
@@ -71,36 +74,44 @@ export default function HanziDashboard({
     setAnkiUrl(url);
   }
 
+  function saveDeck(deck: string) {
+    localStorage.setItem("ankiDeck", deck);
+    setDeckName(deck);
+  }
+
   async function refreshFromAnki() {
     setLoading(true);
     setSynced(false);
     setError(null);
     try {
-      const noteIds = initialCards.map((c) => c.note_id).filter(Boolean);
+      type NoteInfo = {
+        noteId: number;
+        fields: Record<string, { value: string; order: number }>;
+        tags: string[];
+        cards?: number[];
+      };
 
-      if (noteIds.length === 0)
-        throw new Error("No note IDs found in card data — check that cards are loaded from Anki.");
+      // Discover all note IDs in the deck
+      const allNoteIds: number[] = await ankiConnect(
+        "findNotes",
+        { query: `deck:"${deckName}"` },
+        ankiUrl
+      );
+      if (allNoteIds.length === 0)
+        throw new Error(`No notes found in deck "${deckName}". Check the deck name in settings.`);
 
-      const allNotes: { noteId: number; cards?: number[] }[] = [];
-      for (let i = 0; i < noteIds.length; i += 50) {
-        const batch = await ankiConnect("notesInfo", { notes: noteIds.slice(i, i + 50) }, ankiUrl);
+      // Get full note info (fields + tags + card IDs)
+      const allNotes: NoteInfo[] = [];
+      for (let i = 0; i < allNoteIds.length; i += 50) {
+        const batch = await ankiConnect("notesInfo", { notes: allNoteIds.slice(i, i + 50) }, ankiUrl);
         allNotes.push(...(Array.isArray(batch) ? batch.filter(Boolean) : []));
       }
 
-      if (allNotes.length === 0)
-        throw new Error("AnkiConnect returned no matching notes — are these note IDs in your current Anki collection?");
-
+      // Get review stats for all cards
       const allCardIds = allNotes.flatMap((n) => n.cards ?? []);
       const allCardInfo: {
-        cardId: number;
-        interval: number;
-        reps: number;
-        lapses: number;
-        factor: number;
-        queue: number;
-        due: number;
-        type: number;
-        mod?: number;
+        cardId: number; interval: number; reps: number; lapses: number;
+        factor: number; queue: number; due: number; type: number; mod?: number;
       }[] = [];
       for (let i = 0; i < allCardIds.length; i += 50) {
         const batch = await ankiConnect("cardsInfo", { cards: allCardIds.slice(i, i + 50) }, ankiUrl);
@@ -127,7 +138,22 @@ export default function HanziDashboard({
         };
       }
 
-      const updatedCards = initialCards.map((c) => ({ ...c, ...(reviewStats[c.note_id] ?? {}) }));
+      // Merge: update existing cards + add new ones from Anki fields
+      const existingByNoteId = Object.fromEntries(initialCards.map((c) => [c.note_id, c]));
+      const updatedCards: HanziCard[] = allNotes.map((note) => {
+        const existing = existingByNoteId[note.noteId];
+        if (existing) return { ...existing, ...(reviewStats[note.noteId] ?? {}) };
+        const rankTag = note.tags.find((t) => /^\d+$/.test(t));
+        return {
+          character: note.fields["Character"]?.value ?? "",
+          rank: rankTag ? parseInt(rankTag, 10) : 9999,
+          pronunciation: note.fields["Pronunciation"]?.value ?? "",
+          front: note.fields["Front"]?.value ?? "",
+          note_id: note.noteId,
+          ...(reviewStats[note.noteId] ?? {}),
+        };
+      });
+      updatedCards.sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
 
       const learnedCount = updatedCards.filter((c) => (c.reps ?? 0) > 0).length;
       const now = new Date();
@@ -263,6 +289,16 @@ export default function HanziDashboard({
                       onChange={(e) => saveSettings(e.target.value)}
                       className="w-full rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400"
                       placeholder="http://localhost:8765"
+                    />
+                  </label>
+                  <label className="block space-y-1">
+                    <span className="text-xs text-zinc-500">Deck</span>
+                    <input
+                      type="text"
+                      value={deckName}
+                      onChange={(e) => saveDeck(e.target.value)}
+                      className="w-full rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 px-2.5 py-1.5 text-xs text-zinc-800 dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-zinc-400"
+                      placeholder="Mandarin::汉字 writing"
                     />
                   </label>
                 </div>
