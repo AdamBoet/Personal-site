@@ -259,6 +259,16 @@ export default function HanziDashboard({
 
   const hasScores = scoreMap.size > 0;
 
+  const reviewedCards = cards.filter((c) => (c.reps ?? 0) > 0);
+  const masteryScore = reviewedCards.length === 0 ? 0 : Math.round(
+    reviewedCards.reduce((sum, c) => {
+      const retention = 1 - (c.lapses ?? 0) / c.reps!;
+      const stability = Math.min((c.interval ?? 0) / 90, 1);
+      return sum + retention * stability;
+    }, 0) / reviewedCards.length * 100
+  );
+  const masteryHue = Math.round(masteryScore * 1.2);
+
   return (
     <div className="max-w-4xl space-y-8">
       <div className="flex items-start justify-between gap-4">
@@ -316,62 +326,79 @@ export default function HanziDashboard({
         </div>
       </div>
 
-      {/* Combined progress + skip budget */}
-      <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+      {/* Combined progress + skip budget + mastery */}
+      <div className="flex gap-4 items-stretch">
 
-          {/* Progress */}
-          <div className="flex-1 space-y-4 text-center">
-            <div className="flex items-end justify-center gap-1">
-              <span className="text-4xl sm:text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
-              <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
-            </div>
-            <div className="space-y-1.5">
-              <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
-                <div
-                  className="absolute inset-y-0 left-0 bg-red-500/60"
-                  style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
-                />
-                <div
-                  className="absolute inset-y-0 left-0 bg-green-500"
-                  style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
-                />
+        <div className="flex-1 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+
+            {/* Progress */}
+            <div className="flex-1 space-y-4 text-center">
+              <div className="flex items-end justify-center gap-1">
+                <span className="text-4xl sm:text-5xl font-bold tabular-nums">{learnedCount.toLocaleString()}</span>
+                <span className="pb-0.5 text-zinc-400 dark:text-zinc-500 text-xs">/ {YEARLY_GOAL.toLocaleString()}</span>
               </div>
-              <div className="flex items-center justify-center gap-3 text-xs">
-                <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
-                <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+              <div className="space-y-1.5">
+                <div className="h-4 w-full rounded-full bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative">
+                  <div
+                    className="absolute inset-y-0 left-0 bg-red-500/60"
+                    style={{ width: `${yearPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
+                  />
+                  <div
+                    className="absolute inset-y-0 left-0 bg-green-500"
+                    style={{ width: `${goalPct}%`, backgroundImage: "repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,0.15) 5px, rgba(255,255,255,0.15) 10px)" }}
+                  />
+                </div>
+                <div className="flex items-center justify-center gap-3 text-xs">
+                  <span className="text-green-600 dark:text-green-500 font-medium">{goalPct}%</span>
+                  <span className="text-red-600 dark:text-red-400 font-medium">{yearPct}% year</span>
+                </div>
               </div>
             </div>
+
+            {/* Divider */}
+            <div className="hidden sm:block w-px self-stretch bg-zinc-100 dark:bg-zinc-800" />
+            <div className="block sm:hidden h-px w-full bg-zinc-100 dark:bg-zinc-800" />
+
+            {/* Skip budget */}
+            <div className="flex flex-col items-center sm:items-start justify-center gap-2 text-sm sm:min-w-52 text-center sm:text-left">
+              <p>
+                <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
+                {" skipped"}
+              </p>
+              <p className="text-zinc-500 dark:text-zinc-400">
+                {"skip no more than "}
+                <span className={`font-bold ${daysCanSkip <= 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}`}>{daysCanSkip} days</span>
+              </p>
+              <p className="text-zinc-500 dark:text-zinc-400">
+                {daysToCatchup > 0 ? (
+                  <>
+                    {"stay consistent for "}
+                    <span className="font-bold text-amber-500">{daysToCatchup} days</span>
+                    {" to catch up"}
+                  </>
+                ) : (
+                  <>you&apos;re on pace</>
+                )}
+              </p>
+            </div>
+
           </div>
-
-          {/* Divider */}
-          <div className="hidden sm:block w-px self-stretch bg-zinc-100 dark:bg-zinc-800" />
-          <div className="block sm:hidden h-px w-full bg-zinc-100 dark:bg-zinc-800" />
-
-          {/* Skip budget */}
-          <div className="flex flex-col items-center sm:items-start justify-center gap-2 text-sm sm:min-w-52 text-center sm:text-left">
-            <p>
-              <span className={`font-bold ${cardDelta < 0 ? "text-red-500" : ""}`}>{daysDelta} days</span>
-              {" skipped"}
-            </p>
-            <p className="text-zinc-500 dark:text-zinc-400">
-              {"skip no more than "}
-              <span className={`font-bold ${daysCanSkip <= 0 ? "text-red-500" : "text-zinc-700 dark:text-zinc-200"}`}>{daysCanSkip} days</span>
-            </p>
-            <p className="text-zinc-500 dark:text-zinc-400">
-              {daysToCatchup > 0 ? (
-                <>
-                  {"stay consistent for "}
-                  <span className="font-bold text-amber-500">{daysToCatchup} days</span>
-                  {" to catch up"}
-                </>
-              ) : (
-                <>you&apos;re on pace</>
-              )}
-            </p>
-          </div>
-
         </div>
+
+        {/* Mastery widget */}
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col items-center justify-center gap-2 min-w-[130px]">
+          <div
+            className="w-10 h-10 rounded-lg border"
+            style={{
+              backgroundColor: `hsl(${masteryHue} 60% 45%)`,
+              borderColor: `hsl(${masteryHue} 65% 38%)`,
+            }}
+          />
+          <span className="text-2xl font-bold tabular-nums">{masteryScore}%</span>
+          <span className="text-xs text-zinc-500">Mastery</span>
+        </div>
+
       </div>
 
       {/* Hardest cards */}
