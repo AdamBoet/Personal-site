@@ -46,19 +46,10 @@ export default async function Overview() {
     scoreMap.set(c.note_id, scoredCards.length > 1 ? i / (scoredCards.length - 1) : 0.5);
   });
 
-  const todayCards = [...scoredCards]
-    .reverse()
-    .filter(c => cardDueDiff(c) === 0)
-    .slice(0, 5)
-    .map(c => ({ ...c, score: c.raw }));
-
-  const tomorrowCards = todayCards.length === 0
-    ? [...scoredCards]
-        .reverse()
-        .filter(c => cardDueDiff(c) === 1)
-        .slice(0, 5)
-        .map(c => ({ ...c, score: c.raw }))
-    : [];
+  const reversed = [...scoredCards].reverse();
+  const totalDueToday = reversed.filter(c => cardDueDiff(c) === 0).length;
+  const todayCards = reversed.filter(c => cardDueDiff(c) === 0).slice(0, 5).map(c => ({ ...c, score: c.raw }));
+  const tomorrowCards = reversed.filter(c => cardDueDiff(c) === 1).slice(0, 5).map(c => ({ ...c, score: c.raw }));
 
   return (
     <div className="max-w-2xl space-y-8">
@@ -95,21 +86,34 @@ export default async function Overview() {
           </div>
         </Link>
 
-        {todayCards.length > 0 && (
-          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Be wary of these cards today</p>
-            <HardCardsRow cards={todayCards} scoreMap={scoreMap} columns={5} />
-          </div>
-        )}
-        {todayCards.length === 0 && tomorrowCards.length > 0 && (
-          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">All done for today — due tomorrow</p>
-            <HardCardsRow cards={tomorrowCards} scoreMap={scoreMap} columns={5} />
-          </div>
-        )}
-        {todayCards.length === 0 && tomorrowCards.length === 0 && scoredCards.length > 0 && (
-          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4">
-            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">All done for today</p>
+        {scoredCards.length > 0 && (
+          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-3">
+            {totalDueToday > 0 ? (
+              <>
+                <p className="text-sm font-semibold text-red-500 dark:text-red-400">
+                  You have {totalDueToday} card{totalDueToday !== 1 ? "s" : ""} due today
+                </p>
+                <div className="space-y-1.5">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">The hardest:</p>
+                  <HardCardsRow cards={todayCards} scoreMap={scoreMap} columns={5} />
+                </div>
+              </>
+            ) : (
+              <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-500">
+                All done for today — good job!
+              </p>
+            )}
+            {tomorrowCards.length > 0 && (
+              <details className="group">
+                <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors select-none">
+                  <span className="transition-transform duration-150 group-open:rotate-90 inline-block">›</span>
+                  See tomorrow's cards
+                </summary>
+                <div className="pt-2">
+                  <HardCardsRow cards={tomorrowCards} scoreMap={scoreMap} columns={5} />
+                </div>
+              </details>
+            )}
           </div>
         )}
       </div>
