@@ -1,18 +1,33 @@
-import stats from "@/data/anki-stats.json";
-import hanziCards from "@/data/hanzi-cards.json";
+import staticStats from "@/data/anki-stats.json";
+import staticCards from "@/data/hanzi-cards.json";
+import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import HardCardsRow from "./hanzi/HardCardsRow";
 import { type HanziCard } from "./hanzi/CharacterGrid";
 
+export const dynamic = "force-dynamic";
+
 const YEARLY_GOAL = 1500;
 const CARDS_PER_DAY = 5;
 
-export default function Overview() {
+export default async function Overview() {
+  const { data: statsRow } = await supabase
+    .from("anki_stats")
+    .select("*")
+    .eq("id", 1)
+    .single();
+
+  const { data: cardsRows } = await supabase
+    .from("hanzi_cards")
+    .select("*")
+    .order("rank");
+
+  const stats = statsRow ?? staticStats;
+  const cards = (cardsRows?.length ? cardsRows : staticCards) as HanziCard[];
+
   const { learnedCount, year, dayOfYear, daysInYear } = stats;
   const goalPct = Math.round(Math.min(learnedCount / YEARLY_GOAL, 1) * 100);
   const yearPct = Math.round((dayOfYear / daysInYear) * 100);
-
-  const cards = hanziCards as HanziCard[];
   const maxLapses = Math.max(...cards.filter(c => c.lapses != null).map(c => c.lapses!), 1);
   const scoredCards = cards
     .filter(c => (c.reps ?? 0) > 0 && c.interval != null && c.lapses != null)
