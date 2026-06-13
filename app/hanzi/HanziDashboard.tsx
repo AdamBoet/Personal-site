@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import CharacterGrid, { LegendSwatches, tileStyle, type HanziCard } from "./CharacterGrid";
+import CharacterGrid, { LegendSwatches, tileStyle, cardDueDiff, type HanziCard } from "./CharacterGrid";
 import HardCardsRow from "./HardCardsRow";
 import FormulaInfo from "./FormulaInfo";
 
@@ -267,14 +267,9 @@ export default function HanziDashboard({
 
   const hardCards = [...scoredCards].reverse().slice(0, 15).map((c) => ({ ...c, score: c.raw }));
 
-  const now = Date.now();
   const comingDueCards = [...scoredCards]
     .reverse()
-    .filter((c) => {
-      if (!c.mod || !c.interval) return false;
-      const diffDays = Math.floor(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
-      return diffDays >= 0 && diffDays <= 3;
-    })
+    .filter((c) => { const d = cardDueDiff(c); return d !== null && d >= 0 && d <= 3; })
     .slice(0, 15)
     .map((c) => ({ ...c, score: c.raw }));
 

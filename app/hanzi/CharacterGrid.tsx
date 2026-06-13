@@ -73,13 +73,21 @@ function relativeTime(unixSeconds: number): string {
   return d === 1 ? "yesterday" : `${d} days ago`;
 }
 
-function dueSoon(card: HanziCard): string | null {
+export function cardDueDiff(card: HanziCard): number | null {
   if (!card.mod || !card.interval) return null;
-  const dueMs = (card.mod + card.interval * 86400) * 1000;
-  const diffDays = Math.floor((dueMs - Date.now()) / 86400000);
-  if (diffDays < 0) return "Overdue";
-  if (diffDays === 0) return "Due today";
-  return `Due in ${diffDays}d`;
+  const r = new Date(card.mod * 1000);
+  const dueDay = new Date(r.getFullYear(), r.getMonth(), r.getDate() + card.interval);
+  const t = new Date();
+  const todayDay = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+  return Math.round((dueDay.getTime() - todayDay.getTime()) / 86400000);
+}
+
+function dueSoon(card: HanziCard): string | null {
+  const diff = cardDueDiff(card);
+  if (diff === null) return null;
+  if (diff < 0) return "Overdue";
+  if (diff === 0) return "Due today";
+  return `Due in ${diff}d`;
 }
 
 export function Tooltip({ card, percentile }: { card: HanziCard; percentile?: number }) {

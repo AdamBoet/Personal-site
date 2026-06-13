@@ -3,7 +3,7 @@ import staticCards from "@/data/hanzi-cards.json";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import HardCardsRow from "./hanzi/HardCardsRow";
-import { type HanziCard } from "./hanzi/CharacterGrid";
+import { cardDueDiff, type HanziCard } from "./hanzi/CharacterGrid";
 
 export const dynamic = "force-dynamic";
 
@@ -45,16 +45,19 @@ export default async function Overview() {
     scoreMap.set(c.note_id, scoredCards.length > 1 ? i / (scoredCards.length - 1) : 0.5);
   });
 
-  const now = Date.now();
-  const waryCards = [...scoredCards]
+  const todayCards = [...scoredCards]
     .reverse()
-    .filter(c => {
-      if (!c.mod || !c.interval) return false;
-      const diffDays = Math.floor(((c.mod + c.interval * 86400) * 1000 - now) / 86400000);
-      return diffDays === 0;
-    })
+    .filter(c => cardDueDiff(c) === 0)
     .slice(0, 5)
     .map(c => ({ ...c, score: c.raw }));
+
+  const tomorrowCards = todayCards.length === 0
+    ? [...scoredCards]
+        .reverse()
+        .filter(c => cardDueDiff(c) === 1)
+        .slice(0, 5)
+        .map(c => ({ ...c, score: c.raw }))
+    : [];
 
   return (
     <div className="max-w-2xl space-y-8">
@@ -91,10 +94,21 @@ export default async function Overview() {
           </div>
         </Link>
 
-        {waryCards.length > 0 && (
+        {todayCards.length > 0 && (
           <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-2">
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">Be wary of these cards today</p>
-            <HardCardsRow cards={waryCards} scoreMap={scoreMap} columns={5} />
+            <HardCardsRow cards={todayCards} scoreMap={scoreMap} columns={5} />
+          </div>
+        )}
+        {todayCards.length === 0 && tomorrowCards.length > 0 && (
+          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4 space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">All done for today — due tomorrow</p>
+            <HardCardsRow cards={tomorrowCards} scoreMap={scoreMap} columns={5} />
+          </div>
+        )}
+        {todayCards.length === 0 && tomorrowCards.length === 0 && scoredCards.length > 0 && (
+          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">All done for today</p>
           </div>
         )}
       </div>
