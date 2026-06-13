@@ -3,7 +3,8 @@ import staticCards from "@/data/hanzi-cards.json";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import HardCardsRow from "./hanzi/HardCardsRow";
-import { cardDueDiff, type HanziCard } from "./hanzi/CharacterGrid";
+import { cardDueDiff } from "./hanzi/card-utils";
+import { type HanziCard } from "./hanzi/CharacterGrid";
 
 export const dynamic = "force-dynamic";
 

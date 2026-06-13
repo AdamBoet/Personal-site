@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { cardDueDiff } from "./card-utils";
 
 export interface HanziCard {
   character: string;
@@ -71,15 +72,6 @@ function relativeTime(unixSeconds: number): string {
   if (diffS < 86400) return `${Math.floor(diffS / 3600)}h ago`;
   const d = Math.floor(diffS / 86400);
   return d === 1 ? "yesterday" : `${d} days ago`;
-}
-
-export function cardDueDiff(card: HanziCard): number | null {
-  if (!card.mod || !card.interval) return null;
-  const r = new Date(card.mod * 1000);
-  const dueDay = new Date(r.getFullYear(), r.getMonth(), r.getDate() + card.interval);
-  const t = new Date();
-  const todayDay = new Date(t.getFullYear(), t.getMonth(), t.getDate());
-  return Math.round((dueDay.getTime() - todayDay.getTime()) / 86400000);
 }
 
 function dueSoon(card: HanziCard): string | null {

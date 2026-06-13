@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
-import CharacterGrid, { LegendSwatches, tileStyle, cardDueDiff, type HanziCard } from "./CharacterGrid";
+import CharacterGrid, { LegendSwatches, tileStyle, type HanziCard } from "./CharacterGrid";
+import { cardDueDiff } from "./card-utils";
 import HardCardsRow from "./HardCardsRow";
 import FormulaInfo from "./FormulaInfo";
 
