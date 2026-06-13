@@ -61,10 +61,7 @@ export default async function Overview() {
       <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none p-6 space-y-4">
         <Link href="/hanzi" className="group block">
           <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">字</span>
-              <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">汉字 Hanzi</span>
-            </div>
+            <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">汉字 characters progression</span>
             <span className="text-xs text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">View →</span>
           </div>
 
