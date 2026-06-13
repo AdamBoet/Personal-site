@@ -107,7 +107,7 @@ export default async function Overview() {
               <details className="group">
                 <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors select-none">
                   <span className="transition-transform duration-150 group-open:rotate-90 inline-block">›</span>
-                  See tomorrow's cards
+                  See tomorrow's difficult cards
                 </summary>
                 <div className="pt-2">
                   <HardCardsRow cards={tomorrowCards} scoreMap={scoreMap} columns={5} />
