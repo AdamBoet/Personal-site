@@ -57,6 +57,14 @@ export function LegendSwatches() {
   );
 }
 
+export function computeTooltipPos(x: number, y: number): Record<string, number> {
+  if (typeof window === "undefined") return { left: x + 18, top: y - 12 };
+  return {
+    left: Math.min(x + 18, window.innerWidth - 240),
+    top: Math.max(8, Math.min(y - 12, window.innerHeight - 280)),
+  };
+}
+
 function relativeTime(unixSeconds: number): string {
   const diffS = Date.now() / 1000 - unixSeconds;
   if (diffS < 3600) return "< 1 hr ago";
@@ -216,23 +224,28 @@ export default function CharacterGrid({
         ))}
       </div>
 
+      {pinned && (
+        <div className="sm:hidden fixed inset-0 z-40" onClick={() => setPinned(null)} />
+      )}
       {activeCard && (
-        <div
-          className="fixed z-50"
-          style={{
-            left: tooltipX + 18,
-            top: tooltipY - 12,
-            ...(tooltipX > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
-              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - tooltipX + 18 : 18 }
-              : {}),
-          }}
-          onMouseEnter={cancelHide}
-          onMouseLeave={scheduleHide}
-          onMouseMove={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Tooltip card={activeCard} percentile={scoreMap?.get(activeCard.note_id)} />
-        </div>
+        <>
+          <div
+            className="sm:hidden fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Tooltip card={activeCard} percentile={scoreMap?.get(activeCard.note_id)} />
+          </div>
+          <div
+            className="hidden sm:block fixed z-50"
+            style={computeTooltipPos(tooltipX, tooltipY)}
+            onMouseEnter={cancelHide}
+            onMouseLeave={scheduleHide}
+            onMouseMove={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Tooltip card={activeCard} percentile={scoreMap?.get(activeCard.note_id)} />
+          </div>
+        </>
       )}
     </div>
   );

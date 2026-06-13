@@ -342,7 +342,7 @@ export default function HanziDashboard({
       </div>
 
       {/* Combined progress + skip budget + mastery */}
-      <div className="flex gap-4 items-stretch">
+      <div className="flex flex-col sm:flex-row gap-4 items-stretch">
 
         <div className="flex-1 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none p-6">
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
@@ -402,7 +402,7 @@ export default function HanziDashboard({
         </div>
 
         {/* Mastery widget */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none p-5 flex flex-col items-center justify-center gap-2 min-w-[130px]">
+        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm dark:shadow-none p-5 flex flex-row sm:flex-col items-center justify-center gap-4 sm:gap-2 sm:min-w-[130px]">
           <div
             className="w-10 h-10 rounded-lg border"
             style={tileStyle(1 - masteryScore / 100, isDark)}

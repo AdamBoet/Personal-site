@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { tileClass, tileStyle, Tooltip, type HanziCard } from "./CharacterGrid";
+import { tileClass, tileStyle, computeTooltipPos, Tooltip, type HanziCard } from "./CharacterGrid";
 
 export type ScoredCard = HanziCard & { score: number };
 
@@ -70,23 +70,28 @@ export default function HardCardsRow({
         ))}
       </div>
 
+      {pinned && (
+        <div className="sm:hidden fixed inset-0 z-40" onClick={() => setPinned(null)} />
+      )}
       {activeCard && (
-        <div
-          className="fixed z-50"
-          style={{
-            left: tooltipX + 18,
-            top: tooltipY - 12,
-            ...(tooltipX > (typeof window !== "undefined" ? window.innerWidth - 240 : 9999)
-              ? { left: "auto", right: typeof window !== "undefined" ? window.innerWidth - tooltipX + 18 : 18 }
-              : {}),
-          }}
-          onMouseEnter={cancelHide}
-          onMouseLeave={scheduleHide}
-          onMouseMove={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Tooltip card={activeCard} percentile={scoreMap.get(activeCard.note_id)} />
-        </div>
+        <>
+          <div
+            className="sm:hidden fixed bottom-4 left-0 right-0 z-50 flex justify-center px-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Tooltip card={activeCard} percentile={scoreMap.get(activeCard.note_id)} />
+          </div>
+          <div
+            className="hidden sm:block fixed z-50"
+            style={computeTooltipPos(tooltipX, tooltipY)}
+            onMouseEnter={cancelHide}
+            onMouseLeave={scheduleHide}
+            onMouseMove={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Tooltip card={activeCard} percentile={scoreMap.get(activeCard.note_id)} />
+          </div>
+        </>
       )}
     </div>
   );
